@@ -2,23 +2,34 @@ const {app, BrowserWindow} = require('electron')
 const path = require('path')
 const url = require('url')
 
+const express = require('./express-app/'); //your express app
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
 function createWindow () {
+
+    // express();
+
     //Create browser window
     win = new BrowserWindow({
-        width: 800,
-        height: 600
+        width: 1280,
+        height: 720,
+        autoHideMenuBar: true,
+        useContentSize: true,
+        resizable: false,
     })
 
-    // and load the index.html of the app.
-    win.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true
-    }))
+    // and load the index.html of the app. electron
+    // win.loadURL(url.format({
+    //     pathname: path.join(__dirname, 'index.html'),
+    //     protocol: 'file:',
+    //     slashes: true
+    // }))
+
+    win.loadURL('http://localhost:3000/');
+    win.focus();
 
     // Open the DevTools.
     win.webContents.openDevTools()
@@ -36,6 +47,11 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow)
+app.on("browser-window-created",function(e,window) {
+  window.setMenu(null);
+});
+
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

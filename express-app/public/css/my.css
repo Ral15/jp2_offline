@@ -1,0 +1,29 @@
+html,
+body {
+	 /*-webkit-app-region: drag;*/
+}
+
+#side-nav {
+	background-color: rgb(34,107,168);
+}
+
+#main-content {
+	margin-top: 5vh;
+}
+
+#main-logo {
+	height: 60px;
+}
+
+
+webview {
+	display: inline-flex;
+	width: 800px;
+	height: 600px;
+}
+
+ webview.hide {
+    flex: 0 1;
+    width: 0px;
+    height: 0px;
+}

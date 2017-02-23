@@ -1,12 +1,16 @@
 const express = require('express'),
     app = express(),
     routes = require('./routes/index.js'),
+    user = require('./routes/user.js'),
     path = require('path')
 
 var Datastore = require('nedb')
   , db = new Datastore({ filename: path.join(__dirname, 'db/user'), autoload: true });
 
 
+var hbs = require('hbs');
+
+hbs.registerPartials(path.join(__dirname + '/views/partials'));
 
 
 //view engine setup
@@ -19,15 +23,29 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-app.get('/', routes);
+app.use('/', routes);
 
-app.post('/user', function (request, response) {
+
+// app.use('/user', user);
+
+app.post('/user/login', function (request, response) {
+  const data = request.body
+  db.findOne({ $and: [{email:  data.email}, {password: data.password}] }, function (err, docs) {
+    if (err) console.log(err)
+    else {
+      response.render('dashboard', {user: docs})
+    }
+    // console.log(docs)
+  });
+})
+
+app.post('/user/create', function (request, response) {
   
   const data = request.body
   
   var doc = { 
-    first_name: data.first_name,
-    last_name: data.last_name, 
+    firstName: data.first_name,
+    lastName: data.last_name, 
     email: data.email,
     password: data.password
   };
@@ -38,6 +56,13 @@ app.post('/user', function (request, response) {
     console.log(newDoc)
   });
 })
+
+
+// app.get('/user/dashboard', function (request, response) {
+
+// })
+
+
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')

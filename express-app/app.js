@@ -32,17 +32,18 @@ app.post('/user/login', function (request, response) {
   const data = request.body
   db.findOne({ $and: [{email:  data.email}, {password: data.password}] }, function (err, docs) {
     if (err) console.log(err)
+    else if (!docs) console.log("No existe el usuario!")
     else {
+      console.log(docs)
       response.render('dashboard', {user: docs})
     }
-    // console.log(docs)
   });
 })
 
 app.post('/user/create', function (request, response) {
   
   const data = request.body
-  
+
   var doc = { 
     firstName: data.first_name,
     lastName: data.last_name, 
@@ -53,7 +54,11 @@ app.post('/user/create', function (request, response) {
   db.insert(doc, function (err, newDoc) {   // Callback is optional
     // newDoc is the newly inserted document, including its _id
     // newDoc has no key called notToBeSaved since its value was undefined
-    console.log(newDoc)
+    if (err) console.log(err)
+    else {
+      console.log(newDoc)
+      response.render('index')
+    }
   });
 })
 

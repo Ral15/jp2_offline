@@ -13,11 +13,11 @@
 // }
 
 
-function lePico() {
-	$.get("http://swapi.co/api/films/1/", function(data) {
-		console.log(data)
-	})
-}
+// function lePico() {
+// 	$.get("http://swapi.co/api/films/1/", function(data) {
+// 		console.log(data)
+// 	})
+// }
 
 // const {ipcRenderer} = require('electron')
 // const electron = require('electron')

@@ -32,7 +32,7 @@ app.post('/user/login', function (request, response) {
   const data = request.body
   db.findOne({ $and: [{email:  data.email}, {password: data.password}] }, function (err, docs) {
     if (err) console.log(err)
-    else if (!docs) console.log("No existe el usuario!")
+    else if (!docs) response.render('login', {error: 'LA CAGASTE'})
     else {
       console.log(docs)
       response.render('dashboard', {user: docs})

@@ -10,6 +10,9 @@
         <div class="row container" id="main-content">
           <div class="col s12">
             <h1>{{title}}</h1>
+            {{#if error}}
+              <h4>{{error}}</h4>
+            {{/if}}
             <form class="col s12" id="login-form" method="post" action="/user/login">
               <div class="row">
                 <div class="input-field col s12">

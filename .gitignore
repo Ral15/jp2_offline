@@ -58,3 +58,6 @@ typings/
 # dotenv environment variables file
 .env
 
+express-app/node_modules
+express-app/db
+db

@@ -1,71 +1,41 @@
 const express = require('express'),
     app = express(),
-    routes = require('./routes/index.js'),
-    user = require('./routes/user.js'),
-    path = require('path')
+    mainRoutes = require('./routes/index.js'),
+    userRoutes = require('./routes/user.js'),
+    path = require('path'),
+    User = require('./models/user.js')
 
-var Datastore = require('nedb')
-  , db = new Datastore({ filename: path.join(__dirname, 'db/user'), autoload: true });
+//Database connection
+const connect = require('camo').connect;
+var database;
+
+const uri = 'nedb://db';
+connect(uri).then(function(db) {
+  database = db;
+});
 
 
-var hbs = require('hbs');
 
+//template engine
+const hbs = require('hbs');
 hbs.registerPartials(path.join(__dirname + '/views/partials'));
-
-
 //view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+//declare static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-var bodyParser = require('body-parser');
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
-app.use('/', routes);
-
-
-// app.use('/user', user);
-
-app.post('/user/login', function (request, response) {
-  const data = request.body
-  db.findOne({ $and: [{email:  data.email}, {password: data.password}] }, function (err, docs) {
-    if (err) console.log(err)
-    else if (!docs) response.render('login', {error: 'LA CAGASTE'})
-    else {
-      console.log(docs)
-      response.render('dashboard', {user: docs})
-    }
-  });
-})
-
-app.post('/user/create', function (request, response) {
-  
-  const data = request.body
-
-  var doc = { 
-    firstName: data.first_name,
-    lastName: data.last_name, 
-    email: data.email,
-    password: data.password
-  };
-
-  db.insert(doc, function (err, newDoc) {   // Callback is optional
-    // newDoc is the newly inserted document, including its _id
-    // newDoc has no key called notToBeSaved since its value was undefined
-    if (err) console.log(err)
-    else {
-      console.log(newDoc)
-      response.render('index')
-    }
-  });
-})
+//parser for requests
+const bodyParser = require('body-parser');
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 
-// app.get('/user/dashboard', function (request, response) {
+//routes
+app.use('/', mainRoutes);
 
-// })
+app.use('/user', userRoutes);
 
 
 

@@ -1,5 +1,6 @@
 {
 	"home": "/",
-	"createUser": "/create",
-	"login": "/login"
+	"createUser": "/user/create",
+	"login": "/user/login",
+	"dashboard" : "/user/dashboard" 
 }

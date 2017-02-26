@@ -1,9 +1,9 @@
 const express = require('express'),
     app = express(),
     mainRoutes = require('./routes/index.js'),
-    userRoutes = require('./routes/user.js'),
     path = require('path'),
     User = require('./models/user.js')
+    cors = require('cors')
 
 //Database connection
 const connect = require('camo').connect;
@@ -19,6 +19,8 @@ connect(uri).then(function(db) {
 //template engine
 const hbs = require('hbs');
 hbs.registerPartials(path.join(__dirname + '/views/partials'));
+// setup cors
+app.use(cors())
 //view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -34,9 +36,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //routes
 app.use('/', mainRoutes);
-
-app.use('/user', userRoutes);
-
 
 
 app.listen(3000, function () {

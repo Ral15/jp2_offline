@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      {{> head}}
-    </head>
-    
-    <body>  
-      <div>
-        {{> nav}}
-        <div class="row container" id="main-content">
-          <div class="col s12">
-            <h1>Hola {{user.firstName}}</h1>
-          </div>
+<html>
+  <head>
+    {{> head}}
+  </head>
+  
+  <body>  
+    <div>
+      {{> nav}}
+      <div class="row container" id="main-content">
+        <div class="col s12">
+          <h1>Hola {{user.username}}</h1>
         </div>
       </div>
-      <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="/js/materialize.min.js"></script>
-      <script src="/js/renderer.js"> </script>
-    </body>
-  </html>
+    </div>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="/js/materialize.min.js"></script>
+    <script src="/js/renderer.js"> </script>
+  </body>
+</html>
         

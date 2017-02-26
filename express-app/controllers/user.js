@@ -7,7 +7,7 @@ module.exports = {
     User.findOne({ email:  data.email, password: data.password})
     .then((doc) => {
       if (doc) response.render('dashboard', {user: doc})
-      else response.render('login', {msg: 'la cagaste perrooo'})
+      else response.render('login', {msg: 'Los datos son incorrectos'})
     })
      .catch((err) => {
         console.log(err)

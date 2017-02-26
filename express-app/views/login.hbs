@@ -5,37 +5,40 @@
     </head>
     
     <body>  
-      <div>
-        {{> nav}}
-        <div class="row container" id="main-content">
-          <div class="col s12">
-            <h1>{{title}}</h1>
-            {{#if msg}}
-              <h4>{{msg}}</h4>
-            {{/if}}
-            <form class="col s12" id="login-form" method="post" action="/user/login">
-              <div class="row">
-                <div class="input-field col s12">
-                  <input id="email" type="email" class="validate" required name="email">
-                  <label for="email">Correo eléctronico</label>
-                </div>
+      {{> nav}}
+      <div class="page-content container">
+        {{#if msg}}
+          <div class="alert alert-danger">
+            <strong>{{msg}}</strong>
+          </div>
+        {{/if}}
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <div class="login-wrapper">
+                  <div class="box">
+                      <div class="content-wrap">
+                          <!-- <h6>Inicia sesión</h6> -->
+                          <img src="/img/logo.png" class="brand-logo" id="main-logo">
+                          <form id="login-form" method="post" action="/user/login">
+                            <div class="form-group">
+                              <input class="form-control" type="email" placeholder="Corre electrónico" required name="email">
+                            </div>
+                            <div class="form-group">
+                              <input class="form-control" type="password" placeholder="Contraseña" required name="password">
+                            </div>
+                            <div class="action">
+                                <button class="btn btn-primary signup" type="submit">Iniciar sesión</button>
+                            </div>                
+                          </form>
+                      </div>
+                  </div>
               </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <input id="password" type="password" class="validate" required name="password">
-                  <label for="password">Contraseña</label>
-                </div>
-              </div>
-              <button class="btn waves-effect waves-light" type="submit">Registrar
-                <i class="material-icons right">send</i>
-              </button>
-            </form>
           </div>
         </div>
-
       </div>
       <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="/js/materialize.min.js"></script>
+      <script src="https://code.jquery.com/jquery.js"></script>
+      <script src="bootstrap/js/bootstrap.min.js"></script>
       <script src="/js/renderer.js"> </script>
     </body>
   </html>

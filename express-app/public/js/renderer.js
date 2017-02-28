@@ -20,14 +20,23 @@ $(document).ready(function(){
 
 
 
-});
+
 
 
 // function to tell if online
 function isOnline() {
-	if (navigator.onLine) return true
-	else return false
+  console.log(navigator.onLine)
+	if (navigator.onLine) {
+    document.getElementById('estudios-btn').disabled = false
+  }
+	else 
+    document.getElementById('estudios-btn').disabled = true
 }
 
 // isOnline()
+window.addEventListener('online',  isOnline)
+window.addEventListener('offline',  isOnline)
 
+isOnline()
+
+});

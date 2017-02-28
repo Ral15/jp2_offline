@@ -1,6 +1,7 @@
 const User  = require('../models/user');
 var req = require('request');
 const isOnline = require('is-online');
+const urls = require('../routes/urls');
 
 module.exports = {
   /**
@@ -48,7 +49,7 @@ module.exports = {
   requestUser: function(data, request, response) {
     req.post(
       //url to post
-      'http://127.0.0.1:8000/perfiles-usuario/api-login/',
+      urls.apiLogin,
       //data for the post
       { 
         json: { 

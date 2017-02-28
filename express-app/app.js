@@ -26,6 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 //declare static files
+app.use('/jquery', express.static(path.join(__dirname + '/node_modules/jquery/dist/')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //parser for requests

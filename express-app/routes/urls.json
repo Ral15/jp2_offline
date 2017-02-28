@@ -2,5 +2,6 @@
 	"home": "/",
 	"createUser": "/user/create",
 	"login": "/user/login",
-	"dashboard" : "/user/dashboard" 
+	"dashboard" : "/user/dashboard",
+	"apiLogin" : "http://127.0.0.1:8000/perfiles-usuario/api-login/"
 }

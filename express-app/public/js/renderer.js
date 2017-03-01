@@ -1,40 +1,42 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
-
-// onload = () => {
-
-// 	const webview = document.getElementById('foo')
-
-// 	webview.addEventListener('dom-ready', () => {
-// 	 	webview.openDevTools()
-// 		alert(webview.document.getElementById('#estadoDesde'))
-// 	})
-// }
+//template js, we need??
+$(document).ready(function(){
 
 
-// function lePico() {
-// 	$.get("http://swapi.co/api/films/1/", function(data) {
-// 		console.log(data)
-// 	})
-// }
+  $(".submenu > a").click(function(e) {
+    e.preventDefault();
+    var $li = $(this).parent("li");
+    var $ul = $(this).next("ul");
 
-// const {ipcRenderer} = require('electron')
-// const electron = require('electron')
-// // Module to control application life.
-// const app = electron.app
-// const updateOnlineStatus = () => {
-// 	ipcRenderer.send('online-status-changed', navigator.onLine ? 'online' : 'offline')
-// }
+    if($li.hasClass("open")) {
+      $ul.slideUp(350);
+      $li.removeClass("open");
+    } else {
+      $(".nav > li > ul").slideUp(350);
+      $(".nav > li").removeClass("open");
+      $ul.slideDown(350);
+      $li.addClass("open");
+    }
+  });
 
-// window.addEventListener('online',  updateOnlineStatus)
-// window.addEventListener('offline',  updateOnlineStatus)
 
-// updateOnlineStatus()
 
-// function lepico() {
-// 	var content = document.getElementById('first_name');
-// 	alert(content)
-// 	console.log(content)
-// 	ipcRenderer.send('huehue', content)
-// }
+
+
+
+// function to tell if online
+function isOnline() {
+  console.log(navigator.onLine)
+	if (navigator.onLine) {
+    document.getElementById('estudios-btn').disabled = false
+  }
+	else 
+    document.getElementById('estudios-btn').disabled = true
+}
+
+// isOnline()
+window.addEventListener('online',  isOnline)
+window.addEventListener('offline',  isOnline)
+
+isOnline()
+
+});

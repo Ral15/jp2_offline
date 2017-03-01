@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -20,13 +20,6 @@ function createWindow () {
         useContentSize: true,
         resizable: false,
     })
-
-    // and load the index.html of the app. electron
-    // win.loadURL(url.format({
-    //     pathname: path.join(__dirname, 'index.html'),
-    //     protocol: 'file:',
-    //     slashes: true
-    // }))
   
 
     win.loadURL('http://localhost:3000/');
@@ -69,6 +62,10 @@ app.on('activate', () => {
   if (win === null) {
     createWindow()
   }
+})
+
+ipcMain.on('online-status-changed', (event, status) => {
+  console.log(status)
 })
 
 // In this file you can include the rest of your app's specific main process

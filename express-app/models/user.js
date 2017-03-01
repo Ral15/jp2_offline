@@ -8,10 +8,9 @@ class User extends Document {
     constructor() {
         super();
 
-        this.firstName = String;
-        this.lastName = String;
-        this.email = String;
+        this.username = String;
         this.password = String;
+        this.apiToken = String;
     }
 
     static collectionName() {

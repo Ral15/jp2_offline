@@ -2,21 +2,21 @@ const express = require('express'),
       router = express.Router();
 
 const urls = require('./urls')
+const userController = require('../controllers/user');
 
 //GET home page.
 router.get(urls.home, function(req, res) {
-  res.render('index', {title: 'Express'});
+  res.render('login', {title: 'Express'});
 });
 
-//GET create user form
-router.get('/create', function(req, res) {
-	res.render('create', {title: 'Crear Usuario'});
+//POST save user in db
+router.post(urls.createUser, function(req, res) {
+	userController.createUser(req, res);
 });
 
-//GET login user form
-router.get('/login', function(req, res) {
-	res.render('login', {title: 'Iniciar Sesión'});
+//POST login user
+router.post(urls.login, function(req, res) {
+	userController.loginUser(req, res);
 });
-
 
 module.exports = router;

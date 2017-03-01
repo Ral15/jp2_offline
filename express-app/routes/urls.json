@@ -1,5 +1,10 @@
 {
 	"home": "/",
-	"createUser": "/create",
-	"login": "/login"
+	"apiUrl" : "http://127.0.0.1:8000",
+	"createUser": "/user/create",
+	"login": "/user/login",
+	"dashboard" : "/user/dashboard",
+	"api":  {
+		"login" : "/perfiles-usuario/obtain-auth-token/"
+	}
 }

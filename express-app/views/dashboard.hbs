@@ -1,21 +1,29 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      {{> head}}
-    </head>
-    
-    <body>  
-      <div>
-        {{> nav}}
-        <div class="row container" id="main-content">
-          <div class="col s12">
-            <h1>Hola {{user.firstName}}</h1>
+<html>
+  <head>
+    {{> head}}
+  </head>
+  
+  <body>  
+    <div>
+      {{> nav}}
+      <div class="page-content" id="main-content">
+        <div class="row">
+          <div class="col-md-2">
+            {{> sidenav }} 
+          </div>
+          <div class="col-md-10">
+            <h1>Hola {{user.username}}</h1>
+            <button class="btn btn-primary" id="estudios-btn">Estudios</button>
           </div>
         </div>
       </div>
+    </div>
+    <!--Import jQuery before materialize.js-->
       <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="/js/materialize.min.js"></script>
+      <script src="/jquery/jquery.js"></script>
+      <script src="bootstrap/js/bootstrap.min.js"></script>
       <script src="/js/renderer.js"> </script>
-    </body>
-  </html>
+  </body>
+</html>
         

@@ -49,7 +49,7 @@ module.exports = {
   requestUser: function(data, request, response) {
     req.post(
       //url to post
-      urls.apiLogin,
+      urls.apiUrl + urls.api.login,
       //data for the post
       { 
         json: { 

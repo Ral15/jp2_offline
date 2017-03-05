@@ -19,4 +19,9 @@ router.post(urls.login, function(req, res) {
 	userController.loginUser(req, res);
 });
 
+//GET estudio create form
+router.get(urls.estudioCreate, function(req, res) {
+	res.render('estudio');
+});
+
 module.exports = router;

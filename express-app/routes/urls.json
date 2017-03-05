@@ -6,5 +6,6 @@
 	"dashboard" : "/user/dashboard",
 	"api":  {
 		"login" : "/perfiles-usuario/obtain-auth-token/"
-	}
+	},
+	"estudioCreate": "/estudio/crear"
 }

@@ -3,8 +3,8 @@
     <head>
       {{> head}}
     </head>
-    
-    <body>  
+
+    <body>
       <div class="page-content container">
         {{#if msg}}
           <div class="alert alert-danger">
@@ -16,7 +16,7 @@
             <div class="login-wrapper">
               <div class="box">
                 <div class="content-wrap">
-                  <h6>Inicia sesión</h6>
+                  <h6 id="iniciar">Inicia sesión</h6>
                   <img src="/img/logo.png" class="brand-logo" id="main-logo">
                   <form id="login-form" method="post" action="/user/login">
                     <div class="form-group">
@@ -27,7 +27,7 @@
                     </div>
                     <div class="action">
                         <button class="btn btn-primary signup" id="submit-login" type="submit">Iniciar sesión</button>
-                    </div>                
+                    </div>
                   </form>
                 </div>
               </div>
@@ -41,4 +41,3 @@
       <script src="/js/renderer.js"> </script>
     </body>
   </html>
-        

@@ -1,6 +1,6 @@
 {
 	"home": "/",
-	"apiUrl" : "http://127.0.0.1:8000",
+	"apiUrl" : "http://bloque-adal.c9users.io",
 	"createUser": "/user/create",
 	"login": "/user/login",
 	"dashboard" : "/user/dashboard",

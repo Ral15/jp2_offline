@@ -27,8 +27,8 @@ describe('application launch', function () {
     var username = this.app.client.elementIdText('username');
     var password = this.app.client.elementIdText('password');
     var submit = this.app.client.element('//button/*[text(),Iniciar sesión]');
-    username.keys('adalaid');
-    password.keys('Assassin4');
+    username.keys('someusername');
+    password.keys('somepassword');
 
     //click on signin button
     submit.click();

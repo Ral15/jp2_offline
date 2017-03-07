@@ -16,6 +16,10 @@ body {
   margin-top: 30px;
 }
 
+#home-btn {
+  margin-top: 10px;
+}
+
 #main-logo {
 	height: 90px;
 	margin-bottom: 10px;

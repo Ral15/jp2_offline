@@ -1,35 +1,37 @@
-//template js, we need??
 $(document).ready(function(){
 
-
-  // $(".submenu > a").click(function(e) {
-  //   e.preventDefault();
-  //   var $li = $(this).parent("li");
-  //   var $ul = $(this).next("ul");
-
-  //   if($li.hasClass("open")) {
-  //     $ul.slideUp(350);
-  //     $li.removeClass("open");
-  //   } else {
-  //     $(".nav > li > ul").slideUp(350);
-  //     $(".nav > li").removeClass("open");
-  //     $ul.slideDown(350);
-  //     $li.addClass("open");
-  //   }
-  // });
+  // add family and remove family inputs
 
   $("#add-family-input").click(function(e) {
     e.preventDefault();
     let input = ' <div class="row"> <div class="form-group col-xs-2"> <label for="firstName">Nombre</label> <input type="text" class="form-control" id="firstName" placeholder="Nombre"> </div><div class="form-group col-xs-2"> <label for="lastName">Apellido</label> <input type="text" class="form-control" id="lastName" placeholder="Apellido"> </div><div class="form-group col-xs-2"> <label for="age">Edad</label> <input type="text" class="form-control" id="age" placeholder="Edad"> </div><div class="form-group col-xs-1"> <label for="gender">Sexo</label> <select class="form-control" id="gender"> <option></option> <option value="M">M</option> <option value="F">F</option> </select> </div><div class="col-xs-3 form-group"> <div id="datetimepicker4" class="input-group"> <label for="birthDate">Fecha de nacimiento</label> <div class="input-group"> <span class="input-group-addon add-on" id="basic-addon1"> <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i> </span> <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text"> </div></div></div><div class="col-xs-2 form-group"> <button type="button" class="btn btn-danger" id="remove-family"> <span class="glyphicon glyphicon-minus" aria-hidden="true"> </span> </button> </div></div>';
     let wrap = "#family-wrapper";
     addInput(wrap, input);
- });
-
-  $("#remove-family").click(function(e){
-    e.preventDefault();
-
   });
 
+  $("#family-wrapper").on("click", "#remove-family", function(e) {
+    e.preventDefault();
+    $(this).parent('div').parent().remove();
+  })
+
+  /**
+   * This function adds a new input in a wrapper,
+   * it should receive the wrap-id and the html that
+   * will be added in the form.
+   * 
+   * @event
+   * @param {string} wrapId - id of wrapper
+   * @param {string} rawHTML - raw html that will be added.
+   */
+  function addInput(wrapId, rawHTML) {
+    //declare variables
+    let input = rawHTML;
+    let wrap = wrapId;
+    //append html to wrapper
+    $(wrap).append(rawHTML);
+  }
+
+    
   //date time picker
   $('#datetimepicker4').datetimepicker({
     pickTime: false
@@ -51,39 +53,4 @@ $(document).ready(function(){
   window.addEventListener('offline',  isOnline)
 
   isOnline()
-
-  /**
-   * This function adds a new input in a wrapper,
-   * it should receive the wrap-id and the html that
-   * will be added in the form.
-   * 
-   * @event
-   * @param {string} wrapId - id of wrapper
-   * @param {string} rawHTML - raw html that will be added.
-   */
-  function addInput(wrapId, rawHTML) {
-    //declare variables
-    let input = rawHTML;
-    let wrap = wrapId;
-    //append html to wrapper
-    $(wrap).append(rawHTML);
-  }
-
-
-  // $(wrapper).on("click",".delete", function(e){
-  //       e.preventDefault(); 
-  //       $(this).parent('div').remove();
-  // })
-
-  // function removeInput(wrapId, buttonId) {
-  //   $(buttonId).parent('div').remove()
-  // }
-
-  $("#family-wrapper").on("click", "#remove-family", function(e) {
-    e.preventDefault();
-    // console.log($(this).parent('section'));
-    $(this).parent('div').parent().remove();
-  })
-
-  
 });

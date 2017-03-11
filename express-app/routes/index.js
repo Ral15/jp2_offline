@@ -6,7 +6,7 @@ const userController = require('../controllers/user');
 
 //GET home page.
 router.get(urls.home, function(req, res) {
-  res.render('estudio', {title: 'Express'});
+  res.render('login', {title: 'Express'});
 });
 
 //POST save user in db

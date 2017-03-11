@@ -16,6 +16,12 @@ class User extends Document {
     static collectionName() {
         return 'users';
     }
+
+
+    //aqui se puede hashear
+    // preSave() {
+    // 	this.password
+    // }
 }
 
 module.exports = User;

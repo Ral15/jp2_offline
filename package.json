@@ -4,7 +4,7 @@
   "description": "Aplicacion offline para la institucion san juan pablo",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "./node_modules/.bin/electron ."
   },
   "repository": {
@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/Ral15/jp2_offline#readme",
   "devDependencies": {
-    "electron": "^1.4.15"
+    "electron": "^1.4.15",
+    "zombie": "^5.0.5"
   },
   "dependencies": {
     "jquery": "^3.1.1"

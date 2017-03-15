@@ -2,6 +2,7 @@ const User  = require('../models/user');
 var req = require('request');
 const isOnline = require('is-online');
 const urls = require('../routes/urls');
+var bcrypt = require('bcryptjs');
 
 module.exports = {
   /**
@@ -22,9 +23,15 @@ module.exports = {
     //call promise that validates internet connection
     isOnline().then((online) => {
       //look for the user in the local db first
-      User.findOne({ username:  data.username, password: data.password})
+      User.findOne({ username:  data.username })
       .then((doc) => {
-        if (doc) response.render('dashboard', {user: doc})
+        if (doc) {
+          bcrypt.compare(data.password, doc.password, function (err, res) {
+            if (err) console.log(err)
+            else if (!res) response.render('login', {msg: 'Usuario o contraseña invalidos'})
+            else response.render('dashboard', {user: doc})
+          });
+        }
         //if user is not found AND there is internet connection, check with API
         else if(online) this.requestUser(data, request, response)
         else response.render('login', { msg: "No hay internet" })

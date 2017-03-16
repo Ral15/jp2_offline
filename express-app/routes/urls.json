@@ -7,5 +7,6 @@
 	"api":  {
 		"login" : "/perfiles-usuario/obtain-auth-token/"
 	},
-	"estudioCreate": "/estudio/crear"
+	"estudioCreate": "/estudio/crear",
+	"familyCreate": "/family/create"
 }

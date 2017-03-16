@@ -26,8 +26,11 @@ class Comment extends Document {
     this.date = {
       type: Date,
       default: Date.now
-    }
-    this.text = String;   
+    };
+    this.text = {
+      type: String,
+      default: ''
+    };   
   }
 
   static collectionName() {

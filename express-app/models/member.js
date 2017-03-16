@@ -2,7 +2,7 @@
 
 //require document class from camo
 var Document = require('camo').Document;
-const Family = require('./family.js');
+const Familia = require('./family.js');
 
 //options for martial status
 const academicDegreeChoices = [
@@ -28,42 +28,56 @@ const academicDegreeChoices = [
  * 
  * Attributes:
  * ---------------
- * family : FR Family 
+ * familia : FR Family 
  *    Stores the number of children from different fathers within a family
- * firstName: STRING
+ * nombres: STRING
  *    Stores the martial status of the family
- * lastName: STRING
+ * apellidos: STRING
  *    Stores the location of the family
- * phone: STRING
+ * telefono: STRING
  *    Stores the phone number of a member
- * email: STRING
+ * correo: STRING
  *    Stores the email of a member
- * academicDegree: STRING
+ * nivelEstudios: STRING
  *    Stores the highest academic degree of a member\
- * birthdate: DATE
+ * fechaNacimiento: DATE
  *    Stores the birthdate of a memeber
- * isActive: BOOL
+ * activo: BOOL
  *    This attribute stores information about the involvment of a family member
  *    with the family itself.
  */
  
-class Member extends Document {
+class Miembro extends Document {
   constructor() {
     super();
 
-    this.family = Family;
-    this.firstName = String;
-    this.lastName = String;
-    this.phone = String;
-    this.email = String;
-    this.academicDegree = {
+    this.familia = Familia;
+    this.nombres = {
+      type: String,
+      default: ''
+    };
+    this.apellidos = {
+      type: String,
+      default: ''
+    };
+    this.telefono = {
+      type: String,
+      default: ''
+    };
+    this.correo = {
+      type: String,
+      default: ''
+    };
+    this.nivelEstudios = {
       type: String,
       default: '',
-      choices: academicDegreeChoices,
-      required: true
+      choices: academicDegreeChoices
     };
-    this.birthdate = Date;
-    this.isActive = Boolean;
+    this.fechaNacimiento = {
+      type: Date,
+      default: ''
+    };
+    this.activo = Boolean;
   }
 
   static collectionName() {
@@ -71,4 +85,4 @@ class Member extends Document {
   }
 }
 
-module.exports = Member;
+module.exports = Miembro;

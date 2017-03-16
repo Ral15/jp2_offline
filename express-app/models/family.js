@@ -27,30 +27,37 @@ const locationChoices = [
  * 
  * Attributes:
  * ---------------
- * bastards : NUMBER 
+ * bastardos : NUMBER 
  *    Stores the number of children from different fathers within a family
- * martialStatus: STRING
+ * estadoCivil: STRING
  *    Stores the martial status of the family.
- * location: STRING
+ * explicacionSolvencia: STRING
+ *    How the family deals with the deficit
+ * localidad: STRING
  *    Stores the location of the family.
  */
 
-class Family extends EmbeddedDocument {
+class Familia extends EmbeddedDocument {
   constructor() {
     super();
 
-    this.bastards = { 
+    this.bastardos = { 
       type: Number,
       default: 0,
       required: true
     };
-    this.martialStatus = {
+    this.explicacionSolvencia = {
+      type: String,
+      default: ''
+    };
+
+    this.estadoCivil = {
       type: String,
       default: '',
       choices: martialStatusChoices,
       required: true
     };
-    this.location = {
+    this.localidad = {
       type: String,
       default: '',
       choices: locationChoices,
@@ -63,4 +70,4 @@ class Family extends EmbeddedDocument {
   }
 }
 
-module.exports = Family;
+module.exports = Familia;

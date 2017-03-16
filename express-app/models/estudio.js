@@ -3,6 +3,8 @@
 //require document class from camo
 var Document = require('camo').Document;
 var Seccion = require('seccion');
+const User = require('user');
+const Familia = require('familia');
 
 /**
  * The model that represents a socioeconomical study.

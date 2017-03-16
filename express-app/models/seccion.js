@@ -3,7 +3,7 @@
 //require document class from camo
 var Document = require('camo').Document;
 var EmbeddedDocument = require('camo').EmbeddedDocument;
-var Subseccion = require('subseccion');
+var Subseccion = require('./subseccion.js');
 
 /**
  * The model that links questions to a particular section.

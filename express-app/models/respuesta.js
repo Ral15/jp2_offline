@@ -3,8 +3,8 @@
 //require embedded document class from camo
 var Document = require('camo').Document;
 var EmbeddedDocument = require('camo').EmbeddedDocument;
-var OpcionRespuesta = require('opcion_respuesta');
-var Integrante = require('integrante');
+var OpcionRespuesta = require('./opcion_respuesta.js');
+var Integrante = require('./integrante.js');
 
 /*
  * The model that stores the actual answers.

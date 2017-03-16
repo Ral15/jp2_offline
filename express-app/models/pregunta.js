@@ -3,7 +3,7 @@
 //require document class from camo
 var Document = require('camo').Document;
 var EmbeddedDocument = require('camo').EmbeddedDocument;
-const Respuesta = require('respuesta');
+const Respuesta = require('./respuesta.js');
 
 
 /*

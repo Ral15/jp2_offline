@@ -2,9 +2,9 @@
 
 //require document class from camo
 var Document = require('camo').Document;
-var Seccion = require('seccion');
-const User = require('user');
-const Familia = require('familia');
+var Seccion = require('./seccion.js');
+var User = require('./user.js');
+var Familia = require('./familia.js');
 
 /**
  * The model that represents a socioeconomical study.

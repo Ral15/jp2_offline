@@ -12,6 +12,8 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
  *
  *  Attributes:
  *  -----------
+ *  id : Key
+ *      key of each Respuesta.
  *  pregunta : ForeignKey
  *      The question this answer is responding to.
  *  opcionRespuesta : ForeignKey
@@ -23,6 +25,10 @@ class Respuesta extends EmbeddedDocument {
     constructor() {
         super();
 
+        this.id = {
+          type : Number,
+          default : 0,
+        }
         this.idPregunta = {
           type : Number,
           default : 0,

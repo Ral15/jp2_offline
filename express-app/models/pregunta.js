@@ -34,7 +34,7 @@ class Pregunta extends EmbeddedDocument {
         };
         this.idSubseccion = {
           type : Number,
-          default : 1
+          default : 0
         };
         this.texto = {
           type : String,
@@ -46,7 +46,7 @@ class Pregunta extends EmbeddedDocument {
         };
         this.orden = {
           type : Number,
-          default : 1
+          default : 0
         };
         this.opcionesPregunta = [OpcionRespuesta];
     }

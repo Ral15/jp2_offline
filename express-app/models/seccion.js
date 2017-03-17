@@ -31,7 +31,7 @@ class Seccion extends EmbeddedDocument {
         };
         this.numero = {
           type : Number,
-          default : 1
+          default : 0
         };
         this.subseccion = [Subseccion];
     }

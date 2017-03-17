@@ -32,7 +32,7 @@ class Subseccion extends EmbeddedDocument {
         };
         this.idSeccion = {
           type: Number,
-          default : 1
+          default : 0
         };
         this.nombre = {
           type : String,

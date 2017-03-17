@@ -1,10 +1,7 @@
 "use strict";
 
 //require embedded document class from camo
-var Document = require('camo').Document;
 var EmbeddedDocument = require('camo').EmbeddedDocument;
-var OpcionRespuesta = require('./opcion_respuesta.js');
-var Integrante = require('./integrante.js');
 
 /*
  * The model that stores the actual answers.
@@ -15,17 +12,10 @@ var Integrante = require('./integrante.js');
  *
  *  Attributes:
  *  -----------
- *  estudio : ForeignKey
- *      The study to which these answers belong.
+ *  opcion_respuesta : ForeignKey
+ *      If question has option answer, id is given
  *  pregunta : ForeignKey
  *      The question this answer is responding to.
- *  opcion : ManyToManyField
- *      Optional relation to the options of the question, if the question
- *      requires them. It's a many to many rel. instead of a one to many since
- *      the question may need more than one option.
- *  integrante : ForeignKey
- *      If the question is related to a particular family member, this relationship
- *      indicates to which one.
  *  respuesta : TextField
  *      If the answer needs to have text, it will be stored in this attribute.
  */
@@ -33,11 +23,9 @@ class Respuesta extends EmbeddedDocument {
     constructor() {
         super();
 
-        this.eleccion = {
-          this.opcion = OpcionRespuesta
-        };
-        this.integrante = Integrante;
-        this.respuesta = String
+        this.opcion_respuesta = Number;
+        this.pregunta = Number;
+        this.respuesta = String;
     }
 
     static collectionName() {

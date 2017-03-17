@@ -1,7 +1,6 @@
 "use strict";
 
-//require document class from camo
-var Document = require('camo').Document;
+//require embedded document class from camo
 var EmbeddedDocument = require('camo').EmbeddedDocument;
 
 /*
@@ -9,8 +8,8 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
  *
  *  Attributes:
  *  -----------
- *  pregunta : ForeignKey
- *      The question for which these options are provided.
+ *  id : Key
+ *      The opcion question id for which option.
  *  texto : TextField
  *      The option for answer itself.
  */
@@ -18,11 +17,12 @@ class OpcionRespuesta extends EmbeddedDocument {
     constructor() {
         super();
 
+        this.id = Number;
         this.texto = String;
     }
 
     static collectionName() {
-        return 'opcion respuesta';
+        return 'opcion_respuesta';
     }
 }
 

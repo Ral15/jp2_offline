@@ -1,15 +1,16 @@
 "use strict";
 
-//require document class from camo
-var Document = require('camo').Document;
+//require embedded document class from camo
 var EmbeddedDocument = require('camo').EmbeddedDocument;
-var Subseccion = require('./subseccion.js');
+const Subseccion = require('./subseccion.js');
 
 /**
  * The model that links questions to a particular section.
  *
  * Attributes:
  * -----------
+ * id : Key
+ *  key of each seccion.
  * nombre : String
  *  The name of the section.
  * numero : Number
@@ -19,7 +20,9 @@ class Seccion extends EmbeddedDocument {
     constructor() {
         super();
 
+        this.id = Number;
         this.nombre = String;
+        this.numero = Number;
         this.subseccion = [Subseccion];
     }
 

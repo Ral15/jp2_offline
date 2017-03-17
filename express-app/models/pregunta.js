@@ -1,9 +1,8 @@
 "use strict";
 
-//require document class from camo
-var Document = require('camo').Document;
+//require embedded document class from camo
 var EmbeddedDocument = require('camo').EmbeddedDocument;
-const Respuesta = require('./respuesta.js');
+const OpcionRespuesta = require('./opcion_respuesta.js');
 
 
 /*
@@ -11,6 +10,8 @@ const Respuesta = require('./respuesta.js');
  *
  *   Attributes:
  *   -----------
+ *  id : Key
+ *      The id for each question.
  *  subseccion : ForeignKey
  *      The subsection to which the question belongs.
  *   texto : TextField
@@ -19,14 +20,19 @@ const Respuesta = require('./respuesta.js');
  *      Additional information that the question may need to have.
  *  orden : IntegerField
  *      The relative order of the question within the subsection.
+ *  opciones_pregunta : OpcionRespuesta
+ *      Embedded document of opcion respuesta.
  */
 class Pregunta extends EmbeddedDocument {
     constructor() {
         super();
 
+        this.id = Number;
+        this.subseccion = Number;
         this.texto = String;
         this.descripcion = String;
-        this.respuesta = Respuesta;
+        this.orden = Number;
+        this.opciones_pregunta = [OpcionRespuesta];
     }
 
     static collectionName() {

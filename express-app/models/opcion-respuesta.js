@@ -10,15 +10,22 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
  *  -----------
  *  id : Key
  *      The opcion question id for which option.
- *  texto : TextField
+ *  texto : String
  *      The option for answer itself.
  */
 class OpcionRespuesta extends EmbeddedDocument {
     constructor() {
         super();
 
-        this.id = Number;
-        this.texto = String;
+        this.id = {
+          type : Number,
+          default : 0
+          required : true
+        }
+        this.texto = {
+          type : String,
+          default : ''
+        };
     }
 
     static collectionName() {

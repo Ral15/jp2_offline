@@ -12,12 +12,12 @@ const Pregunta = require('./pregunta.js');
  *  -----------
  *  id : Key
  *      The id for each subseccion.
- *  seccion : ForeignKey
+ *  idSeccion : ForeignKey
  *      The section to which the subsection belongs.
  *  nombre : TextField
  *      The name of the subsection.
  *  numero : IntegerField
- *      The number of the section.
+ *      The number of the subsection.
  * preguntas : Pregunta
  *      Embedded Document of pregunta
  */
@@ -25,10 +25,23 @@ class Subseccion extends EmbeddedDocument {
     constructor() {
         super();
 
-        this.id = Number;
-        this.seccion = Number;
-        this.nombre = String;
-        this.numero = Number;
+        this.id = {
+          type: Number,
+          default : 0,
+          required : true
+        };
+        this.idSeccion = {
+          type: Number,
+          default : 1
+        };
+        this.nombre = {
+          type : String,
+          default : ''
+        };
+        this.numero = {
+          type: Number,
+          default : 0
+        };
         this.preguntas = [Pregunta];
     }
 

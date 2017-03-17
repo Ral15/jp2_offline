@@ -12,27 +12,43 @@ const OpcionRespuesta = require('./opcion_respuesta.js');
  *   -----------
  *  id : Key
  *      The id for each question.
- *  subseccion : ForeignKey
+ *  idSubseccion : ForeignKey
  *      The subsection to which the question belongs.
- *   texto : TextField
+ *   texto : String
  *      The question itself.
- *  descripcion : TextField
+ *  descripcion : String
  *      Additional information that the question may need to have.
- *  orden : IntegerField
+ *  orden : Number
  *      The relative order of the question within the subsection.
- *  opciones_pregunta : OpcionRespuesta
+ *  opcionesPregunta : OpcionRespuesta
  *      Embedded document of opcion respuesta.
  */
 class Pregunta extends EmbeddedDocument {
     constructor() {
         super();
 
-        this.id = Number;
-        this.subseccion = Number;
-        this.texto = String;
-        this.descripcion = String;
-        this.orden = Number;
-        this.opciones_pregunta = [OpcionRespuesta];
+        this.id = {
+          type : Number,
+          default : 0,
+          required : true
+        };
+        this.idSubseccion = {
+          type : Number,
+          default : 1
+        };
+        this.texto = {
+          type : String,
+          default : ''
+        };
+        this.descripcion = {
+          type : String,
+          default : ''
+        };
+        this.orden = {
+          type : Number,
+          default : 1
+        };
+        this.opcionesPregunta = [OpcionRespuesta];
     }
 
     static collectionName() {

@@ -12,10 +12,10 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
  *
  *  Attributes:
  *  -----------
- *  opcion_respuesta : ForeignKey
- *      If question has option answer, id is given
  *  pregunta : ForeignKey
  *      The question this answer is responding to.
+ *  opcionRespuesta : ForeignKey
+ *      If question has option answer, id is given
  *  respuesta : TextField
  *      If the answer needs to have text, it will be stored in this attribute.
  */
@@ -23,9 +23,19 @@ class Respuesta extends EmbeddedDocument {
     constructor() {
         super();
 
-        this.opcion_respuesta = Number;
-        this.pregunta = Number;
-        this.respuesta = String;
+        this.idPregunta = {
+          type : Number,
+          default : 0,
+          required : true
+        };
+        this.idOpcionRespuesta = {
+          type : Number,
+          default : 0
+        };
+        this.respuesta = {
+          type : String,
+          default : ''
+        };
     }
 
     static collectionName() {

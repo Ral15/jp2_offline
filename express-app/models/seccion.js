@@ -20,9 +20,19 @@ class Seccion extends EmbeddedDocument {
     constructor() {
         super();
 
-        this.id = Number;
-        this.nombre = String;
-        this.numero = Number;
+        this.id = {
+          type : Number,
+          default : 0,
+          required : true
+        };
+        this.nombre = {
+          type : String,
+          default : ''
+        };
+        this.numero = {
+          type : Number,
+          default : 1
+        };
         this.subseccion = [Subseccion];
     }
 

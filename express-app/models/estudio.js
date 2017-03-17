@@ -25,7 +25,7 @@ const opcionesStatusChoices = [
  *  -----------
  *  opcionesStatusChoices : array (This atribute is out of the class)
  *      The options for the current status of a study.
- *  capturista : ForeignKey
+ *  tokenCapturista : ForeignKey
  *      The relation to the capturista that filled the study.
  *  familia : OneToOneField
  *      The family of which the study is about.
@@ -33,7 +33,7 @@ const opcionesStatusChoices = [
  *      Embedded Document of array of seccions.
  *  respuestas : Respuesta
  *      Array embedded document of respuestas
- *  status : TextField
+ *  status : String
  *      The study can be in several states depending if it has been approved,
  *      is on revision, has been rejected, is a draft or was deleted.
  */
@@ -41,7 +41,11 @@ class Estudio extends Document {
     constructor() {
         super();
 
-        this.capturista = Number;
+        this.tokenCapturista = {
+          type : String,
+          default : '',
+          required : true
+        };
         this.familia = Familia;
         this.seccion = [Seccion];
         this.respuestas = [Respuesta];

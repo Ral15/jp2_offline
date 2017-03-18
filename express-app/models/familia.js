@@ -3,8 +3,8 @@
 //require document class from camo
 // var Document = require('camo').Document;
 var Document = require('camo').Document;
-const Miembro = require('./member.js');
-const Comentario = require('./comment.js');
+const Miembro = require('./miembro.js');
+const Comentario = require('./comentario.js');
 
 //options for martial status
 const martialStatusChoices = [
@@ -72,7 +72,7 @@ class Familia extends Document {
   }
 
   static collectionName() {
-    return 'Familys';
+    return 'Familia';
   }
 }
 

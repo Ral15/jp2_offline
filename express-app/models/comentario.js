@@ -11,9 +11,9 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
  * ---------------
  * family : FR Family 
  *    Stores the number of children from different fathers within a family
- * date: DATE
+ * fecha: DATE
  *    Stores the date that the comment was created
- * text: STRING
+ * texto: STRING
  *    Stores the content of the comment
  */
  
@@ -21,18 +21,18 @@ class Comentario extends EmbeddedDocument {
   constructor() {
     super();
 
-    this.date = {
+    this.fecha = {
       type: Date,
       default: Date.now
     };
-    this.text = {
+    this.texto = {
       type: String,
       default: ''
     };   
   }
 
   static collectionName() {
-    return 'Comments';
+    return 'Comentarios';
   }
 }
 

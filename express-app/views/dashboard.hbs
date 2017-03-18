@@ -33,14 +33,31 @@
 
                   <!-- Table -->
                   <table class="table">
-                    ...
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {{#each estudios}}
+                      <tr>
+                        <th scope="row">{{estudios._id}}</th>
+                        <td>{{this.tokenCapturista}}</td>
+                        <td>{{this.created}}</td>
+                        <td>{{this.status}}</td>
+                      </tr>
+                      {{/each}}
+                    </tbody>
                   </table>
                 </div>                
               </div>
             </div>
             <div class="row">
               <div class="col-sm-12">
-                <a href="/estudio/crear" class="btn btn-primary" id="crear-estudio">Crear estudio</a>
+                <a href="/estudio/crear/{{user.apiToken}}" class="btn btn-primary" id="crear-estudio">Crear estudio</a>
               </div>
             </div>
           </div>

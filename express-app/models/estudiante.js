@@ -1,6 +1,6 @@
 "use strict";
 
-const Miembro = require('./member.js');
+const Miembro = require('./miembro.js');
 
 /*
  * Member of a Family Model that is a Student

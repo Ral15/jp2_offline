@@ -60,8 +60,6 @@ describe('User visits signup page', function() {
             browser.assert.url({pathname: '/'});
         });
 
-        console.log(browser.assert)
-
         it('should see welcome page', function() {
 	      browser.assert.text('title', 'Welcome To Brains Depot');
 	    });

@@ -86,7 +86,7 @@ class Miembro extends EmbeddedDocument {
   }
 
   static collectionName() {
-    return 'Members';
+    return 'Miembros';
   }
 }
 

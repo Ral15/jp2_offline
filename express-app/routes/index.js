@@ -4,10 +4,11 @@ const express = require('express'),
 const urls = require('./urls')
 const userController = require('../controllers/user');
 const familyController = require('../controllers/family');
+const estudioController = require('../controllers/estudio');
 
 //GET home page.
 router.get(urls.home, function(req, res) {
-  res.render('familia', {title: 'Express'});
+  res.render('login', {title: 'Express'});
 });
 
 //POST save user in db
@@ -28,7 +29,7 @@ router.get(urls.dashboard, function(req, res) {
 
 //GET estudio create form
 router.get(urls.estudioCreate, function(req, res) {
-	res.render('familia');
+	estudioController.createEstudio(req,res);
 });
 
 //POST to create family

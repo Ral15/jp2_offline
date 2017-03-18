@@ -1,7 +1,7 @@
-const Familia  = require('../models/family');
-const Miembro = require('../models/member');
+const Familia  = require('../models/familia');
+const Miembro = require('../models/miembro');
 const Tutor = require('../models/tutor');
-const Estudiante = require('../models/student');
+const Estudiante = require('../models/estudiante');
 
 module.exports = {
   /**
@@ -30,7 +30,6 @@ module.exports = {
       else family.miembros.push(this.addTutor(m));
     });
     //family
-    console.log(family);
     family.save().then((f) => {
       console.log(f);
     });
@@ -72,16 +71,10 @@ module.exports = {
     });
   },
   /**
-  * This function adds a Tutor member 
-  * no record of the user, it will check with the API (only if there is internet
-  * connection).
-  * IF request OK dashboard view will be rendered.
-  * IF NOT error message will be shown.
-  * 
+  * This function adds a Tutor member to a family
   * 
   * @event
-  * @param {object} request - request object 
-  * @param {object} response - response object.
+  * @param {object} data - data of the memeber
   */ 
   addTutor: function(data) {
     return Tutor.create({
@@ -96,16 +89,11 @@ module.exports = {
     });
   },
   /**
-  * This function checks if user exists in database, if there is
-  * no record of the user, it will check with the API (only if there is internet
-  * connection).
-  * IF request OK dashboard view will be rendered.
-  * IF NOT error message will be shown.
+  * This function adds a Member to a Family
   * 
   * 
   * @event
-  * @param {object} request - request object 
-  * @param {object} response - response object.
+  * @param {object} data - data of the memeber 
   */   
   addMember: function(data) {
     return Miembro.create({
@@ -118,5 +106,4 @@ module.exports = {
       correo: data.email,
     });
   }
-
 }

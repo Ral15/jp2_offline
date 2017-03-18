@@ -1,6 +1,6 @@
 "use strict";
 
-const Miembro = require('./member.js');
+const Miembro = require('./miembro.js');
 
 //options for relations
 const relationOptions = [

@@ -18,7 +18,8 @@
     "hbs": "~4.0.1",
     "is-online": "^6.1.0",
     "jquery": "^3.1.1",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "passport": "^0.3.2"
   },
   "devDependencies": {
     "zombie": "^5.0.5"

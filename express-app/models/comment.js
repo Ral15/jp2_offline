@@ -1,8 +1,7 @@
 "use strict";
 
 //require document class from camo
-var Document = require('camo').Document;
-const Family = require('./family.js');
+var EmbeddedDocument = require('camo').EmbeddedDocument;
 
 
 /*
@@ -18,11 +17,10 @@ const Family = require('./family.js');
  *    Stores the content of the comment
  */
  
-class Comment extends Document {
+class Comentario extends EmbeddedDocument {
   constructor() {
     super();
 
-    this.family = Family;
     this.date = {
       type: Date,
       default: Date.now
@@ -38,4 +36,4 @@ class Comment extends Document {
   }
 }
 
-module.exports = Comment;
+module.exports = Comentario;

@@ -12,10 +12,12 @@ const Miembro = require('./member.js');
  *    with the family itself.
  */
 
-class Estudiante = extends Miembro {
+class Estudiante extends Miembro {
   constructor () {
     super();
 
+
+    this.spei = Number;
     this.isActive = {
       type: Boolean,
       default: true

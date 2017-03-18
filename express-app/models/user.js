@@ -17,11 +17,6 @@ class User extends Document {
         return 'users';
     }
 
-
-    //aqui se puede hashear
-    // preSave() {
-    // 	this.password
-    // }
 }
 
 module.exports = User;

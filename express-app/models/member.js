@@ -1,8 +1,7 @@
 "use strict";
 
 //require document class from camo
-var Document = require('camo').Document;
-const Familia = require('./family.js');
+var EmbeddedDocument = require('camo').EmbeddedDocument;
 
 //options for martial status
 const academicDegreeChoices = [
@@ -47,11 +46,10 @@ const academicDegreeChoices = [
  *    with the family itself.
  */
  
-class Miembro extends Document {
+class Miembro extends EmbeddedDocument {
   constructor() {
     super();
 
-    this.familia = Familia;
     this.nombres = {
       type: String,
       default: ''
@@ -77,7 +75,14 @@ class Miembro extends Document {
       type: Date,
       default: ''
     };
-    this.activo = Boolean;
+    this.edad = {
+      type: Date,
+      default: 0
+    };
+    this.activo = {
+      type: Boolean,
+      default: true
+    };
   }
 
   static collectionName() {

@@ -23,7 +23,7 @@ class Tutor extends Miembro {
   constructor () {
     super();
 
-    this.relation = {
+    this.relacion = {
       type: String,
       choices: relationOptions,
       required: true

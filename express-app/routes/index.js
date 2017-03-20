@@ -28,13 +28,22 @@ router.get(urls.dashboard, function(req, res) {
 });
 
 //GET estudio create form
-router.get(urls.estudioCreate, function(req, res) {
-	estudioController.createEstudio(req,res);
+// router.get(urls.estudioCreate, function(req, res) {
+// 	estudioController.createEstudio(req,res);
+// });
+
+router.get(urls.address, function(req, res) {
+	res.render('address');
 });
 
 //POST to create family
 router.post(urls.familyCreate, function(req, res) {
 	familyController.createFamily(req,res);
 });
+
+
+router.post(urls.addressCreate, function(req, res) {
+	estudioController.createEstudio(req, res);
+})
 
 module.exports = router;

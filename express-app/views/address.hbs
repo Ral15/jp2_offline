@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {{> head}}
+    <link type="text/css" rel="stylesheet" href="/css/dateTime.min.css"/>
+  </head>
+  <body>  
+    <div>
+      {{> nav}}
+      <div class="page-content container" id="main-content">
+        <div class="row">
+         {{!--  <div class="col-sm-2">
+            {{> sidenav }} 
+          </div> --}}
+          <div class="col-sm-12">
+            <button class="btn btn-warning pull-right" id="estudios-btn">Recargar</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row">
+            <div class="col-xs-12">
+              <h1>Dirección</h1>
+              <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                  <h3>En esta sección podras agregar la dirección de la familia.</h3>
+                </div>
+              </div>
+              <div class="col-xs-12 well">
+                <form id="familyAddress" method="post" action="/address/create/">
+                  <div class="row" id="input-address">
+                    <div class="form-group col-xs-5">
+                      <label for="street">Calle</label>
+                      <input type="text" class="form-control" name="street" id="street">
+                    </div>                      
+                    <div class="form-group col-xs-5">
+                      <label for="street2">Colonia</label>
+                      <input type="text" class="form-control" name="street2" id="street2">
+                    </div>
+                    <div class="form-group col-xs-2">
+                      <label for="zipCode">Código Postal</label>
+                      <input type="tel" class="form-control" name="zipCode" id="zipCode" placeholder="">
+                    </div>
+                    <div class="form-group col-xs-8 col-xs-offset-2">
+                      <button type="submit" class="btn btn-primary btn-block">Crear estudio</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Import jQuery before materialize.js-->
+      <!--Import jQuery before materialize.js-->
+      <script src="/jquery/jquery.js"></script>
+      <script src="/js/dateTime.min.js"></script>
+      <script src="bootstrap/js/bootstrap.min.js"></script>
+      <script src="/js/renderer.js"> </script>
+  </body>
+</html>
+        

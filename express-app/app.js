@@ -1,9 +1,10 @@
-const express = require('express'),
-    app = express(),
-    mainRoutes = require('./routes/index.js'),
-    path = require('path'),
-    User = require('./models/user.js')
-    cors = require('cors')
+const express = require('express');
+const app = express();
+const mainRoutes = require('./routes/index.js');
+const path = require('path');
+const User = require('./models/user.js');
+const cors = require('cors');
+const session = require('express-session');
 
 //Database connection
 const connect = require('camo').connect;
@@ -33,7 +34,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
-
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}));
 
 //routes
 app.use('/', mainRoutes);

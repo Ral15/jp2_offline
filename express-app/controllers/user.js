@@ -28,6 +28,7 @@ module.exports = {
         if (doc) {
           Estudio.find({ tokenCapturista: doc.apiToken })
           .then((e) => {
+            request.session.apiToken = doc.apiToken;
             response.render('dashboard', {user: doc, estudios: e});
           })
           .catch((error) => {

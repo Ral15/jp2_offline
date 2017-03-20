@@ -36,7 +36,7 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Nombre</th>
+                        <th>Dirección</th>
                         <th>Fecha</th>
                         <th>Status</th>
                       </tr>
@@ -44,9 +44,9 @@
                     <tbody>
                       {{#each estudios}}
                       <tr>
-                        <th scope="row">{{estudios._id}}</th>
-                        <td>{{this.tokenCapturista}}</td>
-                        <td>{{this.created}}</td>
+                        <th scope="row"></th>
+                        <td>{{this.calle}}, {{this.colonia}}, {{this.codigoPostal}}</td>
+                        <td>{{this.createdDate}}</td>
                         <td>{{this.status}}</td>
                       </tr>
                       {{/each}}
@@ -57,7 +57,7 @@
             </div>
             <div class="row">
               <div class="col-sm-12">
-                <a href="/estudio/crear/{{user.apiToken}}" class="btn btn-primary" id="crear-estudio">Crear estudio</a>
+                <a href="/address/" class="btn btn-success" id="crear-estudio">Crear estudio</a>
               </div>
             </div>
           </div>

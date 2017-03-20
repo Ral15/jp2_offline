@@ -54,11 +54,37 @@ class Estudio extends Document {
       choices : opcionesStatusChoices,
       default : 'Borrador'
     }
+    this.calle = {
+      type: String,
+      required: true
+    };
+    this.colonia = {
+      type: String,
+      required: true
+    };
+    this.codigoPostal = {
+      type: Number,
+      required: true
+    };
+    this.createdDate = {
+      type: Date,
+      default: Date.now
+    };
+    this.editedDate = {
+      type: Date
+      // default: Date.now
+    };
   }
 
   static collectionName() {
     return 'estudio';
   }
+
+  preSave() {
+    this.editedDate = Date.now;
+  }
+
+
 }
 
 module.exports = Estudio;

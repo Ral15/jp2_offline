@@ -19,7 +19,7 @@ class OpcionRespuesta extends EmbeddedDocument {
 
         this.id = {
           type : Number,
-          default : 0
+          default : 0,
           required : true
         }
         this.texto = {

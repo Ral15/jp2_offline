@@ -3,6 +3,8 @@ const express = require('express'),
 
 const urls = require('./urls')
 const userController = require('../controllers/user');
+const seccionController = require('../controllers/seccion');
+
 
 //GET home page.
 router.get(urls.home, function(req, res) {
@@ -17,6 +19,11 @@ router.post(urls.createUser, function(req, res) {
 //POST login user
 router.post(urls.login, function(req, res) {
 	userController.loginUser(req, res);
+});
+
+//GET Question from APi
+router.get(urls.getQuestions, function (req, res) {
+  seccionController.getQuestions(req, res);
 });
 
 module.exports = router;

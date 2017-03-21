@@ -91,4 +91,22 @@ module.exports = {
       }
     );
   },
+  /**
+   * This function retrieves all estudios that the user has and 
+   * renders the dashboard page.
+   *
+   * @event
+   * @param {object} request - request object
+   * @param {object} response - response object.
+   */  
+  showDashboard: function(request, response) {
+    let userToken = request.session.apiToken;
+    Estudio.find({ tokenCapturista: userToken })
+    .then((e) => {
+      response.render('dashboard', {user: userToken, estudios: e});
+    })
+    .catch((error) => {
+      console.log(error);
+    })      
+  }
 }

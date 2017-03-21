@@ -24,16 +24,13 @@ router.post(urls.login, function(req, res) {
 
 //GET user dashboard
 router.get(urls.dashboard, function(req, res) {
-	res.render('dashboard');
+	userController.showDashboard(req, res);
 });
 
-//GET estudio create form
-// router.get(urls.estudioCreate, function(req, res) {
-// 	estudioController.createEstudio(req,res);
-// });
 
+//GET to show address form
 router.get(urls.address, function(req, res) {
-	res.render('address');
+	estudioController.showAddressForm(req, res);
 });
 
 //POST to create family
@@ -41,9 +38,27 @@ router.post(urls.familyCreate, function(req, res) {
 	familyController.createFamily(req,res);
 });
 
-
+//POST to create an address
 router.post(urls.addressCreate, function(req, res) {
-	estudioController.createEstudio(req, res);
-})
+	let estudioId = req.query.estudioId;
+	if (!estudioId) {
+		estudioController.createEstudio(req, res);
+	}
+	else {
+		estudioController.editAddressEstudio(req, res);
+	}
+});
+
+
+//POST to delete an estudio
+router.post(urls.estudioDelete, function(req, res) {
+	estudioController.deleteEstudio(req,res);
+});
+
+//POST to edit an address
+router.get(urls.address, function(req, res) {
+	estudioController.showAddressForm(req, res);
+});
+
 
 module.exports = router;

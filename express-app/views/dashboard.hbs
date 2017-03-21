@@ -2,6 +2,9 @@
 <html>
   <head>
     {{> head}}
+
+<script src="/sweetalert2/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="/sweetalert2/sweetalert2.min.css">
   </head>
   
   <body>  
@@ -37,8 +40,11 @@
                       <tr>
                         <th>#</th>
                         <th>Dirección</th>
-                        <th>Fecha</th>
+                        <th>Fecha de creación</th>
+                        <th>Fecha de edición</th>
                         <th>Status</th>
+                        <th>Editar</th>
+                        <th>Borrar</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -47,7 +53,10 @@
                         <th scope="row"></th>
                         <td>{{this.calle}}, {{this.colonia}}, {{this.codigoPostal}}</td>
                         <td>{{this.createdDate}}</td>
+                        <td>{{this.editedDate}}</td>
                         <td>{{this.status}}</td>
+                        <td><a href="/estudio/address/?estudioId={{this._id}}"><button class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
+                        <td><button onclick="showDeleteMsg('{{this._id}}')" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button></td>
                       </tr>
                       {{/each}}
                     </tbody>
@@ -57,7 +66,7 @@
             </div>
             <div class="row">
               <div class="col-sm-12">
-                <a href="/address/" class="btn btn-success" id="crear-estudio">Crear estudio</a>
+                <a href="/estudio/address/" class="btn btn-success" id="crear-estudio">Crear estudio</a>
               </div>
             </div>
           </div>
@@ -65,10 +74,10 @@
       </div>
     </div>
     <!--Import jQuery before materialize.js-->
-      <!--Import jQuery before materialize.js-->
-      <script src="/jquery/jquery.js"></script>
-      <script src="bootstrap/js/bootstrap.min.js"></script>
-      <script src="/js/renderer.js"> </script>
+    <!--Import jQuery before materialize.js-->
+    <script src="/jquery/jquery.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/dashboard.js"> </script>
   </body>
 </html>
         

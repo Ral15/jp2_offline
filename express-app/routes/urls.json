@@ -7,9 +7,9 @@
 	"api":  {
 		"login" : "/perfiles-usuario/obtain-auth-token/"
 	},
-	"estudioCreate": "/estudio/crear/",
 	"familyCreate": "/family/create",
-	"address": "/address/",
-	"addressCreate": "/address/create/"
+	"address": "/estudio/address/",
+	"addressCreate": "/estudio/address/create/",
+	"estudioDelete": "/estudio/delete/:id"
 }
 

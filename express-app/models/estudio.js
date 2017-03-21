@@ -72,7 +72,6 @@ class Estudio extends Document {
     };
     this.editedDate = {
       type: Date
-      // default: Date.now
     };
   }
 
@@ -81,9 +80,8 @@ class Estudio extends Document {
   }
 
   preSave() {
-    this.editedDate = Date.now;
+    this.editedDate = Date();
   }
-
 
 }
 

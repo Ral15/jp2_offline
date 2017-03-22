@@ -92,7 +92,7 @@ class Estudio extends Document {
     // });
     let F = new Promise((resolve, reject) => {
       resolve(this.familia.delete());
-    })
+    });
     deletes.push(F);
     return Promise.all(deletes);
   }

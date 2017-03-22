@@ -5,6 +5,7 @@
 var Document = require('camo').Document;
 const Miembro = require('./miembro.js');
 const Comentario = require('./comentario.js');
+const Transaccion = require('./transaccion.js');
 
 //options for martial status
 const martialStatusChoices = [
@@ -79,6 +80,7 @@ class Familia extends Document {
     };
     this.miembros = [Miembro];
     this.comentarios = [Comentario];
+    this.transacciones = [Transaccion];
 
   }
 

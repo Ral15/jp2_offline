@@ -10,7 +10,7 @@ const Pregunta = require('./pregunta.js');
  *
  *  Attributes:
  *  -----------
- *  id : Key
+ *  idApi : Key
  *      The id for each subseccion.
  *  idSeccion : ForeignKey
  *      The section to which the subsection belongs.
@@ -25,7 +25,7 @@ class Subseccion extends EmbeddedDocument {
     constructor() {
         super();
 
-        this.id = {
+        this.idApi = {
           type: Number,
           default : 0,
           required : true

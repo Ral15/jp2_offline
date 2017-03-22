@@ -8,7 +8,7 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
  *
  *  Attributes:
  *  -----------
- *  id : Key
+ *  idApi : Key
  *      The opcion question id for which option.
  *  texto : String
  *      The option for answer itself.
@@ -17,7 +17,7 @@ class OpcionRespuesta extends EmbeddedDocument {
     constructor() {
         super();
 
-        this.id = {
+        this.idApi = {
           type : Number,
           default : 0,
           required : true

@@ -3,7 +3,7 @@ const express = require('express'),
 
 const urls = require('./urls')
 const userController = require('../controllers/user');
-const seccionController = require('../controllers/seccion');
+const studioController = require('../controllers/studio');
 
 
 //GET home page.
@@ -23,7 +23,7 @@ router.post(urls.login, function(req, res) {
 
 //GET Question from APi
 router.get(urls.getQuestions, function (req, res) {
-  seccionController.getQuestions(req, res);
+  studioController.getQuestions(req, res);
 });
 
 module.exports = router;

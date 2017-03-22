@@ -10,7 +10,7 @@ const OpcionRespuesta = require('./opcion-respuesta.js');
  *
  *   Attributes:
  *   -----------
- *  id : Key
+ *  idApi : Key
  *      The id for each question.
  *  idSubseccion : ForeignKey
  *      The subsection to which the question belongs.
@@ -27,7 +27,7 @@ class Pregunta extends EmbeddedDocument {
     constructor() {
         super();
 
-        this.id = {
+        this.idApi = {
           type : Number,
           default : 0,
           required : true

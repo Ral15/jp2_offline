@@ -9,7 +9,7 @@ const Subseccion = require('./subseccion.js');
  *
  * Attributes:
  * -----------
- * id : Key
+ * idApi : Key
  *  key of each seccion.
  * nombre : String
  *  The name of the section.
@@ -20,7 +20,7 @@ class Seccion extends EmbeddedDocument {
     constructor() {
         super();
 
-        this.id = {
+        this.idApi = {
           type : Number,
           default : 0,
           required : true
@@ -33,7 +33,7 @@ class Seccion extends EmbeddedDocument {
           type : Number,
           default : 0
         };
-        this.subseccion = [Subseccion];
+        this.subsecciones = [Subseccion];
     }
 
     static collectionName() {

@@ -47,7 +47,7 @@ class Estudio extends Document {
           required : true
         };
         this.familia = Familia;
-        this.seccion = [Seccion];
+        this.secciones = [Seccion];
         this.respuestas = [Respuesta];
         this.status = {
           type: String,

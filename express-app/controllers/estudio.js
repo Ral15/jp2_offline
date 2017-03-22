@@ -45,7 +45,7 @@ module.exports = {
   */    
   createEstudio: function(request, response) {
     //retrieve token from params
-    const token = request.session.apiToken;
+    const token = request.session.user.apiToken;
     //get data from request
     const data = request.body;
     //create familia
@@ -88,7 +88,7 @@ module.exports = {
     const estudioId = request.query.estudioId;
     const familyId = request.query.familyId;
     // return console.log(request.query);
-    const token = request.session.apiToken;
+    const token = request.session.user.apiToken;
     const data = request.body;
     let editedFamily = familyController.editFamily(data, familyId);
     editedFamily
@@ -146,5 +146,31 @@ module.exports = {
       console.log(e);
       return response.sendStatus(500);
     });
+  },
+  /**
+  * This function returns the Estudios with the status desired
+  * 
+  * 
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */   
+  getEstudios: function(request, response) {
+    let myStatus = request.query.status;
+    let user = request.session.user;
+    Estudio.find({
+      tokenCapturista: user.apiToken,
+      status: myStatus
+    })
+    .then((e) => {
+      response.render('dashboard', { 
+        user: user, 
+        estudios: e, 
+        active: myStatus 
+      });
+    })
+    .catch((err) => {
+      console.log(e);
+    })
   }
  }

@@ -26,10 +26,10 @@ module.exports = {
       User.findOne({ username:  data.username, password: data.password})
       .then((doc) => {
         if (doc) {
-          Estudio.find({ tokenCapturista: doc.apiToken })
+          Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
           .then((e) => {
-            request.session.apiToken = doc.apiToken;
-            response.render('dashboard', {user: doc, estudios: e});
+            request.session.user = doc;
+            response.render('dashboard', {user: doc, estudios: e, active: 'Borrador' });
           })
           .catch((error) => {
             console.log(error);
@@ -100,10 +100,10 @@ module.exports = {
    * @param {object} response - response object.
    */  
   showDashboard: function(request, response) {
-    let userToken = request.session.apiToken;
-    Estudio.find({ tokenCapturista: userToken })
+    let user = request.session.user;
+    Estudio.find({ tokenCapturista: user.apiToken })
     .then((e) => {
-      response.render('dashboard', {user: userToken, estudios: e});
+      response.render('dashboard', { user: user, estudios: e , active: 'Borrador' });
     })
     .catch((error) => {
       console.log(error);

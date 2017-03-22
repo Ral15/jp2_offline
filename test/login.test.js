@@ -60,15 +60,26 @@ describe('Login Test', function () {
   * application.
   */
   it('should see login form', function () {
-    var username = app.client.elementIdText('username');
-    var password = app.client.elementIdText('password');
-    var submit = app.client.element('//button/*[text(),Iniciar sesión]');
-    username.keys('raul');
-    password.keys('erikiado123');
 
-    //click on signin button.
-    submit.click()
-      .then(() => done());
+    let u = app.client.setValue('#username', 'raul').then((t) => {
+      // console.log(t);
+      return t.value = 'raul';
+    });
+    let p = app.client.setValue('#password', 'erikiado123').then((t) => {
+      return t;
+    })
+    // console.log(u);
+    Promise.all([u, p]).then((a) => {
+      console.log(a);
+    })
+    // var password = app.client.elementIdText('password');
+    // var submit = app.client.element('//button/*[text(),Iniciar sesión]');
+    // username.keys('raul');
+    // password.keys('erikiado123');
+
+    // //click on signin button.
+    // submit.click()
+    //   .then(() => done());
   });
 
   /**

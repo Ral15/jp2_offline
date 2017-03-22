@@ -62,24 +62,3 @@ function deleteEstudio(id) {
     );    
   }); 
 }
-/**
- * This function creates a POST to the estudio controller.
- * The body of the POST is the id of the desired estudio to delete. 
- *  IF response 201, it is successful and will show a message to the user
- * IF NOT, an error message will appear.
- *
- *
- * @event
- * @param {string} id - id of the estudio
- */
-// function editEstudio(id) {
-//   fetch('/address/edit/' + id, {
-    
-//   })
-//   .then((response) => {
-
-//   })
-//   .catch((err) => {
-    
-//   })
-// }

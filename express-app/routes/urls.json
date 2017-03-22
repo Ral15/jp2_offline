@@ -11,6 +11,7 @@
 	"memberCreate": "/estudio/member/create/",
 	"family": "/estudio/family/",
 	"familyCreate": "/estudio/family/create/",
-	"estudioDelete": "/estudio/delete/:id"
+	"estudioDelete": "/estudio/delete/:id",
+	"getEstudios" : "/estudio/get/"
 }
 

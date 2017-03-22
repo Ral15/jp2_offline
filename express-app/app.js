@@ -20,6 +20,15 @@ connect(uri).then(function(db) {
 //template engine
 const hbs = require('hbs');
 hbs.registerPartials(path.join(__dirname + '/views/partials'));
+// pass to doc
+hbs.registerHelper('ifCond', function(v1, v2, opt) {
+	if (v1 == v2) {
+		return opt.fn(this);
+	}
+	else {
+		opt.inverse(this);
+	}
+});
 // setup cors
 app.use(cors())
 //view engine setup

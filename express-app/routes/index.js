@@ -55,5 +55,9 @@ router.post(urls.estudioDelete, function(req, res) {
 	estudioController.deleteEstudio(req,res);
 });
 
+//GET to obtain estudios with status
+router.get(urls.getEstudios, function(req, res) {
+	estudioController.getEstudios(req, res);
+})
 
 module.exports = router;

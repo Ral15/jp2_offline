@@ -9,8 +9,6 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
  * 
  * Attributes:
  * ---------------
- * family : FR Family 
- *    Stores the number of children from different fathers within a family
  * fecha: DATE
  *    Stores the date that the comment was created
  * texto: STRING

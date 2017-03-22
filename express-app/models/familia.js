@@ -61,11 +61,22 @@ class Familia extends Document {
     };
     this.localidad = {
       type: String,
-      default: '',
+      default: 'Otro',
       choices: locationChoices,
       required: true
     };
-
+    this.calle = {
+      type: String,
+      required: true
+    };
+    this.colonia = {
+      type: String,
+      required: true
+    };
+    this.codigoPostal = {
+      type: Number,
+      required: true
+    };
     this.miembros = [Miembro];
     this.comentarios = [Comentario];
 

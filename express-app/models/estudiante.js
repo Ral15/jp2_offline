@@ -7,6 +7,8 @@ const Miembro = require('./miembro.js');
  * 
  * Attributes:
  * ---------------
+ * sae: STRING
+ *    This attribute is the unique identifier for each student.
  * isActive: BOOL
  *    This attribute stores information about the involvment of a family member
  *    with the family itself.
@@ -17,7 +19,7 @@ class Estudiante extends Miembro {
     super();
 
 
-    this.spei = Number;
+    this.sae = String;
     this.isActive = {
       type: Boolean,
       default: true

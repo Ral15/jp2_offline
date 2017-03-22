@@ -61,7 +61,7 @@ describe('User visits signup page', function() {
         });
 
         it('should see welcome page', function() {
-	      browser.assert.text('title', 'Welcome To Brains Depot');
+	      browser.assert.text('title', 'INICIA SESIÓN');
 	    });
 	});
 });

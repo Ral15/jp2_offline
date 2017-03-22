@@ -12,7 +12,7 @@ if (process.platform === 'win32') {
 }
 
 // We launch the application
-var app = new Application({ path: electronPath });
+var app = new Application({ path: electronPath, args: ['.'] });
 
 describe('Login Test', function () {
   /**
@@ -63,8 +63,8 @@ describe('Login Test', function () {
     var username = app.client.elementIdText('username');
     var password = app.client.elementIdText('password');
     var submit = app.client.element('//button/*[text(),Iniciar sesión]');
-    username.keys('someusername');
-    password.keys('somepassword');
+    username.keys('raul');
+    password.keys('erikiado123');
 
     //click on signin button.
     submit.click()

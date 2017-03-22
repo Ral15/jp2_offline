@@ -5,18 +5,67 @@ const Estudiante = require('../models/estudiante');
 
 module.exports = {
   /**
-  * This function checks if user exists in database, if there is
-  * no record of the user, it will check with the API (only if there is internet
-  * connection).
-  * IF request OK dashboard view will be rendered.
-  * IF NOT error message will be shown.
+  * This function returns a Resolved Promise that 
+  * creates a family
   * 
+  * @event
+  * @param {object} data - data from the form
+  */   
+  createFamily: function(data) {
+    // create family
+    let family = Familia.create({
+      bastardos: Number(data.bastards),
+      estadoCivil: data.martialStatus,
+      calle: data.street,
+      colonia: data.street2,
+      codigoPostal: Number(data.zipCode),
+      localidad: data.location
+    }).save()
+    .then((f) => {
+      return f;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    return Promise.resolve(family);
+  },
+  /**
+  * This function returns a Resolved Promise that 
+  * edits a family
+  * 
+  * @event
+  * @param {object} data - data from the form
+  * @param {string} id - id from the family to update
+  */  
+  editFamily: function(data, id) {
+    let family = Familia.findOneAndUpdate({ _id: id },
+      {
+        bastardos: Number(data.bastards),
+        estadoCivil: data.martialStatus,
+        calle: data.street,
+        colonia: data.street2,
+        codigoPostal: Number(data.zipCode),
+        localidad: data.location        
+      }
+    )
+    .then((editedFamily) => {
+      return editedFamily;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    return Promise.resolve(family);
+  },
+  /**
+  * This function creates a member in the family model.
+  * Data obtained from the form is parsed, then it creates 
+  * the member with the role specified.
   * 
   * @event
   * @param {object} request - request object 
   * @param {object} response - response object.
   */   
-  createFamily: function (request, response) {
+  createMembers: function (request, response) {
     //get all data from POST
     const data = request.body;
     // console.log(data);
@@ -66,8 +115,8 @@ module.exports = {
       fechaNacimiento: data.birthDate,
       telefono: data.phone,
       correo: data.email,
-      //missing spei field*****
-      spei: 10 
+      //missing sae field*****
+      sae: '10' 
     });
   },
   /**

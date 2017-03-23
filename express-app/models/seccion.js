@@ -1,7 +1,7 @@
 "use strict";
 
 //require embedded document class from camo
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+var Document = require('camo').Document;
 const Subseccion = require('./subseccion.js');
 
 /**
@@ -16,7 +16,7 @@ const Subseccion = require('./subseccion.js');
  * numero : Number
  *  The number of the section.
  */
-class Seccion extends EmbeddedDocument {
+class Seccion extends Document {
     constructor() {
         super();
 

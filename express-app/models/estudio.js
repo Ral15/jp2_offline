@@ -3,7 +3,6 @@
 //require document class from camo
 var Document = require('camo').Document;
 const Familia = require('./familia.js');
-const Seccion = require('./seccion.js');
 const Respuesta = require('./respuesta.js');
 
 // Options For Status
@@ -47,7 +46,6 @@ class Estudio extends Document {
           required : true
         };
         this.familia = Familia;
-        this.secciones = [Seccion];
         this.respuestas = [Respuesta];
         this.status = {
           type: String,

@@ -21,7 +21,7 @@ module.exports = {
       .then((myEstudio) => {
         response.render('family',  {
           estudioId: myEstudio._id, 
-          family: myEstudio.familia  
+          family: myEstudio.familia
         });
       })
       .catch((error) => {

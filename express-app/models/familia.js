@@ -56,9 +56,9 @@ class Familia extends Document {
 
     this.estadoCivil = {
       type: String,
-      default: '',
+      default: martialStatusChoices[0],
       choices: martialStatusChoices,
-      required: true
+      // required: true
     };
     this.localidad = {
       type: String,

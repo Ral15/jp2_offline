@@ -36,7 +36,7 @@ class Transaccion extends EmbeddedDocument {
     this.periocidad = Periodo;
     this.observacion = {
       type: String,
-      default: ''
+      default: '',
       required: true
     };
     this.isIngreso = {

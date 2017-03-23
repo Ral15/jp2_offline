@@ -74,28 +74,28 @@ class Estudio extends Document {
    * associated to this estudio.
    *
   **/  
-  preDelete() {
-    let deletes = [];
-    // //deletes seccion
-    // this.seccion.forEach((seccion) => {
-    //   let S = new Promise((resolve, reject) => {
-    //     resolve(seccion.delete());
-    //   });
-    //   deletes.push(S);
-    // });
-    // //deletes respuesta
-    // this.respuesta.forEach((res) => {
-    //   let R = new Promise((resolve, reject) => {
-    //     resolve(res.delete());
-    //   });
-    //   deletes.push(R);
-    // });
-    let F = new Promise((resolve, reject) => {
-      resolve(this.familia.delete());
-    });
-    deletes.push(F);
-    return Promise.all(deletes);
-  }
+  // preDelete() {
+  //   let deletes = [];
+  //   // //deletes seccion
+  //   // this.seccion.forEach((seccion) => {
+  //   //   let S = new Promise((resolve, reject) => {
+  //   //     resolve(seccion.delete());
+  //   //   });
+  //   //   deletes.push(S);
+  //   // });
+  //   // //deletes respuesta
+  //   // this.respuesta.forEach((res) => {
+  //   //   let R = new Promise((resolve, reject) => {
+  //   //     resolve(res.delete());
+  //   //   });
+  //   //   deletes.push(R);
+  //   // });
+  //   let F = new Promise((resolve, reject) => {
+  //     resolve(this.familia.delete());
+  //   });
+  //   deletes.push(F);
+  //   return Promise.all(deletes);
+  // }
 }
 
 module.exports = Estudio;

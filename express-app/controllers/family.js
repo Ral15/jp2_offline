@@ -70,18 +70,22 @@ module.exports = {
     const data = request.body;
     // console.log(data);
     const newData = this.parseData(data);
-    // console.log(newData);
+    console.log(newData);
     //create members of the family
     let family = Familia.create();
     newData.map((m) => {
+      console.log(m);
       if (m.role == 'estudiante') family.miembros.push(this.addStudent(m));
       else if (m.role == '') family.miembros.push(this.addMember(m));
       else family.miembros.push(this.addTutor(m));
     });
     //family
     family.save().then((f) => {
+      console.log('es de fam');
       console.log(f);
-    });
+    }).catch((err) => {
+      console.log(err);
+    })
   },
   /**
   * This functions converts data from POST to a more handable object

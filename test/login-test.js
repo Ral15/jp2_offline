@@ -7,6 +7,7 @@ const assert = chai.assert;
 let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
 // If the platform is win32, we use de .cmd to launch
 // the app.
+
 if (process.platform === 'win32') {
   electronPath += '.cmd';
 }
@@ -57,13 +58,19 @@ describe('Login Test', function () {
   */
   it('should show login form', async function () {
     let client = this.app.client;
-    console.log(await client.element('#username').setValue('gola'))
-    await sleep(500);
-    return client.setValue('#username','Hola').then(() => {
+    // await sleep(500);
+    return client.setValue('#username','usuario_prueba')
+    .setValue('#password','contrasena')
+    .then(() => {
       return client.getValue('#username');
     }).then((usernameText) => {
-      console.log(usernameText);
-      assert.equal(usernameText,'Hola');
+      assert.equal(usernameText,'usuario_prueba');
+      return client.getValue('#password');
+    }).then((passwordText) => {
+      assert.equal(passwordText,'contrasena');
+      return client.$('#submit-login');
+    }).then((loginButton) => {
+      assert.isNotNull(loginButton.value);
     });
   });
 

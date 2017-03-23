@@ -1,3 +1,6 @@
 module.exports = {
-    "extends": "google"
+    "extends": "airbnb-base",
+    "plugins": [
+        "import"
+    ]
 };

@@ -12,7 +12,7 @@ if (process.platform === 'win32') {
 }
 
 // We launch the application
-var app = new Application({ path: electronPath });
+var app = new Application({ path: electronPath, args:['.'] });
 
 describe('Login Test', function () {
   /**

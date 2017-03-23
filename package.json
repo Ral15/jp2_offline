@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha",
     "start": "./node_modules/.bin/electron .",
+    "build": "./node_modules/.bin/electron-packager . jp2",
     "lint": "./node_modules/.bin/eslint ."
   },
   "repository": {
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/Ral15/jp2_offline#readme",
   "devDependencies": {
     "electron": "^1.4.15",
+    "electron-packager": "^8.6.0",
     "eslint": "^3.18.0",
     "eslint-config-google": "^0.7.1",
     "mocha": "^3.2.0",

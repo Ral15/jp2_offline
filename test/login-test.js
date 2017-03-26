@@ -5,7 +5,7 @@ const chaiAsPromised = require('chai-as-promised');
 
 const assert = chai.assert;
 // Set the direction to launch the electron app.
-let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
+const electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
 // If the platform is win32, we use de .cmd to launch
 // the app.
 

@@ -2,6 +2,7 @@ const Application = require('spectron').Application;
 const path = require('path');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
+
 const assert = chai.assert;
 // Set the direction to launch the electron app.
 let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
@@ -12,13 +13,9 @@ if (process.platform === 'win32') {
   electronPath += '.cmd';
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 global.before(function () {
-    chai.should();
-    chai.use(chaiAsPromised);
+  chai.should();
+  chai.use(chaiAsPromised);
 });
 
 describe('Login Test', function () {
@@ -33,13 +30,13 @@ describe('Login Test', function () {
   *   Driver to launch the application.
   */
 
-  //The time out to launch the app in the test.
+  // The time out to launch the app in the test.
   this.timeout(10000);
 
   // Before everything we launch the app.
   beforeEach(function () {
     // Launch the application
-    this.app = new Application({ path: electronPath, args:['.'] });
+    this.app = new Application({ path: electronPath, args: ['.'] });
     return this.app.start();
   });
 
@@ -56,20 +53,21 @@ describe('Login Test', function () {
   * Test if the login form is present in
   * application.
   */
-  it('should show login form', async function () {
-    let client = this.app.client;
-    // await sleep(500);
-    return client.setValue('#username','usuario_prueba')
-    .setValue('#password','contrasena')
+  it('should show login form', function () {
+    const client = this.app.client;
+    return client.setValue('#username', 'usuario_prueba')
+    .setValue('#password', 'contrasena')
     .then(() => {
       return client.getValue('#username');
     }).then((usernameText) => {
-      assert.equal(usernameText,'usuario_prueba');
+      assert.equal(usernameText, 'usuario_prueba');
       return client.getValue('#password');
-    }).then((passwordText) => {
-      assert.equal(passwordText,'contrasena');
+    })
+    .then((passwordText) => {
+      assert.equal(passwordText, 'contrasena');
       return client.$('#submit-login');
-    }).then((loginButton) => {
+    })
+    .then((loginButton) => {
       assert.isNotNull(loginButton.value);
     });
   });
@@ -81,16 +79,15 @@ describe('Login Test', function () {
   * in the application.
   */
   it('should login successful', function () {
-    var username = this.app.client.elementIdText('username');
-    var password = this.app.client.elementIdText('password');
-    var submit = this.app.client.element('//button/*[text(),Iniciar sesión]');
+    const username = this.app.client.elementIdText('username');
+    const password = this.app.client.elementIdText('password');
+    const submit = this.app.client.element('//button/*[text(),Iniciar sesión]');
     username.keys('someusername');
     password.keys('somepassword');
 
-    //click on signin button
+    // click on signin button
     submit.click();
-    this.app.client.waitForText('Hola someusername')
-      .then(() => done());
+    this.app.client.waitForText('Hola someusername').then(() => done());
   });
 
   /**
@@ -100,15 +97,14 @@ describe('Login Test', function () {
   * in the application.
   */
   it('should login fail', function () {
-    var username = this.app.client.elementIdText('username');
-    var password = this.app.client.elementIdText('password');
-    var submit = this.app.client.element('//button/*[text(),Iniciar sesión]');
+    const username = this.app.client.elementIdText('username');
+    const password = this.app.client.elementIdText('password');
+    const submit = this.app.client.element('//button/*[text(),Iniciar sesión]');
     username.keys('someusername');
     password.keys('somepasswordfail');
 
-    //click on signin button
+    // click on signin button
     submit.click();
-    this.app.client.waitForText('Iniciar sesión')
-      .then(() => done());
+    this.app.client.waitForText('Iniciar sesión').then(() => done());
   });
 });

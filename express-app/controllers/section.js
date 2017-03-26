@@ -51,7 +51,7 @@ module.exports = {
             });
             response.render('dashboard', { msg: 'Las preguntas se obtuvieron satisfactoriamente' });
           }
-      });
+        });
     });
   },
 };

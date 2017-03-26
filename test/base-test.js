@@ -23,13 +23,13 @@ describe('App Launch Test', function () {
   *   Driver to launch the application.
   */
 
-  //The time out to launch the app in the test.
+  // The time out to launch the app in the test.
   this.timeout(10000);
 
   // Before everything we launch the app.
   beforeEach(function () {
     // Launch the application
-    this.app = new Application({ path: electronPath, args:['.'] });
+    this.app = new Application({ path: electronPath, args: ['.'] });
     return this.app.start();
   });
 

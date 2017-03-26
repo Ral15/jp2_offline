@@ -3,10 +3,10 @@ const path = require('path')
 const url = require('url')
 
 const express = require('./express-app/'); //your express app
-
+const config = require('./app_config.js');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let win;
 
 function createWindow () {
 
@@ -17,16 +17,19 @@ function createWindow () {
         width: 1280,
         height: 720,
         autoHideMenuBar: true,
-        useContentSize: true,
-        resizable: false,
+        useContentSize: false,
+        title: 'Captura Instituto Juan Pablo II'
     })
-  
-
+    
     win.loadURL('http://localhost:3000/');
     win.focus();
 
-    // Open the DevTools.
-    win.webContents.openDevTools()
+    if(config['DEBUG']){
+      // Open the DevTools.
+      win.webContents.openDevTools();
+    }
+    win.maximize();
+    win.setResizable(false);
 
     // Emitted when the window is closed.
     win.on('closed', () => {

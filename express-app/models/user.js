@@ -1,21 +1,19 @@
-"use strict";
+// Require document class from camo
+const Document = require('camo').Document;
 
-//require document class from camo
-var Document = require('camo').Document;
-
-//Create user model with the basic fields for testing
+// Create user model with the basic fields for testing
 class User extends Document {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.username = String;
-        this.password = String;
-        this.apiToken = String;
-    }
+    this.username = String;
+    this.password = String;
+    this.apiToken = String;
+  }
 
-    static collectionName() {
-        return 'users';
-    }
+  static collectionName() {
+    return 'users';
+  }
 }
 
 module.exports = User;

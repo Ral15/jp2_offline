@@ -3,9 +3,8 @@ const path = require('path');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
-const assert = chai.assert;
 // Set the direction to launch the electron app.
-const electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
+var electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
 
 // If the platform is win32, we use de .cmd to launch
 // the app.
@@ -18,7 +17,7 @@ global.before(function () {
   chai.use(chaiAsPromised);
 });
 
-var app = new Application({ path: electronPath, args: ['.'] });
+const app = new Application({ path: electronPath, args: ['.'] });
 
 describe('Get Sections', function () {
   /**

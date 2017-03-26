@@ -1,6 +1,6 @@
 "use strict";
 
-//require document class from camo
+// Require document class from camo
 var Document = require('camo').Document;
 const Familia = require('./familia.js');
 const Respuesta = require('./respuesta.js');

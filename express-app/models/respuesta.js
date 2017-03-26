@@ -1,7 +1,5 @@
-"use strict";
-
-//require embedded document class from camo
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+// Require embedded document class from camo
+const EmbeddedDocument = require('camo').EmbeddedDocument;
 
 /*
  * The model that stores the actual answers.
@@ -22,31 +20,31 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
  *      If the answer needs to have text, it will be stored in this attribute.
  */
 class Respuesta extends EmbeddedDocument {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.idApi = {
-          type : Number,
-          default : 0,
-        }
-        this.idPregunta = {
-          type : Number,
-          default : 0,
-          required : true
-        };
-        this.idOpcionRespuesta = {
-          type : Number,
-          default : 0
-        };
-        this.respuesta = {
-          type : String,
-          default : ''
-        };
-    }
+    this.idApi = {
+      type: Number,
+      default: 0,
+    };
+    this.idPregunta = {
+      type: Number,
+      default: 0,
+      required: true,
+    };
+    this.idOpcionRespuesta = {
+      type: Number,
+      default: 0,
+    };
+    this.respuesta = {
+      type: String,
+      default: '',
+    };
+  }
 
-    static collectionName() {
-        return 'respuesta';
-    }
+  static collectionName() {
+    return 'respuesta';
+  }
 }
 
 module.exports = Respuesta;

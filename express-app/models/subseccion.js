@@ -1,7 +1,5 @@
-"use strict";
-
-//require embedded document class from camo
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+// Require embedded document class from camo
+const EmbeddedDocument = require('camo').EmbeddedDocument;
 const Pregunta = require('./pregunta.js');
 
 
@@ -22,32 +20,32 @@ const Pregunta = require('./pregunta.js');
  *      Embedded Document of pregunta
  */
 class Subseccion extends EmbeddedDocument {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.idApi = {
-          type: Number,
-          default : 0,
-          required : true
-        };
-        this.idSeccion = {
-          type: Number,
-          default : 0
-        };
-        this.nombre = {
-          type : String,
-          default : ''
-        };
-        this.numero = {
-          type: Number,
-          default : 0
-        };
-        this.preguntas = [Pregunta];
-    }
+    this.idApi = {
+      type: Number,
+      default: 0,
+      required: true,
+    };
+    this.idSeccion = {
+      type: Number,
+      default: 0,
+    };
+    this.nombre = {
+      type: String,
+      default: '',
+    };
+    this.numero = {
+      type: Number,
+      default: 0,
+    };
+    this.preguntas = [Pregunta];
+  }
 
-    static collectionName() {
-        return 'subseccion';
-    }
+  static collectionName() {
+    return 'subseccion';
+  }
 }
 
 module.exports = Subseccion;

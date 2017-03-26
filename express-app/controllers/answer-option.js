@@ -1,4 +1,4 @@
-const OpcionRespuesta  = require('../models/opcion-respuesta');
+const OpcionRespuesta = require('../models/opcion-respuesta');
 
 module.exports = {
   /**
@@ -9,10 +9,10 @@ module.exports = {
    * @function
    * @param {object} opcionRespuesta - opcionRespuesta object
    */
-  addAnswerOption: function(opcionRespuesta) {
+  addAnswerOption: function (opcionRespuesta) {
     return answerOption = OpcionRespuesta.create({
-      idApi : opcionRespuesta.id,
-      texto : opcionRespuesta.texto,
+      idApi: opcionRespuesta.id,
+      texto: opcionRespuesta.texto,
     });
-  }
-}
+  },
+};

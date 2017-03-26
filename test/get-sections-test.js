@@ -18,9 +18,9 @@ global.before(function () {
   chai.use(chaiAsPromised);
 });
 
-var app = new Application({ path: electronPath });
+var app = new Application({ path: electronPath, args: ['.'] });
 
-describe('Get Sections' + electronPath, function () {
+describe('Get Sections', function () {
   /**
   * Integration test suite for testing get sections.
   *
@@ -63,6 +63,11 @@ describe('Get Sections' + electronPath, function () {
 
     // click on signin button
     submit.click();
-    app.client.waitForText('Hola someusername').then(() => done());
+    app.client.waitForText('Hola someusername')
+    .then(() => {
+      const getSections = app.client.element('//button/*[text(),Obtener secciones]');
+      getSections.click();
+      app.client.waitForText('Las preguntas se obtuvieron satisfactoriamente').then(() => done());
+    });
   });
 });

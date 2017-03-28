@@ -2,9 +2,12 @@ const Application = require('spectron').Application;
 const path = require('path');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
+const fs = require('fs');
 
+const assert = chai.assert;
 // Set the direction to launch the electron app.
 var electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
+const sectionsPath = path.join(__dirname, '..', 'db', 'section.db');
 
 // If the platform is win32, we use de .cmd to launch
 // the app.
@@ -17,7 +20,6 @@ global.before(function () {
   chai.use(chaiAsPromised);
 });
 
-const app = new Application({ path: electronPath, args: ['.'] });
 
 describe('Get Sections', function () {
   /**
@@ -37,13 +39,16 @@ describe('Get Sections', function () {
   // Before everything we launch the app.
   beforeEach(function () {
     // Launch the application
-    return app.start();
+    this.app = new Application({ path: electronPath, args: ['.'] });
+    if (fs.existsSync(sectionsPath)) fs.unlinkSync(sectionsPath);
+    return this.app.start();
   });
 
   // After test is complete we stop the app.
   afterEach(function () {
-    if (app && app.isRunning()) {
-      return app.stop();
+    if (this.app && this.app.isRunning()) {
+      if (fs.existsSync(sectionsPath)) fs.unlinkSync(sectionsPath);
+      return this.app.stop();
     }
   });
 
@@ -54,19 +59,19 @@ describe('Get Sections', function () {
   * application.
   */
   it('should get sections', function () {
-    const username = app.client.elementIdText('username');
-    const password = app.client.elementIdText('password');
-    const submit = app.client.element('//button/*[text(),Iniciar sesión]');
-    username.keys('someusername');
-    password.keys('somepassword');
-
-    // click on signin button
-    submit.click();
-    app.client.waitForText('Hola someusername')
+    const client = this.app.client;
+    return client.setValue('#username', 'hermit')
+    .setValue('#password', 'ferada9495')
+    .click('#submit-login')
     .then(() => {
-      const getSections = app.client.element('//button/*[text(),Obtener secciones]');
-      getSections.click();
-      app.client.waitForText('Las preguntas se obtuvieron satisfactoriamente').then(() => done());
+      return client.$('#secciones-btn');
+    })
+    .then((sectionsButton) => {
+      assert.isNotNull(sectionsButton.value);
+      return client.click('#secciones-btn');
+    })
+    .then(() => {
+      if (fs.existsSync(sectionsPath)) assert.isOk(true, 'test is ok');
     });
   });
 });

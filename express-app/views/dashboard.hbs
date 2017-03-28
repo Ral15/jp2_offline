@@ -8,6 +8,11 @@
     <div>
       {{> nav}}
       <div class="page-content" id="main-content">
+        {{#if msg}}
+          <div class="alert alert-info">
+            <strong>{{msg}}</strong>
+          </div>
+        {{/if}}
         <div class="row">
           <div class="col-md-2">
             {{> sidenav }}
@@ -15,7 +20,7 @@
           <div class="col-md-10">
             <h1>Hola {{user.username}}</h1>
             <button class="btn btn-primary" id="estudios-btn">Estudios</button>
-            <a class="btn btn-primary" href="/seccion/questions">Obtener secciones</a>
+            <a class="btn btn-primary" id="secciones-btn" href="/seccion/questions">Obtener secciones</a>
           </div>
         </div>
       </div>

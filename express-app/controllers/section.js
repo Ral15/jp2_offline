@@ -19,39 +19,41 @@ module.exports = {
    */
   getQuestions: function (request, response) {
     // Call promise that validates internet connection
-    isOnline().then(() => {
-      req.get(
-        // url to get
-        urls.apiUrl + urls.api.questions,
-        {
-          headers: {
-            'Authorization': 'Token 0232143aa2ffc2ab6e434bcf9942c15a67d41d6a', // + request.session.apiToken
+    isOnline().then((online) => {
+      if (online) {
+        req.get(
+          // url to get
+          urls.apiUrl + urls.api.questions,
+          {
+            headers: {
+              'Authorization': 'Token ' + request.session.apiToken,
+            },
           },
-        },
-        function (error, httpResponse, body) {
-          if (httpResponse.statusCode > 201) {
-            response.render('dashboard', { msg: 'No se obtuvo la información' });
-          } else {
-            const data = JSON.parse(body);
-            data.forEach(function (item) {
-              const section = Seccion.create({
-                idApi: item.id,
-                nombre: item.nombre,
-                numero: item.numero,
+          function (error, httpResponse, body) {
+            if (httpResponse.statusCode > 201) {
+              response.render('dashboard', { msg: 'No se obtuvo la información' });
+            } else {
+              const data = JSON.parse(body);
+              data.forEach(function (item) {
+                const section = Seccion.create({
+                  idApi: item.id,
+                  nombre: item.nombre,
+                  numero: item.numero,
+                });
+                item.subsecciones.forEach(function (subsection) {
+                  section.subsecciones.push(Subsection.addSubsection(subsection));
+                });
+                section.save()
+                .then(() => {
+                  console.log('Seccion guardada');
+                }).catch((err) => {
+                  console.log(err);
+                });
               });
-              item.subsecciones.forEach(function (subsection) {
-                section.subsecciones.push(Subsection.addSubsection(subsection));
-              });
-              section.save()
-              .then(() => {
-                console.log('Sección guardada');
-              }).catch((err) => {
-                console.log(err);
-              });
-            });
-            response.render('dashboard', { msg: 'Las preguntas se obtuvieron satisfactoriamente' });
-          }
-        });
+              response.render('dashboard', { msg: 'Las preguntas se obtuvieron satisfactoriamente' });
+            }
+          });
+      } else response.render('dashboard', { msg: 'No hay internet' });
     });
   },
 };

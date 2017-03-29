@@ -3,7 +3,7 @@ const path = require('path');
 const assert = require('assert');
 
 // Set the direction to launch the electron app.
-let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
+var electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
 // If the platform is win32, we use de .cmd to launch
 // the app.
 if (process.platform === 'win32') {
@@ -23,13 +23,13 @@ describe('App Launch Test', function () {
   *   Driver to launch the application.
   */
 
-  //The time out to launch the app in the test.
+  // The time out to launch the app in the test.
   this.timeout(10000);
 
   // Before everything we launch the app.
   beforeEach(function () {
     // Launch the application
-    this.app = new Application({ path: electronPath, args:['.'] });
+    this.app = new Application({ path: electronPath, args: ['.'] });
     return this.app.start();
   });
 

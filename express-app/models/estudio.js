@@ -1,9 +1,6 @@
-"use strict";
-
-//require document class from camo
-var Document = require('camo').Document;
+// Require document class from camo
+const Document = require('camo').Document;
 const Familia = require('./familia.js');
-const Seccion = require('./seccion.js');
 const Respuesta = require('./respuesta.js');
 
 // Options For Status
@@ -12,7 +9,7 @@ const opcionesStatusChoices = [
   'Rechazado',
   'Borrador',
   'Revisión',
-  'Eliminado'
+  'Eliminado',
 ];
 
 /**
@@ -38,28 +35,26 @@ const opcionesStatusChoices = [
  *      is on revision, has been rejected, is a draft or was deleted.
  */
 class Estudio extends Document {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.tokenCapturista = {
-          type : String,
-          default : '',
-          required : true
-        };
-        this.familia = Familia;
-        this.seccion = [Seccion];
-        this.respuestas = [Respuesta];
-        this.status = {
-          type: String,
-          choices : opcionesStatusChoices,
-          default : 'Borrador'
-        }
+    this.tokenCapturista = {
+      type: String,
+      default: '',
+      required: true,
+    };
+    this.familia = Familia;
+    this.respuestas = [Respuesta];
+    this.status = {
+      type: String,
+      choices: opcionesStatusChoices,
+      default: 'Borrador',
+    };
+  }
 
-    }
-
-    static collectionName() {
-        return 'estudio';
-    }
+  static collectionName() {
+    return 'estudio';
+  }
 }
 
 module.exports = Estudio;

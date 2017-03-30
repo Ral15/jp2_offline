@@ -8,10 +8,11 @@
 		"login" : "/perfiles-usuario/obtain-auth-token/"
 	},
 	"member": "/estuido/member/",
-	"memberCreate": "/estudio/member/create/",
-	"family": "/estudio/family/",
-	"familyCreate": "/estudio/family/create/",
+	"estudio": "/estudio/",
+	"estudioCreate": "/estudio/create/",
 	"estudioDelete": "/estudio/delete/:id",
-	"getEstudios" : "/estudio/get/"
+	"getEstudios" : "/estudio/get/",
+	"member": "/family/member/",
+	"memberCreate": "/family/member/create/"
 }
 

@@ -21,7 +21,7 @@
                 </div>
               </div>
               <div class="col-xs-12 well">
-                <form id="familyForm" method="post" action="/estudio/family/create/?estudioId={{estudioId}}&familyId={{family._id}}" data-toggle="validator">
+                <form id="familyForm" method="post" action="/estudio/create/?estudioId={{estudioId}}" data-toggle="validator">
                   <div class="row" id="input-address">
                     <h4>Dirección</h4>
                     <div class="form-group col-xs-3">
@@ -51,7 +51,7 @@
                     </div>
                     <h4>Información General</h4>
                     <div class="form-group col-xs-6">
-                      <label for="bastards" class="control-label">Hijos diferente papas*</label>
+                      <label for="bastards" class="control-label">Número de distintos padres*</label>
                       <input type="text" class="form-control" name="bastards" id="bastards" required 
                       value="{{family.bastardos}}"> 
                     </div>                      
@@ -68,7 +68,7 @@
                       </select>
                     </div>
                     <div class="form-group col-xs-8 col-xs-offset-2">
-                      <button type="submit" class="btn btn-primary btn-block">Crear familia</button>
+                      <button type="submit" id="create-family" class="btn btn-primary btn-block">Crear familia</button>
                     </div>
                   </div>
                 </form>
@@ -78,11 +78,8 @@
         </div>
       </div>
     </div>
-    <!--Import jQuery before materialize.js-->
-    <!--Import jQuery before materialize.js-->
-    <script src="/jquery/jquery.js"></script>
+    {{> scripts }}
     <script src="/js/dateTime.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="/js/validator.min.js"> </script>
   </body>
 </html>

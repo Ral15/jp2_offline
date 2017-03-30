@@ -2,7 +2,7 @@
 
 //require embedded document class from camo
 var EmbeddedDocument = require('camo').EmbeddedDocument;
-const OpcionRespuesta = require('./opcion_respuesta.js');
+const OpcionRespuesta = require('./opcionRespuesta.js');
 
 
 /*
@@ -48,7 +48,7 @@ class Pregunta extends EmbeddedDocument {
       type : Number,
       default : 0
     };
-    this.opcionesPregunta = [OpcionRespuesta];
+    this.opcionesRespuesta = [OpcionRespuesta];
   }
 
   static collectionName() {

@@ -29,7 +29,7 @@ class OpcionRespuesta extends EmbeddedDocument {
   }
 
   static collectionName() {
-    return 'opcion_respuesta';
+    return 'OpcionRespuesta';
   }
 }
 

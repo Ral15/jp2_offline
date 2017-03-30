@@ -5,56 +5,40 @@ const Estudiante = require('../models/estudiante');
 
 module.exports = {
   /**
-  * This function returns a Resolved Promise that 
-  * creates a family
+  * This function returns a a created family
   * 
   * @event
   * @param {object} data - data from the form
   */   
   createFamily: function(data) {
-    // create family
-    let family = Familia.create({
+    return Familia.create({
       bastardos: Number(data.bastards),
       estadoCivil: data.martialStatus,
       calle: data.street,
       colonia: data.street2,
       codigoPostal: Number(data.zipCode),
       localidad: data.location
-    }).save()
-    .then((f) => {
-      return f;
-    })
-    .catch((err) => {
-      console.log(err);
     });
-    return Promise.resolve(family);
   },
   /**
-  * This function returns a Resolved Promise that 
-  * edits a family
+  * This function returns a an object with the  
+  * information of a new family, it has to be an object 
+  * because of an issue with camo.
+  * https://github.com/scottwrobinson/camo/issues/81
   * 
   * @event
   * @param {object} data - data from the form
   * @param {string} id - id from the family to update
   */  
   editFamily: function(data, id) {
-    let family = Familia.findOneAndUpdate({ _id: id },
-      {
-        bastardos: Number(data.bastards),
-        estadoCivil: data.martialStatus,
-        calle: data.street,
-        colonia: data.street2,
-        codigoPostal: Number(data.zipCode),
-        localidad: data.location        
-      }
-    )
-    .then((editedFamily) => {
-      return editedFamily;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    return Promise.resolve(family);
+    return {
+      bastardos: Number(data.bastards),
+      estadoCivil: data.martialStatus,
+      calle: data.street,
+      colonia: data.street2,
+      codigoPostal: Number(data.zipCode),
+      localidad: data.location        
+    };
   },
   /**
   * This function creates a member in the family model.

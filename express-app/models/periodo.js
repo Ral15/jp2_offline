@@ -32,7 +32,7 @@ class Periodo extends EmbeddedDocument {
   constructor() {
     super();
 
-    this.periocidad = {
+    this.periodicidad = {
       type: String,
       choices: periocidadChoices 
     };

@@ -2,7 +2,7 @@
 
 //require document class from camo
 // var Document = require('camo').Document;
-var Document = require('camo').Document;
+var EmbeddedDocument = require('camo').EmbeddedDocument;
 const Miembro = require('./miembro.js');
 const Comentario = require('./comentario.js');
 const Transaccion = require('./transaccion.js');
@@ -40,7 +40,7 @@ const locationChoices = [
  *    Stores the location of the family.
  */
 
-class Familia extends Document {
+class Familia extends EmbeddedDocument {
   constructor() {
     super();
 
@@ -58,11 +58,11 @@ class Familia extends Document {
       type: String,
       default: martialStatusChoices[0],
       choices: martialStatusChoices,
-      // required: true
+      required: true
     };
     this.localidad = {
       type: String,
-      default: 'Otro',
+      default: locationChoices[0],
       choices: locationChoices,
       required: true
     };

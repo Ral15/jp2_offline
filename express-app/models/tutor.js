@@ -4,9 +4,9 @@ const Miembro = require('./miembro.js');
 
 //options for relations
 const relationOptions = [
-  "madre",
-  "padre",
-  "tutor"
+  "Madre",
+  "Padre",
+  "Tutor"
 ];
 
 /*

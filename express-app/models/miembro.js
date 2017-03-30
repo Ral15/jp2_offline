@@ -76,7 +76,7 @@ class Miembro extends EmbeddedDocument {
       default: ''
     };
     this.edad = {
-      type: Date,
+      type: Number,
       default: 0
     };
     this.activo = {

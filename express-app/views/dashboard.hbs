@@ -53,7 +53,7 @@
                         <td>{{this.createdDate}}</td>
                         {{!-- <td>{{this.editedDate}}</td> --}}
                         <td>{{this.status}}</td>
-                        <td><a href="/estudio/family/?estudioId={{this._id}}"><button class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
+                        <td><a href="/estudio/?estudioId={{this._id}}"><button class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
                         <td><button onclick="showDeleteMsg('{{this._id}}')" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button></td>
                       </tr>
                       {{/each}}
@@ -64,17 +64,14 @@
             </div>
             <div class="row">
               <div class="col-sm-12">
-                <a href="/estudio/family/" class="btn btn-success" id="crear-estudio"> <span class="glyphicon glyphicon-plus"></span> Crear estudio</a>
+                <a href="/estudio/" class="btn btn-success" id="crear-estudio"> <span class="glyphicon glyphicon-plus"></span> Crear estudio</a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!--Import jQuery before materialize.js-->
-    <!--Import jQuery before materialize.js-->
-    <script src="/jquery/jquery.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    {{> scripts }}
     <script src="/js/dashboard.js"> </script>
   </body>
 </html>

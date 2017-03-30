@@ -1,6 +1,8 @@
 const Estudio = require('../models/estudio');
 const Familia = require('../models/familia');
 const familyController = require('./family');
+
+
 module.exports = {
   /**
   * This function shows the family form, IF the url query is empty
@@ -49,31 +51,25 @@ module.exports = {
     //get data from request
     const data = request.body;
     //create familia
-    let family = familyController.createFamily(data);
-    family
-    .then((newFamily) => {
-      //create estudio
-      let estudio = Estudio.create({
-        tokenCapturista: token,
-        familia: newFamily
-      });
-      //save estudio
-      estudio.save()
-      .then((newEstudio) => {
-        response.render('members', {
-          userToken: token, 
-          estudioId: newEstudio._id, 
-          family: newFamily
-        });      
-      })
-      .catch((error) => {
-        //family could not be created
-        console.log(error);
-      })
+    let newFamily = familyController.createFamily(data);
+    //create estudio
+    let estudio = Estudio.create({
+      tokenCapturista: token,
+      familia: newFamily
+    });
+    //save estudio
+    estudio.save()
+    .then((newEstudio) => {
+      console.log(newEstudio);
+      response.render('members', {
+        userToken: token, 
+        estudioId: newEstudio._id, 
+        family: newFamily
+      });      
     })
-    .catch((err) => {
-      //family could not be created
-      console.log(err);
+    .catch((error) => {
+      //estudio could not be created
+      console.log(error);
     })
   },
   /**
@@ -85,34 +81,28 @@ module.exports = {
   * @param {object} response - response object.
   */      
   editEstudio: function(request, response) {
+    //get estudio ID from url
     const estudioId = request.query.estudioId;
-    const familyId = request.query.familyId;
-    // return console.log(request.query);
+    //get user token from session
     const token = request.session.user.apiToken;
     const data = request.body;
-    let editedFamily = familyController.editFamily(data, familyId);
-    editedFamily
-    .then((newFamily) => {
-      Estudio.findOneAndUpdate({ _id: estudioId },
-        {
-          familia: newFamily
-        }
-      )
-      .then((editedEstudio) => {
-        response.render('members', {
-          userToken: token, 
-          estudioId: editedEstudio._id,
-          family: newFamily
-        });      
-      })
-      .catch((error) => {
-        //estudio not edited
-        console.log(error);
-      })
+    //get object with the new values for a family
+    let editedFamily = familyController.editFamily(data);
+    Estudio.findOneAndUpdate({ _id: estudioId },
+      {
+        familia: editedFamily
+      }
+    )
+    .then((editedEstudio) => {
+      response.render('members', {
+        userToken: token, 
+        estudioId: editedEstudio._id,
+        family: editedFamily
+      });      
     })
-    .catch((err) => {
-      //family no edited
-      console.log(err);
+    .catch((error) => {
+      //estudio not edited
+      console.log(error);
     })
   },
   /**

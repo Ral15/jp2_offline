@@ -1,7 +1,5 @@
-"use strict";
-
-//require embedded document class from camo
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+// Require embedded document class from camo
+const EmbeddedDocument = require('camo').EmbeddedDocument;
 const Pregunta = require('./pregunta.js');
 
 
@@ -10,7 +8,7 @@ const Pregunta = require('./pregunta.js');
  *
  *  Attributes:
  *  -----------
- *  id : Key
+ *  idApi : Key
  *      The id for each subseccion.
  *  idSeccion : ForeignKey
  *      The section to which the subsection belongs.
@@ -28,19 +26,19 @@ class Subseccion extends EmbeddedDocument {
     this.id = {
       type: Number,
       default : 0,
-      required : true
+      required : true,
     };
     this.idSeccion = {
       type: Number,
-      default : 0
+      default : 0,
     };
     this.nombre = {
       type : String,
-      default : ''
+      default : '',
     };
     this.numero = {
       type: Number,
-      default : 0
+      default : 0,
     };
     this.preguntas = [Pregunta];
   }

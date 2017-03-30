@@ -4,8 +4,10 @@
 	"createUser": "/user/create",
 	"login": "/user/login",
 	"dashboard" : "/user/dashboard",
+	"getQuestions" : "/seccion/questions",
 	"api":  {
-		"login" : "/perfiles-usuario/obtain-auth-token/"
+		"login" : "/perfiles-usuario/obtain-auth-token/",
+		"questions" : "/captura/api-obtener-informacion-preguntas/"
 	},
 	"member": "/estuido/member/",
 	"estudio": "/estudio/",

@@ -1,8 +1,7 @@
-"use strict";
-
 //require embedded document class from camo
 var EmbeddedDocument = require('camo').EmbeddedDocument;
 const OpcionRespuesta = require('./opcionRespuesta.js');
+
 
 
 /*
@@ -10,7 +9,7 @@ const OpcionRespuesta = require('./opcionRespuesta.js');
  *
  *   Attributes:
  *   -----------
- *  id : Key
+ *  idApi : Key
  *      The id for each question.
  *  idSubseccion : ForeignKey
  *      The subsection to which the question belongs.

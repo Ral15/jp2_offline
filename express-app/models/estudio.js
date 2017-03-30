@@ -1,9 +1,6 @@
-"use strict";
-
-//require document class from camo
-var Document = require('camo').Document;
+// Require document class from camo
+const Document = require('camo').Document;
 const Familia = require('./familia.js');
-const Seccion = require('./seccion.js');
 const Respuesta = require('./respuesta.js');
 
 // Options For Status
@@ -12,7 +9,7 @@ const opcionesStatusChoices = [
   'Rechazado',
   'Borrador',
   'Revisión',
-  'Eliminado'
+  'Eliminado',
 ];
 
 /**
@@ -42,23 +39,16 @@ class Estudio extends Document {
     super();
 
     this.tokenCapturista = {
-      type : String,
-      required : true
+      type: String,
+      default: '',
+      required: true,
     };
     this.familia = Familia;
-    this.seccion = [Seccion];
     this.respuestas = [Respuesta];
     this.status = {
       type: String,
-      choices : opcionesStatusChoices,
-      default : 'Borrador'
-    }
-    this.createdDate = {
-      type: Date,
-      default: Date.now
-    };
-    this.editedDate = {
-      type: Date
+      choices: opcionesStatusChoices,
+      default: opcionesStatusChoices[0],
     };
   }
 

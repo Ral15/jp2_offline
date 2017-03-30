@@ -1,5 +1,5 @@
-const User  = require('../models/user');
-var req = require('request');
+const User = require('../models/user');
+const req = require('request');
 const isOnline = require('is-online');
 const urls = require('../routes/urls');
 const Estudio = require('../models/estudio');
@@ -17,13 +17,13 @@ module.exports = {
    * @param {object} request - request object
    * @param {object} response - response object.
    */
-  loginUser: function(request, response) {
-    //get data from request
-    const data = request.body
-    //call promise that validates internet connection
+  loginUser: function (request, response) {
+    // Get data from request
+    const data = request.body;
+    // Call promise that validates internet connection
     isOnline().then((online) => {
-      //look for the user in the local db first
-      User.findOne({ username:  data.username, password: data.password})
+      // look for the user in the local db first
+      User.findOne({ username: data.username, password: data.password })
       .then((doc) => {
         if (doc) {
           Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
@@ -37,14 +37,15 @@ module.exports = {
           })
         }
         //if user is not found AND there is internet connection, check with API
-        else if(online) this.requestUser(data, request, response)
-        else response.render('login', { msg: "No hay internet" })
+        else if(online) this.requestUser(data, request, response);
+        else response.render('login', { msg: "No hay internet" });
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       });
     });
   },
+
   /**
    * This function makes a POST to the API in order to validate if there is a user
    * registered with the credentials provided.
@@ -57,40 +58,38 @@ module.exports = {
    * @param {object} request - request object
    * @param {object} response - response object.
    */
-  requestUser: function(data, request, response) {
+  requestUser: function (data, request, response) {
     req.post(
-      //url to post
+      // Url to post
       urls.apiUrl + urls.api.login,
-      //data for the post
+      // Data for the post
       {
         json: {
-          username: data.username, password: data.password
-        }
+          username: data.username, password: data.password,
+        },
       },
-      //callback
-      function(error, httpResponse, body) {
-        //if response FAILS show error message
-        if (httpResponse.statusCode > 201)
-          response.render('login', {msg: 'Usuario o contraseña invalidos'})
-        else {
-          //create new user with data from the form
-          let new_user = User.create({
+      // Callback
+      function (error, httpResponse, body) {
+        // If response FAILS show error message
+        if (httpResponse.statusCode > 201) {
+          response.render('login', { msg: 'Usuario o contraseña invalidos' });
+        } else {
+          // Create new user with data from the form
+          const newUser = User.create({
             username: data.username,
             password: data.password,
-            apiToken: body.token
+            apiToken: body.token,
           });
-          //try to save user at db
-          new_user.save()
+          // Try to save user at db
+          newUser.save()
           .then((user) => {
-            // console.log(user);
-            response.render('dashboard', {user: user})
+            response.render('dashboard', {user: user});
           })
           .catch((err) => {
-            console.log(err)
+            console.log(err);
           });
         }
-      }
-    );
+      });
   },
   /**
    * This function retrieves all estudios that the user has and 
@@ -110,4 +109,5 @@ module.exports = {
       console.log(error);
     })      
   }
-}
+};
+

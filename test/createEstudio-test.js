@@ -304,7 +304,7 @@ describe('Create Estudio test', function () {
   *
   * This test will check if an estudio is created in the db
   */
-  it('should fill with NO martialStatus value estudio form', async function () {
+  it('should create estudio', async function () {
     const client = this.app.client;
     return client.setValue('#username','raul')
       .setValue('#password','erikiado123')

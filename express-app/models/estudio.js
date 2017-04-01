@@ -48,7 +48,7 @@ class Estudio extends Document {
     this.status = {
       type: String,
       choices: opcionesStatusChoices,
-      default: opcionesStatusChoices[0],
+      default: 'Borrador',
     };
   }
 

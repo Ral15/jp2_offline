@@ -1,5 +1,5 @@
 const Pregunta = require('../models/pregunta');
-const AnswerOption = require('./answer-option');
+const AnswerOption = require('./answerOption');
 
 module.exports = {
   /**
@@ -18,7 +18,7 @@ module.exports = {
       descripcion: pregunta.descripcion,
       orden: pregunta.orden,
     });
-    pregunta.opciones_pregunta.forEach(function (item) {
+    pregunta.opcionesPregunta.forEach(function (item) {
       question.opcionesPregunta.push(AnswerOption.addAnswerOption(item));
     });
     return question;

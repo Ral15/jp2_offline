@@ -33,7 +33,7 @@ const opcionesStatusChoices = [
  *  status : String
  *      The study can be in several states depending if it has been approved,
  *      is on revision, has been rejected, is a draft or was deleted.
- */
+**/
 class Estudio extends Document {
   constructor() {
     super();
@@ -48,13 +48,44 @@ class Estudio extends Document {
     this.status = {
       type: String,
       choices: opcionesStatusChoices,
-      default: 'Borrador',
+      default: opcionesStatusChoices[2],
     };
   }
 
   static collectionName() {
     return 'estudio';
   }
+
+  preSave() {
+    this.editedDate = Date();
+  }
+  /**
+   * This function deletes the familia, seccion and respuesta
+   * associated to this estudio.
+   *
+  **/  
+  // preDelete() {
+  //   let deletes = [];
+  //   // //deletes seccion
+  //   // this.seccion.forEach((seccion) => {
+  //   //   let S = new Promise((resolve, reject) => {
+  //   //     resolve(seccion.delete());
+  //   //   });
+  //   //   deletes.push(S);
+  //   // });
+  //   // //deletes respuesta
+  //   // this.respuesta.forEach((res) => {
+  //   //   let R = new Promise((resolve, reject) => {
+  //   //     resolve(res.delete());
+  //   //   });
+  //   //   deletes.push(R);
+  //   // });
+  //   let F = new Promise((resolve, reject) => {
+  //     resolve(this.familia.delete());
+  //   });
+  //   deletes.push(F);
+  //   return Promise.all(deletes);
+  // }
 }
 
 module.exports = Estudio;

@@ -1,12 +1,16 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const express = require('./express-app/'); // your express app
-const config = require('./app_config.js');
+const {app, BrowserWindow, ipcMain} = require('electron')
+const path = require('path')
+const url = require('url')
+
+const express = require('./express-app/'); //your express app
+const config = require('./config.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
 function createWindow() {
+
 
   // Create browser window
   win = new BrowserWindow({
@@ -16,6 +20,7 @@ function createWindow() {
     useContentSize: false,
     title: 'Captura Instituto Juan Pablo II',
   });
+
 
   win.loadURL('http://localhost:3000/');
   win.focus();

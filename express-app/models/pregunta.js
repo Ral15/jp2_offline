@@ -1,6 +1,7 @@
-// Require embedded document class from camo
-const EmbeddedDocument = require('camo').EmbeddedDocument;
-const OpcionRespuesta = require('./opcion-respuesta.js');
+//require embedded document class from camo
+var EmbeddedDocument = require('camo').EmbeddedDocument;
+const OpcionRespuesta = require('./opcionRespuesta.js');
+
 
 
 /*
@@ -25,28 +26,28 @@ class Pregunta extends EmbeddedDocument {
   constructor() {
     super();
 
-    this.idApi = {
-      type: Number,
-      default: 0,
-      required: true,
+    this.id = {
+      type : Number,
+      default : 0,
+      required : true
     };
     this.idSubseccion = {
-      type: Number,
-      default: 0,
+      type : Number,
+      default : 0
     };
     this.texto = {
-      type: String,
-      default: '',
+      type : String,
+      default : ''
     };
     this.descripcion = {
-      type: String,
-      default: '',
+      type : String,
+      default : ''
     };
     this.orden = {
-      type: Number,
-      default: 0,
+      type : Number,
+      default : 0
     };
-    this.opcionesPregunta = [OpcionRespuesta];
+    this.opcionesRespuesta = [OpcionRespuesta];
   }
 
   static collectionName() {

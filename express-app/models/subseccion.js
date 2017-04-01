@@ -23,22 +23,22 @@ class Subseccion extends EmbeddedDocument {
   constructor() {
     super();
 
-    this.idApi = {
+    this.id = {
       type: Number,
-      default: 0,
-      required: true,
+      default : 0,
+      required : true,
     };
     this.idSeccion = {
       type: Number,
-      default: 0,
+      default : 0,
     };
     this.nombre = {
-      type: String,
-      default: '',
+      type : String,
+      default : '',
     };
     this.numero = {
       type: Number,
-      default: 0,
+      default : 0,
     };
     this.preguntas = [Pregunta];
   }

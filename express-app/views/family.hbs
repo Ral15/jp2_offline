@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {{> head}}
+    <link type="text/css" rel="stylesheet" href="/css/dateTime.min.css"/>
+  </head>
+  <body>  
+    <div>
+      {{> nav}}
+      <div class="page-content container" id="main-content">
+        <div class="row">
+          <div class="row">
+            <br>
+            <br>
+            <br>
+            <div class="col-xs-12">
+              <h1>Familia</h1>
+              <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                  <h3>En esta sección podras agregar la información de una familia.</h3>
+                </div>
+              </div>
+              <div class="col-xs-12 well">
+                <form id="familyForm" method="post" action="/estudio/create/?estudioId={{estudioId}}" data-toggle="validator">
+                  <div class="row" id="input-address">
+                    <h4>Dirección</h4>
+                    <div class="form-group col-xs-3">
+                      <label for="street" class="control-label">Calle*</label>
+                      <input type="text" class="form-control" name="street" id="street" required 
+                      value="{{family.calle}}"> 
+                    </div>
+                    <div class="form-group col-xs-3">
+                      <label for="street2">Colonia*</label>
+                      <input type="text" class="form-control" name="street2" id="street2" required
+                      value="{{family.colonia}}">
+                    </div>
+                    <div class="form-group col-xs-3">
+                      <label for="zipCode">Código Postal*</label>
+                      <input type="tel" class="form-control" name="zipCode" id="zipCode" placeholder="" required maxlength="5" minlength="5" value="{{family.codigoPostal}}">
+                    </div>
+                    <div class="form-group col-xs-3">
+                      <label for="location">Localidad*</label>
+                      <select class="form-control" id="location" name="location" required>
+                        <option value=""></option>
+                        <option value="Poblado Jurica">Poblado Jurica</option>
+                        <option value="Nabo">Nabo</option>
+                        <option value="Salitre">Salitre</option>
+                        <option value="La Campana">La Campana</option>
+                        <option value="Otro">Otro</option>
+                      </select>
+                    </div>
+                    <h4>Información General</h4>
+                    <div class="form-group col-xs-6">
+                      <label for="bastards" class="control-label">Número de distintos padres*</label>
+                      <input type="text" class="form-control" name="bastards" id="bastards" required 
+                      value="{{family.bastardos}}"> 
+                    </div>                      
+                    <div class="form-group col-xs-6">
+                      <label for="martialStatus" class="control-label">Estado Civil*</label>
+                      <select class="form-control" id="martialStatus" name="martialStatus" required>
+                        <option value=""></option>
+                        <option value="Soltero">Soltero</option>
+                        <option value="Viudo">Viudo</option>
+                        <option value="Unión Libre">Unión Libre</option>
+                        <option value="Casado-Civil">Casado-Civil</option>
+                        <option value="Casado-Iglesia">Casado-Iglesia</option>
+                        <option value="Divorciado Vuelto a Casar">Divorciado Vuelto a Casar</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-xs-8 col-xs-offset-2">
+                      <button type="submit" id="create-family" class="btn btn-primary btn-block">Crear familia</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{> scripts }}
+    <script src="/js/dateTime.min.js"></script>
+    <script src="/js/validator.min.js"> </script>
+  </body>
+</html>
+        

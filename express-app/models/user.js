@@ -6,9 +6,18 @@ class User extends Document {
   constructor() {
     super();
 
-    this.username = String;
-    this.password = String;
-    this.apiToken = String;
+    this.username = {
+      type: String,
+      required: true
+    };
+    this.password = {
+      type: String,
+      required: true
+    };
+    this.apiToken = {
+      type: String,
+      required: true
+    };
   }
 
   static collectionName() {

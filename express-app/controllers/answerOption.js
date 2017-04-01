@@ -1,4 +1,4 @@
-const OpcionRespuesta = require('../models/opcion-respuesta');
+const OpcionRespuesta = require('../models/opcionRespuesta');
 
 module.exports = {
   /**

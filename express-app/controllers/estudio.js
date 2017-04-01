@@ -118,19 +118,22 @@ module.exports = {
     //get id of estudio
     let estudioId = request.params.id;
     //find estudio
-    Estudio.findOne({
+    Estudio.findOneAndUpdate({
       _id: estudioId
+    },
+    {
+      status: 'Eliminado'
     })
     .then((myEstudio) => {
       //delete estudio
-      myEstudio.delete()
-      .then(() => {
+      // myEstudio.delete()
+      // .then(() => {
         return response.sendStatus(200);
-      })
-      .catch((err) => {
-        console.log(err);
-        return response.sendStatus(500);
-      })
+      // })
+      // .catch((err) => {
+        // console.log(err);
+        // return response.sendStatus(500);
+      // })
     })
     .catch((e) => {
       console.log(e);

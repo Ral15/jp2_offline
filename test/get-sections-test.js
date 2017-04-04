@@ -67,7 +67,7 @@ describe('Get Sections', function () {
       return client.waitForVisible('#estudios-btn');
     })
     .then((estudiosButton) => {
-      if (estudiosButton) if (fs.existsSync(sectionsPath)) assert.isOk(true, 'test is ok');
+      if (estudiosButton && fs.existsSync(sectionsPath)) assert.isOk(true, 'test is ok');
     });
   });
 });

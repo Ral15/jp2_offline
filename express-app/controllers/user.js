@@ -3,7 +3,7 @@ const req = require('request');
 const isOnline = require('is-online');
 const urls = require('../routes/urls');
 const Estudio = require('../models/estudio');
-const Section = require('./section');
+const SectionController = require('./section');
 
 module.exports = {
   /**
@@ -85,7 +85,7 @@ module.exports = {
           newUser.save()
           .then((user) => {
             response.render('dashboard', {user: user});
-            Section.getQuestions(user, request, response);
+            SectionController.getQuestions(user, request, response);
           })
           .catch((err) => {
             console.log(err);

@@ -1,5 +1,5 @@
 module.exports = {
-  DEBUG: true,
+  DEBUG: false,
   //production
   ENV: 'testing',
   SECRET_SESSION: 'erikiano'

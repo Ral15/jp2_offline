@@ -59,6 +59,7 @@ describe('Create Estudio test', function () {
     .then((total) => {
       totalEstudios = total;
       let e = Estudio.create({
+        //change later for config
         tokenCapturista: '4cbc8cb63b1dd6f0093eddbb0518866821e6f1b0',
         familia: {
           bastardos: 10,
@@ -97,7 +98,7 @@ describe('Create Estudio test', function () {
     return database.dropDatabase();
   });
   /**
-  * Test Create Estudio Button
+  * Test Delete estudio button with estudio._id
   *
   * Test if the crear-estudio button exists in the
   * application.
@@ -117,234 +118,77 @@ describe('Create Estudio test', function () {
   });
 
   /**
-  * Test create Estudio form
+  * Test delete estudio
   *
-  * This test will check if there is a form to create a estudio
+  * This test will check if a modal shows before deleting an estudio
   */
-  // it('should fill create estudio form', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username','raul')
-  //     .setValue('#password','erikiado123')
-  //     .click('#submit-login')
-  //     .click('#crear-estudio')
-  //     .waitForVisible('#street')
-  //     .setValue('#street', 'Priv. Camino Real #112 int #9')
-  //     .setValue('#street2', 'Los Fresnos')
-  //     .setValue('#zipCode', '23094')
-  //     .setValue('#bastards', '100')
-  //     .$('#location').selectByAttribute('value', 'Otro')
-  //     .$('#martialStatus').selectByAttribute('value', 'Soltero')
-  //     .then(() => {
-  //       return client.getValue('#street');
-  //     })
-  //     .then((streetValue) => {
-  //       assert.equal(streetValue, 'Priv. Camino Real #112 int #9');
-  //       return client.getValue('#street2');
-  //     })
-  //     .then((street2Value) => {
-  //       assert.equal(street2Value, 'Los Fresnos');
-  //       return client.getValue('#zipCode');
-  //     })
-  //     .then((zipCodeValue) => {
-  //       assert.equal(zipCodeValue, '23094');
-  //       return client.getValue('#bastards');
-  //     })
-  //     .then((bastardsValue) => {
-  //       assert.equal(bastardsValue, '100');
-  //       return client.$('#location').getValue();
-  //     })
-  //     .then((locationValue) => {
-  //       assert.equal(locationValue, 'Otro');
-  //       return client.$('#martialStatus').getValue();
-  //     })
-  //     .then((martialValue) => {
-  //       assert.equal(martialValue, 'Soltero');
-  //       return client.$('#create-family');
-  //     })
-  //     .then((valueButton) => {
-  //       assert.isNotNull(valueButton.value);
-  //     });
-  // });
+  it('should see modal before deleting an estudio', async function () {
+    const client = this.app.client;
+    return client.setValue('#username','raul')
+      .setValue('#password','erikiado123')
+      .click('#submit-login')
+      .click('#delete-estudio-' + estudioId)
+      .then(async () => {
+        await sleep(1000);
+        return client.getText('#modalContentId');
+      })
+      .then((modalText) => {
+        assert.equal(modalText, 'No podras recuperar el estudio después de esta acción.');
+      });
+  });
   /**
-  * Test create Estudio form with no input for street
+  * Test delete estudio
   *
-  * This test will check if the form is validated
+  * This test will cancel the modal
   */
-  // it('should fill with NO street value estudio form', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username','raul')
-  //     .setValue('#password','erikiado123')
-  //     .click('#submit-login')
-  //     .click('#crear-estudio')
-  //     .waitForVisible('#street')
-  //     .setValue('#street', '')
-  //     .setValue('#street2', 'Los Fresnos')
-  //     .setValue('#zipCode', '76159')
-  //     .setValue('#bastards', '100')
-  //     .$('#location').selectByAttribute('value', 'Otro')
-  //     .$('#martialStatus').selectByAttribute('value', 'Soltero')
-  //     .then(() => {
-  //       return client.getAttribute('#create-family', 'class');
-  //     })
-  //     .then((buttonAttributes) => {
-  //       assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-  //     });
-  // });
+  it('should cancel delete estudio sweetalert2', async function () {
+    const client = this.app.client;
+    return client.setValue('#username','raul')
+      .setValue('#password','erikiado123')
+      .click('#submit-login')
+      .click('#delete-estudio-' + estudioId)
+      .waitForVisible('#modalContentId')
+      .click('.swal2-cancel')
+      .then(async () => {
+        await sleep(1000);
+        return client.$('#delete-estudio-' + estudioId);
+      })
+      .then((estudioButton) => {
+        assert.isNotNull(estudioButton.value);
+      });
+  });
   /**
-  * Test create Estudio form with no input for street2
+  * Test delete estudio
   *
-  * This test will check if the form is valdated
+  * This test will delete an estudio
   */
-  // it('should fill with NO street2 value estudio form', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username','raul')
-  //     .setValue('#password','erikiado123')
-  //     .click('#submit-login')
-  //     .click('#crear-estudio')
-  //     .waitForVisible('#street')
-  //     .setValue('#street', 'Priv. Camino Real #112 int #9')
-  //     .setValue('#street2', '')
-  //     .setValue('#zipCode', '76159')
-  //     .setValue('#bastards', '100')
-  //     .$('#location').selectByAttribute('value', 'Otro')
-  //     .$('#martialStatus').selectByAttribute('value', 'Soltero')
-  //     .then(() => {
-  //       return client.getAttribute('#create-family', 'class');
-  //     })
-  //     .then((buttonAttributes) => {
-  //       assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-  //     });
-  // });
-  /**
-  * Test create Estudio form with no input for zipCode
-  *
-  * This test will check if the form is valdated
-  */
-  // it('should fill with NO zipCode value estudio form', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username','raul')
-  //     .setValue('#password','erikiado123')
-  //     .click('#submit-login')
-  //     .click('#crear-estudio')
-  //     .waitForVisible('#street')
-  //     .setValue('#street', 'Priv. Camino Real #112 int #9')
-  //     .setValue('#street2', 'Los Fresnos')
-  //     .setValue('#zipCode', '')
-  //     .setValue('#bastards', '100')
-  //     .$('#location').selectByAttribute('value', 'Otro')
-  //     .$('#martialStatus').selectByAttribute('value', 'Soltero')
-  //     .then(() => {
-  //       return client.getAttribute('#create-family', 'class');
-  //     })
-  //     .then((buttonAttributes) => {
-  //       assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-  //     });
-  // });
-/**
-  * Test create Estudio form with no input for bastards
-  *
-  * This test will check if the form is valdated
-  */
-  // it('should fill with NO bastards value estudio form', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username','raul')
-  //     .setValue('#password','erikiado123')
-  //     .click('#submit-login')
-  //     .click('#crear-estudio')
-  //     .waitForVisible('#street')
-  //     .setValue('#street', 'Priv. Camino Real #112 int #9')
-  //     .setValue('#street2', 'Los Fresnos')
-  //     .setValue('#zipCode', '76159')
-  //     .setValue('#bastards', '')
-  //     .$('#location').selectByAttribute('value', 'Otro')
-  //     .$('#martialStatus').selectByAttribute('value', 'Soltero')
-  //     .then(() => {
-  //       return client.getAttribute('#create-family', 'class');
-  //     })
-  //     .then((buttonAttributes) => {
-  //       assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-  //     });
-  // });
-/**
-  * Test create Estudio form with no input for location
-  *
-  * This test will check if the form is valdated
-  */
-  // it('should fill with NO location value estudio form', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username','raul')
-  //     .setValue('#password','erikiado123')
-  //     .click('#submit-login')
-  //     .click('#crear-estudio')
-  //     .waitForVisible('#street')
-  //     .setValue('#street', 'Priv. Camino Real #112 int #9')
-  //     .setValue('#street2', 'Los Fresnos')
-  //     .setValue('#zipCode', '76159')
-  //     .setValue('#bastards', '100')
-  //     .$('#location').selectByAttribute('value', '')
-  //     .$('#martialStatus').selectByAttribute('value', 'Soltero')
-  //     .then(() => {
-  //       return client.getAttribute('#create-family', 'class');
-  //     })
-  //     .then((buttonAttributes) => {
-  //       assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-  //     });
-  // });
-/**
-  * Test create Estudio form with no input for martialStatus
-  *
-  * This test will check if the form is valdated
-  */
-  // it('should fill with NO martialStatus value estudio form', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username','raul')
-  //     .setValue('#password','erikiado123')
-  //     .click('#submit-login')
-  //     .click('#crear-estudio')
-  //     .waitForVisible('#street')
-  //     .setValue('#street', 'Priv. Camino Real #112 int #9')
-  //     .setValue('#street2', 'Los Fresnos')
-  //     .setValue('#zipCode', '76159')
-  //     .setValue('#bastards', '1')
-  //     .$('#location').selectByAttribute('value', 'Otro')
-  //     .$('#martialStatus').selectByAttribute('value', '')
-  //     .then(() => {
-  //       return client.getAttribute('#create-family', 'class');
-  //     })
-  //     .then((buttonAttributes) => {
-  //       assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-  //     });
-  // });
-/**
-  * Test create Estudio form
-  *
-  * This test will check if an estudio is created in the db
-  */
-  // it('should fill with NO martialStatus value estudio form', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username','raul')
-  //     .setValue('#password','erikiado123')
-  //     .click('#submit-login')
-  //     .click('#crear-estudio')
-  //     .waitForVisible('#street')
-  //     .setValue('#street', 'Priv. Camino Real #112 int #9')
-  //     .setValue('#street2', 'Los Fresnos')
-  //     .setValue('#zipCode', '76159')
-  //     .setValue('#bastards', '1')
-  //     .$('#location').selectByAttribute('value', 'Otro')
-  //     .$('#martialStatus').selectByAttribute('value', 'Soltero')
-  //     .click('#create-family')
-  //     .waitForVisible('#familySection')
-  //     .then(() => {
-  //       return connect(dbUri);
-  //     })
-  //     .then((db) => {
-  //       database = db;
-  //       return Estudio.count();
-  //     })
-  //     .then((newTotal) => {
-  //       //check if there is more etudios
-  //       assert.isBelow(totalEstudios, newTotal);
-  //     });
-  // });
+  it('should delete an estudio change its status', async function () {
+    const client = this.app.client;
+    return client.setValue('#username','raul')
+      .setValue('#password','erikiado123')
+      .click('#submit-login')
+      .click('#delete-estudio-' + estudioId)
+      .waitForVisible('#modalContentId')
+      .click('.swal2-confirm')
+      .then(async () => {
+        await sleep(1000);
+        return client.getText('#modalTitleId');
+      })
+      .then(async (modalValue) => {
+        assert.equal(modalValue, '¡Éxito!');
+        await sleep(1000);
+        return client.click('.swal2-confirm');
+      })
+      .then(async () => {
+        await sleep(1000);
+        return client.click('#show-deleted');
+      })
+      .then(async () => {
+        await sleep(1000);
+        return client.isVisible('#delete-estudio-' + estudioId);
+      })
+      .then((isVisible) => {
+        assert.isTrue(isVisible);
+      })
+  });
 });

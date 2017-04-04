@@ -125,15 +125,7 @@ module.exports = {
       status: 'Eliminado'
     })
     .then((myEstudio) => {
-      //delete estudio
-      // myEstudio.delete()
-      // .then(() => {
         return response.sendStatus(200);
-      // })
-      // .catch((err) => {
-        // console.log(err);
-        // return response.sendStatus(500);
-      // })
     })
     .catch((e) => {
       console.log(e);

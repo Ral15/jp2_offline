@@ -9,12 +9,12 @@
 		"login" : "/perfiles-usuario/obtain-auth-token/",
 		"questions" : "/captura/api-obtener-informacion-preguntas/"
 	},
-	"member": "/estuido/member/",
+	"member": "/estudio/member/",
 	"estudio": "/estudio/",
 	"estudioCreate": "/estudio/create/",
 	"estudioDelete": "/estudio/delete/:id",
 	"getEstudios" : "/estudio/get/",
 	"member": "/family/member/",
-	"memberCreate": "/family/member/create/"
+	"memberCreate": "/estudio/member/create/"
 }
 

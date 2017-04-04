@@ -28,7 +28,6 @@ module.exports = {
         if (doc) {
           Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
           .then((e) => {
-            console.log(e);
             request.session.user = doc;
             response.render('dashboard', {user: doc, estudios: e, active: 'Borrador' });
           })
@@ -83,6 +82,7 @@ module.exports = {
           // Try to save user at db
           newUser.save()
           .then((user) => {
+            request.session.user = user;
             response.render('dashboard', {user: user, active: 'Borrador'});
           })
           .catch((err) => {

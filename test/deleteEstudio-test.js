@@ -4,6 +4,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const Estudio = require(path.join(__dirname , '../express-app/models/estudio.js'));
+const config = require('../config.js');
 
 
 //Database connection
@@ -60,7 +61,7 @@ describe('Create Estudio test', function () {
       totalEstudios = total;
       let e = Estudio.create({
         //change later for config
-        tokenCapturista: '4cbc8cb63b1dd6f0093eddbb0518866821e6f1b0',
+        tokenCapturista: config.apiToken,
         familia: {
           bastardos: 10,
           estadoCivil: 'Soltero',
@@ -106,8 +107,8 @@ describe('Create Estudio test', function () {
   it('should see delete estudio button', async function () {
     const client = this.app.client;
     // await sleep(500);
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .then(() => {
         return client.$('#delete-estudio-' + estudioId);
@@ -124,8 +125,8 @@ describe('Create Estudio test', function () {
   */
   it('should see modal before deleting an estudio', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#delete-estudio-' + estudioId)
       .then(async () => {
@@ -143,8 +144,8 @@ describe('Create Estudio test', function () {
   */
   it('should cancel delete estudio sweetalert2', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#delete-estudio-' + estudioId)
       .waitForVisible('#modalContentId')
@@ -164,8 +165,8 @@ describe('Create Estudio test', function () {
   */
   it('should delete an estudio change its status', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#delete-estudio-' + estudioId)
       .waitForVisible('#modalContentId')

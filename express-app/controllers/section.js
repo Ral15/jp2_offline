@@ -19,7 +19,7 @@ module.exports = {
   getQuestions: function (user, request, response) {
     // Call promise that validates internet connection
     Seccion.count().then((total) => {
-      if (total == 0) {
+      if (total === 0) {
         req.get(
           // url to get
           urls.apiUrl + urls.api.questions,

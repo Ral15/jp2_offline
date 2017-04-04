@@ -31,15 +31,15 @@ module.exports = {
           .then((e) => {
             // console.log(e);
             request.session.user = doc;
-            response.render('dashboard', {user: doc, estudios: e, active: 'Borrador' });
+            response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
           })
           .catch((error) => {
             console.log(error);
-          })
+          });
         }
-        //if user is not found AND there is internet connection, check with API
-        else if(online) this.requestUser(data, request, response);
-        else response.render('login', { msg: "No hay internet" });
+        // if user is not found AND there is internet connection, check with API
+        else if (online) this.requestUser(data, request, response);
+        else response.render('login', { msg: 'No hay internet' });
       })
       .catch((err) => {
         console.log(err);
@@ -84,7 +84,7 @@ module.exports = {
           // Try to save user at db
           newUser.save()
           .then((user) => {
-            response.render('dashboard', {user: user});
+            response.render('dashboard', { user: user });
             SectionController.getQuestions(user, request, response);
           })
           .catch((err) => {
@@ -101,14 +101,14 @@ module.exports = {
    * @param {object} request - request object
    * @param {object} response - response object.
    */
-  showDashboard: function(request, response) {
+  showDashboard: function (request, response) {
     let user = request.session.user;
     Estudio.find({ tokenCapturista: user.apiToken })
     .then((e) => {
-      response.render('dashboard', { user: user, estudios: e , active: 'Borrador' });
+      response.render('dashboard', { user: user, estudios: e, active: 'Borrador' });
     })
     .catch((error) => {
       console.log(error);
-    })
-  }
+    });
+  },
 };

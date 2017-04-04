@@ -27,23 +27,23 @@ class Pregunta extends EmbeddedDocument {
     this.id = {
       type: Number,
       default: 0,
-      required: true
+      required: true,
     };
     this.idSubseccion = {
       type: Number,
-      default: 0
+      default: 0,
     };
     this.texto = {
       type: String,
-      default: ''
+      default: '',
     };
     this.descripcion = {
       type: String,
-      default: ''
+      default: '',
     };
     this.orden = {
       type: Number,
-      default: 0
+      default: 0,
     };
     this.opcionesRespuesta = [OpcionRespuesta];
   }

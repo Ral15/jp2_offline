@@ -1,8 +1,6 @@
-//require embedded document class from camo
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+// require embedded document class from camo
+const EmbeddedDocument = require('camo').EmbeddedDocument;
 const OpcionRespuesta = require('./opcionRespuesta.js');
-
-
 
 /*
  * The model that stores the actual questions.
@@ -27,25 +25,25 @@ class Pregunta extends EmbeddedDocument {
     super();
 
     this.id = {
-      type : Number,
-      default : 0,
-      required : true
+      type: Number,
+      default: 0,
+      required: true
     };
     this.idSubseccion = {
-      type : Number,
-      default : 0
+      type: Number,
+      default: 0
     };
     this.texto = {
-      type : String,
-      default : ''
+      type: String,
+      default: ''
     };
     this.descripcion = {
-      type : String,
-      default : ''
+      type: String,
+      default: ''
     };
     this.orden = {
-      type : Number,
-      default : 0
+      type: Number,
+      default: 0
     };
     this.opcionesRespuesta = [OpcionRespuesta];
   }

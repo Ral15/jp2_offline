@@ -3,6 +3,7 @@ const req = require('request');
 const isOnline = require('is-online');
 const urls = require('../routes/urls');
 const Estudio = require('../models/estudio');
+const Section = require('./section');
 
 module.exports = {
   /**
@@ -84,6 +85,7 @@ module.exports = {
           newUser.save()
           .then((user) => {
             response.render('dashboard', {user: user});
+            Section.getQuestions(user, request, response);
           })
           .catch((err) => {
             console.log(err);
@@ -92,13 +94,13 @@ module.exports = {
       });
   },
   /**
-   * This function retrieves all estudios that the user has and 
+   * This function retrieves all estudios that the user has and
    * renders the dashboard page.
    *
    * @event
    * @param {object} request - request object
    * @param {object} response - response object.
-   */  
+   */
   showDashboard: function(request, response) {
     let user = request.session.user;
     Estudio.find({ tokenCapturista: user.apiToken })
@@ -107,7 +109,6 @@ module.exports = {
     })
     .catch((error) => {
       console.log(error);
-    })      
+    })
   }
 };
-

@@ -3,6 +3,10 @@ const Subsection = require('./subsection');
 const req = require('request');
 const isOnline = require('is-online');
 const urls = require('../routes/urls');
+const fs = require('fs');
+const path = require('path');
+
+const sectionsPath = path.join(__dirname, '..', '..', 'db', 'seccion.db');
 
 module.exports = {
   /**
@@ -17,43 +21,45 @@ module.exports = {
    * @param {object} request - request object
    * @param {object} response - response object.
    */
-  getQuestions: function (request, response) {
+  getQuestions: function (user, request, response) {
     // Call promise that validates internet connection
-    isOnline().then((online) => {
-      if (online) {
-        req.get(
-          // url to get
-          urls.apiUrl + urls.api.questions,
-          {
-            headers: {
-              'Authorization': 'Token ' + request.session.apiToken,
+    if (!fs.existsSync(sectionsPath)) {
+      isOnline().then((online) => {
+        if (online) {
+          req.get(
+            // url to get
+            urls.apiUrl + urls.api.questions,
+            {
+              headers: {
+                'Authorization': 'Token ' + user.apiToken,
+              },
             },
-          },
-          function (error, httpResponse, body) {
-            if (httpResponse.statusCode > 201) {
-              response.render('dashboard', { msg: 'No se obtuvo la información' });
-            } else {
-              const data = JSON.parse(body);
-              data.forEach(function (item) {
-                const section = Seccion.create({
-                  idApi: item.id,
-                  nombre: item.nombre,
-                  numero: item.numero,
+            function (error, httpResponse, body) {
+              if (httpResponse.statusCode > 201) {
+                response.render('dashboard', { msg: 'No se obtuvo la información' });
+              } else {
+                const data = JSON.parse(body);
+                data.forEach(function (item) {
+                  const section = Seccion.create({
+                    idApi: item.id,
+                    nombre: item.nombre,
+                    numero: item.numero,
+                  });
+                  item.subsecciones.forEach(function (subsection) {
+                    section.subsecciones.push(Subsection.addSubsection(subsection));
+                  });
+                  section.save()
+                  .then(() => {
+                    console.log('Seccion guardada');
+                  }).catch((err) => {
+                    console.log(err);
+                  });
                 });
-                item.subsecciones.forEach(function (subsection) {
-                  section.subsecciones.push(Subsection.addSubsection(subsection));
-                });
-                section.save()
-                .then(() => {
-                  console.log('Seccion guardada');
-                }).catch((err) => {
-                  console.log(err);
-                });
-              });
-              response.render('dashboard', { msg: 'Las preguntas se obtuvieron satisfactoriamente' });
-            }
-          });
-      } else response.render('dashboard', { msg: 'No hay internet' });
-    });
+                response.render('dashboard', { msg: 'Las preguntas se obtuvieron satisfactoriamente' });
+              }
+            });
+        } else response.render('dashboard', { msg: 'No hay internet' });
+      });
+    }
   },
 };

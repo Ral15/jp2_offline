@@ -7,7 +7,7 @@ const fs = require('fs');
 const assert = chai.assert;
 // Set the direction to launch the electron app.
 var electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
-const sectionsPath = path.join(__dirname, '..', 'db', 'section.db');
+const sectionsPath = path.join(__dirname, '..', 'db', 'seccion.db');
 
 // If the platform is win32, we use de .cmd to launch
 // the app.
@@ -60,18 +60,14 @@ describe('Get Sections', function () {
   */
   it('should get sections', function () {
     const client = this.app.client;
-    return client.setValue('#username', 'hermit')
-    .setValue('#password', 'ferada9495')
+    return client.setValue('#username', 'raul')
+    .setValue('#password', 'erikiado123')
     .click('#submit-login')
     .then(() => {
-      return client.$('#secciones-btn');
+      return client.waitForVisible('#estudios-btn');
     })
-    .then((sectionsButton) => {
-      assert.isNotNull(sectionsButton.value);
-      return client.click('#secciones-btn');
-    })
-    .then(() => {
-      if (fs.existsSync(sectionsPath)) assert.isOk(true, 'test is ok');
+    .then((estudiosButton) => {
+      if (estudiosButton) if (fs.existsSync(sectionsPath)) assert.isOk(true, 'test is ok');
     });
   });
 });

@@ -84,7 +84,6 @@ module.exports = {
           // Try to save user at db
           newUser.save()
           .then((user) => {
-            response.render('dashboard', { user: user });
             SectionController.getQuestions(user, request, response);
           })
           .catch((err) => {

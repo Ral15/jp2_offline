@@ -51,6 +51,8 @@ module.exports = {
             }
           });
       }
+    }).then(() => {
+      response.render('dashboard', { user: user });
     }).catch((error) => {
       console.log(error);
     });

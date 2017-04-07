@@ -7,7 +7,7 @@ const familyController = require('../controllers/family');
 
 // POST to create family members
 router.post(urls.memberCreate, function(req, res) {
-	familyController.createMembers(req,res);
+	familyController.editMembers(req,res);
 });
 
 

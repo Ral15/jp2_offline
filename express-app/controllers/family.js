@@ -1,6 +1,7 @@
 const Familia  = require('../models/familia');
 const Miembro = require('../models/miembro');
 const Tutor = require('../models/tutor');
+const Estudio = require('../models/estudio');
 const Estudiante = require('../models/estudiante');
 
 module.exports = {
@@ -17,7 +18,8 @@ module.exports = {
       calle: data.street,
       colonia: data.street2,
       codigoPostal: Number(data.zipCode),
-      localidad: data.location
+      localidad: data.location,
+      miembros: data.members
     });
   },
   /**
@@ -28,18 +30,19 @@ module.exports = {
   * 
   * @event
   * @param {object} data - data from the form
-  * @param {string} id - id from the family to update
   */  
-  editFamily: function(data, id) {
+  editFamily: function(data) {
     return {
       bastardos: Number(data.bastards),
       estadoCivil: data.martialStatus,
       calle: data.street,
       colonia: data.street2,
       codigoPostal: Number(data.zipCode),
-      localidad: data.location        
+      localidad: data.location,
+      miembros: data.members
     };
   },
+  // editMembers: function()
   /**
   * This function creates a member in the family model.
   * Data obtained from the form is parsed, then it creates 
@@ -49,27 +52,42 @@ module.exports = {
   * @param {object} request - request object 
   * @param {object} response - response object.
   */   
-  createMembers: function (request, response) {
+  editMembers: function (request, response) {
     //get all data from POST
     const data = request.body;
-    // console.log(data);
+    //get estudioId
+    const estudioId = request.query.estudioId;
     const newData = this.parseData(data);
-    console.log(newData);
     //create members of the family
-    let family = Familia.create();
+    let familyMiembros = [];
     newData.map((m) => {
-      console.log(m);
-      if (m.role == 'estudiante') family.miembros.push(this.addStudent(m));
-      else if (m.role == '') family.miembros.push(this.addMember(m));
-      else family.miembros.push(this.addTutor(m));
+      familyMiembros.push(this.addMember(m));
     });
-    //family
-    family.save().then((f) => {
-      console.log('es de fam');
-      console.log(f);
-    }).catch((err) => {
-      console.log(err);
+    //find estudio
+    Estudio.findOne({
+      _id: estudioId
     })
+    .then((currEstudio) => {
+      const newFamily = {
+        calle: currEstudio.familia.calle,
+        colonia: currEstudio.familia.colonia,
+        bastardos: currEstudio.familia.bastardos,
+        estadoCivil: currEstudio.familia.estadoCivil,
+        codigoPostal: currEstudio.familia.codigoPostal,
+        localidad: currEstudio.familia.localidad,
+        miembros: familyMiembros,
+      };
+      return Estudio.findOneAndUpdate({_id: estudioId}, {familia: newFamily});
+    })
+    .then((newEstudio) => {
+      response.render('income', {
+        estudioId: newEstudio._id,
+        members: newEstudio.familia.miembros.filter((m) => m.relacion != 'Estudiante'),
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   },
   /**
   * This functions converts data from POST to a more handable object
@@ -88,14 +106,17 @@ module.exports = {
     return newArray;
   },
   /**
+  ******************DEPRECATED**************************
   * This function adds a Student Member to a Family
   * 
   * 
   * @event
   * @param {object} data - data of the member
+  *****************************************************
   */
   addStudent: function(data) {
-    return Estudiante.create({
+    // return Estudiante.create({
+    return {
       nombres: data.firstName,
       apellidos: data.lastName, 
       edad: data.age,
@@ -105,16 +126,19 @@ module.exports = {
       correo: data.email,
       //missing sae field*****
       sae: '10' 
-    });
+    };
   },
   /**
-  * This function adds a Tutor member to a family
+  ****************DEPRECATED*********************  
+  * This function adds a Tutor member to a family 
   * 
   * @event
   * @param {object} data - data of the memeber
+  ************************************************
   */ 
   addTutor: function(data) {
-    return Tutor.create({
+    // return Tutor.create({
+    return {
       nombres: data.firstName,
       apellidos: data.lastName, 
       edad: data.age,
@@ -123,7 +147,7 @@ module.exports = {
       telefono: data.phone,
       correo: data.email,
       relacion: data.role      
-    });
+    };
   },
   /**
   * This function adds a Member to a Family
@@ -133,7 +157,8 @@ module.exports = {
   * @param {object} data - data of the memeber 
   */   
   addMember: function(data) {
-    return Miembro.create({
+    // return Miembro.create({
+    return {
       nombres: data.firstName,
       apellidos: data.lastName, 
       edad: data.age,
@@ -141,6 +166,9 @@ module.exports = {
       fechaNacimiento: data.birthDate,
       telefono: data.phone,
       correo: data.email,
-    });
+      relacion: data.role,
+      sae: data.sae,
+      escuela: data.school
+    };
   }
 }

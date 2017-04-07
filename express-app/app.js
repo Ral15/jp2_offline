@@ -35,6 +35,11 @@ hbs.registerHelper('ifEq', function(v1, v2, opt) {
 		opt.inverse(this);
 	}
 });
+hbs.registerHelper('select', function(selected, options) {
+    return options.fn(this).replace(
+        new RegExp(' value=\"' + selected + '\"'),
+        '$& selected="selected"');
+});
 // setup cors
 app.use(cors())
 //view engine setup

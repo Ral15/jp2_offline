@@ -41,12 +41,14 @@
                     <div class="form-group col-xs-3">
                       <label for="location">Localidad*</label>
                       <select class="form-control" id="location" name="location" required>
+                        {{#select family.localidad}}
                         <option value=""></option>
                         <option value="Poblado Jurica">Poblado Jurica</option>
                         <option value="Nabo">Nabo</option>
                         <option value="Salitre">Salitre</option>
                         <option value="La Campana">La Campana</option>
                         <option value="Otro">Otro</option>
+                        {{/select}}
                       </select>
                     </div>
                     <h4>Información General</h4>
@@ -58,6 +60,7 @@
                     <div class="form-group col-xs-6">
                       <label for="martialStatus" class="control-label">Estado Civil*</label>
                       <select class="form-control" id="martialStatus" name="martialStatus" required>
+                        {{#select family.estadoCivil}}
                         <option value=""></option>
                         <option value="Soltero">Soltero</option>
                         <option value="Viudo">Viudo</option>
@@ -65,10 +68,11 @@
                         <option value="Casado-Civil">Casado-Civil</option>
                         <option value="Casado-Iglesia">Casado-Iglesia</option>
                         <option value="Divorciado Vuelto a Casar">Divorciado Vuelto a Casar</option>
+                        {{/select}}
                       </select>
                     </div>
                     <div class="form-group col-xs-8 col-xs-offset-2">
-                      <button type="submit" id="create-family" class="btn btn-primary btn-block">Crear familia</button>
+                      <button type="submit" id="create-family" class="btn btn-primary btn-block">Guardar familia</button>
                     </div>
                   </div>
                 </form>

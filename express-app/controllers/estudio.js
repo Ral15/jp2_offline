@@ -1,7 +1,7 @@
 const Estudio = require('../models/estudio');
 const Familia = require('../models/familia');
 const familyController = require('./family');
-
+const Miembro = require('../models/miembro');
 
 module.exports = {
   /**
@@ -50,6 +50,9 @@ module.exports = {
     const token = request.session.user.apiToken;
     //get data from request
     const data = request.body;
+    //create default members
+    const defaultMember = [Miembro.create(), Miembro.create()];
+    data.members = defaultMember;
     //create familia
     let newFamily = familyController.createFamily(data);
     //create estudio
@@ -60,7 +63,6 @@ module.exports = {
     //save estudio
     estudio.save()
     .then((newEstudio) => {
-      console.log(newEstudio);
       response.render('members', {
         userToken: token, 
         estudioId: newEstudio._id, 
@@ -87,17 +89,41 @@ module.exports = {
     const token = request.session.user.apiToken;
     const data = request.body;
     //get object with the new values for a family
-    let editedFamily = familyController.editFamily(data);
-    Estudio.findOneAndUpdate({ _id: estudioId },
+    Estudio.findOne({_id: estudioId})
+    .then((currEstudio) => {
+      //create array where members info will be stored
+      let allMembers = [];
+      //iterate over all miembros in the currEstudio
+      currEstudio.familia.miembros.map((i) => {
+        allMembers.push({
+          nombres: i.nombres,
+          apellidos: i.apellidos,
+          telefono: i.telefono,
+          correo: i.correo,
+          nivelEstudios: i.nivelEstudios,
+          fechaNacimiento: i.fechaNacimiento,
+          edad: i.edad,
+          activo: i.activo,
+          relacion: i.relacion,
+          escuela: i.escuela,
+          sae: i.sae,
+        });
+      });
+      //add all memebers to data object
+      data.members = allMembers;
+      //create object with the new family data
+      let editedFamily = familyController.editFamily(data);
+      //return promise that updates family
+      return Estudio.findOneAndUpdate({_id: estudioId}, 
       {
         familia: editedFamily
-      }
-    )
+      });
+    })
     .then((editedEstudio) => {
       response.render('members', {
         userToken: token, 
         estudioId: editedEstudio._id,
-        family: editedFamily
+        family: editedEstudio.familia
       });      
     })
     .catch((error) => {

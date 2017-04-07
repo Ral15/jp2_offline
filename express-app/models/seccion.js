@@ -18,6 +18,11 @@ class Seccion extends Document {
   constructor() {
     super();
 
+    this.estudioId = {
+      type: String,
+      required: true,
+    };
+
     this.idApi = {
       type: Number,
       default: 0,

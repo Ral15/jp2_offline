@@ -5,6 +5,7 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
 
 //options for martial status
 const academicDegreeChoices = [
+  '',
   '1_grado',
   '2_grado',
   '3_grado',
@@ -20,6 +21,13 @@ const academicDegreeChoices = [
   'universidad',
   'maestria',
   'doctorado'
+];
+const relationOptions = [
+  '',
+  'Madre',
+  'Padre',
+  'Tutor',
+  'Estudiante',
 ];
 
 /*
@@ -68,20 +76,32 @@ class Miembro extends EmbeddedDocument {
     };
     this.nivelEstudios = {
       type: String,
-      default: '',
+      default: academicDegreeChoices[0],
       choices: academicDegreeChoices
     };
     this.fechaNacimiento = {
       type: Date,
-      default: ''
     };
     this.edad = {
       type: Number,
-      default: 0
+      default: null
     };
     this.activo = {
       type: Boolean,
       default: true
+    };
+    this.sae = {
+      type: String,
+      default: '',
+    };
+    this.relacion = {
+      type: String,
+      default: relationOptions[0],
+      choices: relationOptions,
+    };
+    this.escuela = {
+      type: String,
+      default: ''
     };
   }
 

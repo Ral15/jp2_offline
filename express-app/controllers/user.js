@@ -28,7 +28,6 @@ module.exports = {
         if (doc) {
           Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
           .then((e) => {
-            // console.log(e);
             request.session.user = doc;
             response.render('dashboard', {user: doc, estudios: e, active: 'Borrador' });
           })
@@ -83,7 +82,8 @@ module.exports = {
           // Try to save user at db
           newUser.save()
           .then((user) => {
-            response.render('dashboard', {user: user});
+            request.session.user = user;
+            response.render('dashboard', {user: user, active: 'Borrador'});
           })
           .catch((err) => {
             console.log(err);
@@ -98,10 +98,10 @@ module.exports = {
    * @event
    * @param {object} request - request object
    * @param {object} response - response object.
-   */  
+   */   
   showDashboard: function(request, response) {
     let user = request.session.user;
-    Estudio.find({ tokenCapturista: user.apiToken })
+    Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
     .then((e) => {
       response.render('dashboard', { user: user, estudios: e , active: 'Borrador' });
     })

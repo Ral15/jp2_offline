@@ -1,6 +1,6 @@
 {
 	"home": "/",
-	"apiUrl" : "http://127.0.0.1:8000",
+	"apiUrl" : "http://junipero.erikiado.com",
 	"createUser": "/user/create",
 	"login": "/user/login",
 	"dashboard" : "/user/dashboard",

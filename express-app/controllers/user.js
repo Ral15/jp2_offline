@@ -34,6 +34,7 @@ module.exports = {
           })
           .catch((error) => {
             console.log(error);
+            response.render('error', { msg: 'No se pudieron obtener los estudios' });
           })
         }
         //if user is not found AND there is internet connection, check with API
@@ -42,6 +43,7 @@ module.exports = {
       })
       .catch((err) => {
         console.log(err);
+        response.render('error', { msg: 'No se pudo obtener al usuario' });
       });
     });
   },
@@ -87,18 +89,19 @@ module.exports = {
           })
           .catch((err) => {
             console.log(err);
+            response.render('error', { msg: 'No se pudo crear el estudio' });
           });
         }
       });
   },
   /**
-   * This function retrieves all estudios that the user has and 
+   * This function retrieves all estudios that the user has and
    * renders the dashboard page.
    *
    * @event
    * @param {object} request - request object
    * @param {object} response - response object.
-   */  
+   */
   showDashboard: function(request, response) {
     let user = request.session.user;
     Estudio.find({ tokenCapturista: user.apiToken })
@@ -107,7 +110,7 @@ module.exports = {
     })
     .catch((error) => {
       console.log(error);
-    })      
+      response.render('error', { msg: 'No se pudieron obtener los estudios' });
+    })
   }
 };
-

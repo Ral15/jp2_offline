@@ -8,7 +8,10 @@ router.get(urls.home, function(req, res) {
   res.render('login');
 });
 
-// In the future, 404, 500 routes should be in this file
+//GET error page.
+router.get(urls.error, function(req, res) {
+  res.render('error');
+});
 
 
 module.exports = router;

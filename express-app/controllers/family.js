@@ -6,10 +6,10 @@ const Estudiante = require('../models/estudiante');
 module.exports = {
   /**
   * This function returns a a created family
-  * 
+  *
   * @event
   * @param {object} data - data from the form
-  */   
+  */
   createFamily: function(data) {
     return Familia.create({
       bastardos: Number(data.bastards),
@@ -21,15 +21,15 @@ module.exports = {
     });
   },
   /**
-  * This function returns a an object with the  
-  * information of a new family, it has to be an object 
+  * This function returns a an object with the
+  * information of a new family, it has to be an object
   * because of an issue with camo.
   * https://github.com/scottwrobinson/camo/issues/81
-  * 
+  *
   * @event
   * @param {object} data - data from the form
   * @param {string} id - id from the family to update
-  */  
+  */
   editFamily: function(data, id) {
     return {
       bastardos: Number(data.bastards),
@@ -37,18 +37,18 @@ module.exports = {
       calle: data.street,
       colonia: data.street2,
       codigoPostal: Number(data.zipCode),
-      localidad: data.location        
+      localidad: data.location
     };
   },
   /**
   * This function creates a member in the family model.
-  * Data obtained from the form is parsed, then it creates 
+  * Data obtained from the form is parsed, then it creates
   * the member with the role specified.
-  * 
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */   
+  */
   createMembers: function (request, response) {
     //get all data from POST
     const data = request.body;
@@ -69,14 +69,15 @@ module.exports = {
       console.log(f);
     }).catch((err) => {
       console.log(err);
+      response.render('error', { msg: 'No se pudieron registrar los miembros' });
     })
   },
   /**
   * This functions converts data from POST to a more handable object
-  * 
+  *
   * @event
   * @param {object} data - data from request
-  */ 
+  */
   parseData: function(data) {
     let newArray = data[Object.keys(data)[0]].map((v, i) => {
       let obj = {};
@@ -89,53 +90,53 @@ module.exports = {
   },
   /**
   * This function adds a Student Member to a Family
-  * 
-  * 
+  *
+  *
   * @event
   * @param {object} data - data of the member
   */
   addStudent: function(data) {
     return Estudiante.create({
       nombres: data.firstName,
-      apellidos: data.lastName, 
+      apellidos: data.lastName,
       edad: data.age,
       nivelEstudios: data.academicDegree,
       fechaNacimiento: data.birthDate,
       telefono: data.phone,
       correo: data.email,
       //missing sae field*****
-      sae: '10' 
+      sae: '10'
     });
   },
   /**
   * This function adds a Tutor member to a family
-  * 
+  *
   * @event
   * @param {object} data - data of the memeber
-  */ 
+  */
   addTutor: function(data) {
     return Tutor.create({
       nombres: data.firstName,
-      apellidos: data.lastName, 
+      apellidos: data.lastName,
       edad: data.age,
       nivelEstudios: data.academicDegree,
       fechaNacimiento: data.birthDate,
       telefono: data.phone,
       correo: data.email,
-      relacion: data.role      
+      relacion: data.role
     });
   },
   /**
   * This function adds a Member to a Family
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} data - data of the memeber 
-  */   
+  * @param {object} data - data of the memeber
+  */
   addMember: function(data) {
     return Miembro.create({
       nombres: data.firstName,
-      apellidos: data.lastName, 
+      apellidos: data.lastName,
       edad: data.age,
       nivelEstudios: data.academicDegree,
       fechaNacimiento: data.birthDate,

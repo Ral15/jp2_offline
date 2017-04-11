@@ -48,6 +48,7 @@ module.exports = {
                   console.log('Seccion guardada');
                 }).catch((err) => {
                   console.log(err);
+                  response.render('error', { msg: 'Las preguntas no se obtuvieron' });
                 });
               });
               response.render('dashboard', { msg: 'Las preguntas se obtuvieron satisfactoriamente' });

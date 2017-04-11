@@ -10,7 +10,7 @@ module.exports = {
   * it means it is a estudio that is going to be updated.
   *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
   */
   showFamilyForm: function(request, response) {
@@ -22,29 +22,30 @@ module.exports = {
       })
       .then((myEstudio) => {
         response.render('family',  {
-          estudioId: myEstudio._id, 
+          estudioId: myEstudio._id,
           family: myEstudio.familia
         });
       })
       .catch((error) => {
         //no estudio found
         console.log(error);
+        response.render('error', { msg: 'No se encontró a la familia' });
       })
     }
     else {
       response.render('family');
     }
-  },  
+  },
   /**
   * This function creates a Estudio with te apiToken of the capturista,
   * and with a family,
   * then it shows the form to fill the members information.
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */    
+  */
   createEstudio: function(request, response) {
     //retrieve token from params
     const token = request.session.user.apiToken;
@@ -62,24 +63,25 @@ module.exports = {
     .then((newEstudio) => {
       console.log(newEstudio);
       response.render('members', {
-        userToken: token, 
-        estudioId: newEstudio._id, 
+        userToken: token,
+        estudioId: newEstudio._id,
         family: newFamily
-      });      
+      });
     })
     .catch((error) => {
       //estudio could not be created
       console.log(error);
+      response.render('error', { msg: 'No se pudo crear el estudio' });
     })
   },
   /**
   * This function edits the address of a Estudio previously created
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */      
+  */
   editEstudio: function(request, response) {
     //get estudio ID from url
     const estudioId = request.query.estudioId;
@@ -95,25 +97,26 @@ module.exports = {
     )
     .then((editedEstudio) => {
       response.render('members', {
-        userToken: token, 
+        userToken: token,
         estudioId: editedEstudio._id,
         family: editedFamily
-      });      
+      });
     })
     .catch((error) => {
       //estudio not edited
       console.log(error);
-    })
+      response.render('error', { msg: 'El estudio no se pudo editar' });
+    });
   },
   /**
   * This function changes the status of a Estudio to 'Eliminado'
   * using the id of the estudio
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */  
+  */
   deleteEstudio: function(request, response) {
     //get id of estudio
     let estudioId = request.params.id;
@@ -129,22 +132,24 @@ module.exports = {
       })
       .catch((err) => {
         console.log(err);
+        response.render('error', { msg: 'El estudio no se pudo borrar' });
         return response.sendStatus(500);
       })
     })
     .catch((e) => {
       console.log(e);
+      response.render('error', { msg: 'El estudio no se encontró' });
       return response.sendStatus(500);
     });
   },
   /**
   * This function returns the Estudios with the status desired
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */   
+  */
   getEstudios: function(request, response) {
     let myStatus = request.query.status;
     let user = request.session.user;
@@ -153,14 +158,15 @@ module.exports = {
       status: myStatus
     })
     .then((e) => {
-      response.render('dashboard', { 
-        user: user, 
-        estudios: e, 
-        active: myStatus 
+      response.render('dashboard', {
+        user: user,
+        estudios: e,
+        active: myStatus
       });
     })
     .catch((err) => {
       console.log(e);
+      response.render('error', { msg: 'No se pudo obtener los estudios' });
     })
   }
  }

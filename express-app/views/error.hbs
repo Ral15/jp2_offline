@@ -12,17 +12,20 @@
               <div class="box">
                 <div class="content-wrap">
                   <img src="/img/logo.png" class="brand-logo" id="main-logo">
-                  <h6 id="iniciar">Algo salió mal :(</h6>
+                  <h6 id="iniciar">Algo salió mal</h6>
                   <div class="action">
-                    <button class="btn btn-primary signup" id="return-btn">Regresar a Home</button>
+                    <a href="/user/dashboard" class="btn btn-primary signup">Regresar a Home</a>
                   </div>
                 </div>
               </div>
+              {{#if msg}}
+                <h4>{{msg}}</h4>
+              {{/if}}
             </div>
           </div>
         </div>
       </div>
-      <script src="/jquery/jquery.js"></script>
-      <script src="/bootstrap/js/bootstrap.min.js"></script>
+      {{> scripts }}
+      <script src="/js/error.js"> </script>
     </body>
   </html>

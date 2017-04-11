@@ -119,25 +119,27 @@ describe('Create Estudio test', function () {
         assert.isNotNull(restoreBtn.value);
       });
   });
-  // /**
-  // * Test delete estudio
-  // *
-  // * This test will check if a modal shows before deleting an estudio
-  // */
-  // it('should see modal before deleting an estudio', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username',config.username)
-  //     .setValue('#password', config.password)
-  //     .click('#submit-login')
-  //     .click('#delete-estudio-' + estudioId)
-  //     .then(async () => {
-  //       await sleep(1000);
-  //       return client.getText('#modalContentId');
-  //     })
-  //     .then((modalText) => {
-  //       assert.equal(modalText, 'No podras recuperar el estudio después de esta acción.');
-  //     });
-  // });
+  /**
+  * Test restore estudio
+  *
+  * This test will check if a modal shows before restoring an estudio
+  */
+  it('should see modal before restoring an estudio', async function () {
+    const client = this.app.client;
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#show-deleted')
+      .waitForVisible('#home-btn')
+      .click('#restore-estudio-' + estudioId)
+      .then(async () => {
+        await sleep(1000);
+        return client.getText('#modalContentId');
+      })
+      .then((modalText) => {
+        assert.equal(modalText, 'Cambia el status del estudio para seguir editandolo.');
+      });
+  });
   // /**
   // * Test delete estudio
   // *

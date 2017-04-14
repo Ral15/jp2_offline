@@ -1,0 +1,8 @@
+<ul class="nav side-menu">
+    <!-- Main menu -->
+    <li class="{{#ifEq this 'Borrador' }}current{{/ifEq}}"><a href="/estudio/get/?status=Borrador"><i class="glyphicon glyphicon-file"></i> Familia</a></li>
+    <li class="{{#ifEq this 'Aprobado' }}current{{/ifEq}}"><a href="/estudio/get/?status=Aprobado"><i class="glyphicon glyphicon-thumbs-up"></i> Ingresos</a></li>
+    <li class="{{#ifEq this 'Rechazado' }}current{{/ifEq}}"><a href="/estudio/get/?status=Rechazado"><i class="glyphicon glyphicon-thumbs-down"></i> Vivienda</a></li>
+    <li class="{{#ifEq this 'Revisión' }}current{{/ifEq}}"><a href="/estudio/get/?status=Revisión"><i class="glyphicon glyphicon-eye-open"></i> Seccion 1</a></li>
+    <li class="{{#ifEq this 'Eliminado' }}current{{/ifEq}}"><a href="/estudio/get/?status=Eliminado" id="show-deleted"><i class="glyphicon glyphicon-trash"></i> Seccion 2</a></li>
+</ul>

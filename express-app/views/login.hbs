@@ -1,41 +1,62 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      {{> head}}
-    </head>
+<html lang="en">
+  <head>
+    {{> head }}
+  </head>
 
-    <body>
-      <div class="page-content container">
-        {{#if msg}}
-          <div class="alert alert-danger">
-            <strong>{{msg}}</strong>
-          </div>
-        {{/if}}
-        <div class="row">
-          <div class="col-md-4 col-md-offset-4">
-            <div class="login-wrapper">
-              <div class="box">
-                <div class="content-wrap">
-                  <h6 id="iniciar">Inicia sesión</h6>
-                  <img src="/img/logo.png" class="brand-logo" id="main-logo">
-                  <form id="login-form" method="post" action="/user/login">
-                    <div class="form-group">
-                      <input class="form-control" type="text" placeholder="Nombre de Usuario" required name="username" id="username">
-                    </div>
-                    <div class="form-group">
-                      <input class="form-control" type="password" placeholder="Contraseña" required name="password" id="password">
-                    </div>
+  <body class="login">
+    <div>
+      <a class="hiddenanchor" id="signin">
+        <h2>
+          Instituto Juan Pablo Segundo
+        </h2>
+      </a>
+      
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <div class="row text-center">
+              <h1>Iniciar Sesion</h1>
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <img src="/img/logo.png" class="brand-logo img-responsive center-block" style="max-height: 200px" id="main-logo">
+              </div>
+            </div>
+            <form id="login-form" method="post" action="/user/login" class="form-group">
+                
+                {{#if error_message}}
+                  <div class="alert alert-danger">
+                    <strong>{{error_message}}</strong>
+                  </div>
+                {{/if}}
+
+                <div class="form-group">
+                  <label for="formUser">Usuario</label>
+                  
+                  <input type="text" class="required form-control col-sm-2 col-md-4 col-form-label" name="username" value="" size="50" placeholder="Usuario" id="username" oninvalid="this.setCustomValidity('Introduzca un nombre de usuario')" oninput="setCustomValidity('')" required="true" required/>
+                </div>
+
+                <div class="form-group">
+                  <label for="formPassword">Contraseña</label>
+                  <input type="password" class="required form-control col-sm-2 col-md-4 col-form-label" name="password" id="formPassword" placeholder="Contraseña" id="password" oninvalid="this.setCustomValidity('Introduzca una contraseña')" oninput="setCustomValidity('')" required="true" required>
+                </div>
+
+
+                <div class="form-group row">
+                  <div class="col-sm-8 col-sm-offset-2">
                     <div class="action">
                         <button class="btn btn-primary signup" id="submit-login" type="submit">Iniciar sesión</button>
                     </div>
-                  </form>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
+            </form>
+          </section>
         </div>
+
       </div>
-    <script src="/jquery/jquery.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
-    </body>
-  </html>
+    </div>
+    {{> scripts }}
+  </body>
+</html>
+

@@ -1,60 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <title>
-    Titulo
-    </title>
-    {{> head }}
+    {{> head}}
+    <link type="text/css" rel="stylesheet" href="/css/dateTime.min.css"/>
   </head>
-  <!-- Hello, world! -->
-  <body class="nav-md">
-    <div class="container body">
-      <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="/" class="site_title">
-                <i class="fa fa-bank"></i> 
-                Instituto Juan Pablo Segundo
-              </a>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-          
-              <div class="profile_info">
-                <span>Bienvenido</span>
-                <h2>Nombre Usuario</h2>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                {{> sideNavPasos }}
-              </div>
-
-            </div>
-            <!-- /sidebar menu -->
-          </div>
-        </div>
-
-        <!-- top navigation -->
-        <div class="top_nav">
-          {{> nav }}
-        </div>
-        <!-- /top navigation -->
-
-        <!-- page content -->
-        <div class="right_col" role="main">
-          <div class="page-content container">
-                      <div class="row">
+  <body>  
+    <div>
+      {{> nav}}
+      <div class="page-content container" id="main-content">
+        <div class="row">
+          <div class="row">
             <br>
             <br>
             <br>
@@ -120,11 +75,7 @@
               </div>
             </div>
           </div>
-
-          </div>
         </div>
-        <!-- /page content -->
-    
       </div>
     </div>
     {{> scripts }}
@@ -132,3 +83,4 @@
     <script src="/js/validator.min.js"> </script>
   </body>
 </html>
+        

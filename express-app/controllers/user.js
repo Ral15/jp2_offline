@@ -3,6 +3,7 @@ const req = require('request');
 const isOnline = require('is-online');
 const urls = require('../routes/urls');
 const Estudio = require('../models/estudio');
+const SectionController = require('./section');
 
 module.exports = {
   /**
@@ -29,15 +30,15 @@ module.exports = {
           Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
           .then((e) => {
             request.session.user = doc;
-            response.render('dashboard', {user: doc, estudios: e, active: 'Borrador' });
+            response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
           })
           .catch((error) => {
             console.log(error);
-          })
+          });
         }
-        //if user is not found AND there is internet connection, check with API
-        else if(online) this.requestUser(data, request, response);
-        else response.render('login', { msg: "No hay internet" });
+        // if user is not found AND there is internet connection, check with API
+        else if (online) this.requestUser(data, request, response);
+        else response.render('login', { msg: 'No hay internet' });
       })
       .catch((err) => {
         console.log(err);
@@ -82,8 +83,7 @@ module.exports = {
           // Try to save user at db
           newUser.save()
           .then((user) => {
-            request.session.user = user;
-            response.render('dashboard', {user: user, active: 'Borrador'});
+            SectionController.getQuestions(user, request, response);
           })
           .catch((err) => {
             console.log(err);
@@ -92,22 +92,21 @@ module.exports = {
       });
   },
   /**
-   * This function retrieves all estudios that the user has and 
+   * This function retrieves all estudios that the user has and
    * renders the dashboard page.
    *
    * @event
    * @param {object} request - request object
    * @param {object} response - response object.
-   */   
+   */
   showDashboard: function(request, response) {
     let user = request.session.user;
     Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
     .then((e) => {
-      response.render('dashboard', { user: user, estudios: e , active: 'Borrador' });
+      response.render('dashboard', { user: user, estudios: e, active: 'Borrador' });
     })
     .catch((error) => {
       console.log(error);
-    })      
-  }
+    });
+  },
 };
-

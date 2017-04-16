@@ -29,7 +29,6 @@ module.exports = {
         if (doc) {
           Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
           .then((e) => {
-            // console.log(e);
             request.session.user = doc;
             response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
           })
@@ -100,9 +99,9 @@ module.exports = {
    * @param {object} request - request object
    * @param {object} response - response object.
    */
-  showDashboard: function (request, response) {
+  showDashboard: function(request, response) {
     let user = request.session.user;
-    Estudio.find({ tokenCapturista: user.apiToken })
+    Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
     .then((e) => {
       response.render('dashboard', { user: user, estudios: e, active: 'Borrador' });
     })

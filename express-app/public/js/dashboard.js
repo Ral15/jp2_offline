@@ -13,7 +13,8 @@ function showDeleteMsg(id) {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Si, borrarlo'
+    confirmButtonText: 'Borrar',
+    cancelButtonText: 'Cancelar'
   }).then(() => {
     deleteEstudio(id);
   });

@@ -52,7 +52,8 @@ module.exports = {
           });
       }
     }).then(() => {
-      response.render('dashboard', { user: user });
+      request.session.user = user;
+      response.render('dashboard', {user: user, active: 'Borrador'});
     }).catch((error) => {
       console.log(error);
     });

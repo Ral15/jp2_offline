@@ -1,10 +1,19 @@
 {
 	"home": "/",
-	"apiUrl" : "http://127.0.0.1:8000",
+	"apiUrl" : "http://junipero.erikiado.com",
 	"createUser": "/user/create",
 	"login": "/user/login",
 	"dashboard" : "/user/dashboard",
+	"getQuestions" : "/seccion/questions",
 	"api":  {
-		"login" : "/perfiles-usuario/obtain-auth-token/"
-	}
+		"login" : "/perfiles-usuario/obtain-auth-token/",
+		"questions" : "/captura/api-obtener-informacion-preguntas/"
+	},
+	"member": "/estudio/member/",
+	"estudio": "/estudio/",
+	"estudioCreate": "/estudio/create/",
+	"estudioDelete": "/estudio/delete/:id",
+	"getEstudios" : "/estudio/get/",
+	"member": "/family/member/",
+	"memberCreate": "/estudio/member/create/"
 }

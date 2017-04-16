@@ -121,20 +121,20 @@ module.exports = {
     //get id of estudio
     let estudioId = request.params.id;
     //find estudio
-    Estudio.findOne({
+    Estudio.findOneAndUpdate({
       _id: estudioId
+    },
+    {
+      status: 'Eliminado'
     })
     .then((myEstudio) => {
-      //delete estudio
-      myEstudio.delete()
-      .then(() => {
         return response.sendStatus(200);
       })
       .catch((err) => {
         console.log(err);
         response.render('error', { msg: 'El estudio no se pudo borrar' });
         return response.sendStatus(500);
-      })
+      });
     })
     .catch((e) => {
       console.log(e);

@@ -1,6 +1,6 @@
 {
 	"home": "/",
-	"apiUrl" : "http://bloque-adal.c9users.io",
+	"apiUrl" : "http://junipero.erikiado.com",
 	"createUser": "/user/create",
 	"login": "/user/login",
 	"dashboard" : "/user/dashboard",

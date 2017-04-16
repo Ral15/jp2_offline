@@ -4,7 +4,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const Estudio = require(path.join(__dirname , '../express-app/models/estudio.js'));
-
+const config = require('../config.js');
 
 //Database connection
 const connect = require(path.join(__dirname , '../express-app/node_modules/camo')).connect;
@@ -89,8 +89,8 @@ describe('Create Estudio test', function () {
   it('should see create estudio button', async function () {
     const client = this.app.client;
     // await sleep(500);
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username', config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .then(() => {
         return client.$('#crear-estudio');
@@ -107,8 +107,8 @@ describe('Create Estudio test', function () {
   */
   it('should fill create estudio form', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username', config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
@@ -156,8 +156,8 @@ describe('Create Estudio test', function () {
   */
   it('should fill with NO street value estudio form', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username', config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
@@ -181,8 +181,8 @@ describe('Create Estudio test', function () {
   */
   it('should fill with NO street2 value estudio form', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username', config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
@@ -206,8 +206,8 @@ describe('Create Estudio test', function () {
   */
   it('should fill with NO zipCode value estudio form', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username', config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
@@ -231,8 +231,8 @@ describe('Create Estudio test', function () {
   */
   it('should fill with NO bastards value estudio form', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username', config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
@@ -256,8 +256,8 @@ describe('Create Estudio test', function () {
   */
   it('should fill with NO location value estudio form', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username', config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
@@ -281,8 +281,8 @@ describe('Create Estudio test', function () {
   */
   it('should fill with NO martialStatus value estudio form', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username', config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
@@ -304,10 +304,10 @@ describe('Create Estudio test', function () {
   *
   * This test will check if an estudio is created in the db
   */
-  it('should fill with NO martialStatus value estudio form', async function () {
+  it('should create estudio', async function () {
     const client = this.app.client;
-    return client.setValue('#username','raul')
-      .setValue('#password','erikiado123')
+    return client.setValue('#username', config.username)
+      .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')

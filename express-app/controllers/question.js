@@ -18,8 +18,8 @@ module.exports = {
       descripcion: pregunta.descripcion,
       orden: pregunta.orden,
     });
-    pregunta.opcionesPregunta.forEach(function (item) {
-      question.opcionesPregunta.push(AnswerOption.addAnswerOption(item));
+    pregunta.opciones_pregunta.forEach(function (item) {
+      question.opcionesRespuesta.push(AnswerOption.addAnswerOption(item));
     });
     return question;
   },

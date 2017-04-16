@@ -60,7 +60,7 @@ describe('Get Sections', function () {
   */
   it('should get sections', function () {
     const client = this.app.client;
-    return client.setValue('#username', 'raul')
+    return client.setValue('#username', 'eugenio')
     .setValue('#password', 'erikiado123')
     .click('#submit-login')
     .then(() => {

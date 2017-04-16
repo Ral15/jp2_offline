@@ -48,7 +48,12 @@
                         {{!-- <th>Fecha de edición</th> --}}
                         <th>Status</th>
                         <th>Editar</th>
+                        {{#ifEq active 'Borrador'}}
                         <th>Borrar</th>
+                        {{/ifEq}}
+                        {{#ifEq active 'Eliminado'}}
+                        <th>Restaurar</th>
+                        {{/ifEq}}                        
                       </tr>
                     </thead>
                     <tbody>
@@ -59,7 +64,12 @@
                         {{!-- <td>{{this.editedDate}}</td> --}}
                         <td>{{this.status}}</td>
                         <td><a href="/estudio/?estudioId={{this._id}}"><button class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
+                        {{#ifEq this.status 'Borrador'}}
                         <td><button onclick="showDeleteMsg('{{this._id}}')" id="delete-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button></td>
+                        {{/ifEq}}
+                        {{#ifEq this.status 'Eliminado'}}
+                        <td><button onclick="showRestoreMsg('{{this._id}}')" id="restore-estudio-{{this._id}}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-repeat"></span></button></td>
+                        {{/ifEq}}
                       </tr>
                       {{/each}}
                     </tbody>

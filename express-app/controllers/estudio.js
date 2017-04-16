@@ -129,16 +129,10 @@ module.exports = {
     })
     .then((myEstudio) => {
         return response.sendStatus(200);
-      })
-      .catch((err) => {
-        console.log(err);
-        response.render('error', { msg: 'El estudio no se pudo borrar' });
-        return response.sendStatus(500);
-      });
     })
-    .catch((e) => {
-      console.log(e);
-      response.render('error', { msg: 'El estudio no se encontró' });
+    .catch((err) => {
+      console.log(err);
+      response.render('error', { msg: 'El estudio no se pudo borrar' });
       return response.sendStatus(500);
     });
   },

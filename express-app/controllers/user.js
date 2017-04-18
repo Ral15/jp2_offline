@@ -66,6 +66,7 @@ module.exports = {
    * @param {object} response - response object.
    */
   requestUser: function (data, request, response) {
+    var self = this;
     req.post(
       // Url to post
       urls.apiUrl + urls.api.login,
@@ -81,18 +82,28 @@ module.exports = {
         if (httpResponse.statusCode > 201) {
           response.render('login', { msg: 'Usuario o contraseña invalidos' });
         } else {
-          // Create new user with data from the form
-          const newUser = User.create({
-            username: data.username,
-            password: data.password,
-            apiToken: body.token,
-          });
-          // Try to save user at db
-          newUser.save()
-          .then((user) => {
-            SectionController.getQuestions(user, request, response);
-          })
-          .catch((err) => {
+          User.findOne({ username:  data.username })
+          .then((doc) => {
+            if (doc) {
+              editedUser = self.resetPassword(doc, data);
+              SectionController.getQuestions(editedUser, request, response);
+            } else {
+              // Create new user with data from the form
+              const newUser = User.create({
+                username: data.username,
+                password: data.password,
+                apiToken: body.token,
+              });
+              // Try to save user at db
+              newUser.save()
+              .then((user) => {
+                SectionController.getQuestions(user, request, response);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+            }
+          }).catch((err) => {
             console.log(err);
           });
         }
@@ -114,6 +125,23 @@ module.exports = {
     })
     .catch((error) => {
       console.log(error);
+    });
+  },
+
+  /**
+  * This function reset the password from a user that was
+  * actually logged.
+  *
+  * @function
+  * @param {object} user - actual user who will be edited.
+  * @param {object} data - user updated
+  */
+  resetPassword: function (user, data) {
+    let hash = bcrypt.hashSync(data.password, bcrypt.genSaltSync(10), null);
+    User.findOneAndUpdate({ _id: user._id }, { password: hash }).then((editedUser) => {
+      return editedUser;
+    }).catch((err) => {
+      console.log(err);
     });
   },
 };

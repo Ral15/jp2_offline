@@ -58,13 +58,11 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-
-                    <!-- BOTON SECCIONES -->
-                    <div class="col-sm-12">
-                      <button id="secciones-btn">secciones</button>
-                    </div>
-                    <!-- BOTON SECCIONES -->
-
+                    {{#if error_message}}
+                      <div class="alert alert-danger">
+                        <strong>{{error_message}}</strong>
+                      </div>
+                    {{/if}}
                     <h2>Mis estudios socioeconómicos</h2>
                     <div class="pull-right"><a href="/estudio/" class="btn btn-success" id="crear-estudio"> <span class="glyphicon glyphicon-plus"></span> Crear estudio</a></div>
                     <div class="clearfix"></div>

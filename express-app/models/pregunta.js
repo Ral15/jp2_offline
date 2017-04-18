@@ -24,7 +24,7 @@ class Pregunta extends EmbeddedDocument {
   constructor() {
     super();
 
-    this.id = {
+    this.idApi = {
       type: Number,
       default: 0,
       required: true,

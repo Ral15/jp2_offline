@@ -6,6 +6,7 @@ const basicRoutes = require('./routes/basic.js');
 const userRoutes = require('./routes/user.js');
 const estudioRoutes = require('./routes/estudio.js');
 const familyRoutes = require('./routes/family.js');
+const sectionRoutes = require('./routes/section.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
@@ -35,6 +36,16 @@ hbs.registerHelper('ifEq', function(value1, value2, opt) {
 		opt.inverse(this);
 	}
 });
+hbs.registerHelper('ifGt', function(value1, value2, opt) {
+  if (value1 > value2) {
+    return opt.fn(this);
+  }
+  else {
+    opt.inverse(this);
+  }
+});
+
+
 // setup cors
 app.use(cors())
 //view engine setup
@@ -62,6 +73,7 @@ app.use(basicRoutes);
 app.use(userRoutes);
 app.use(estudioRoutes);
 app.use(familyRoutes);
+app.use(sectionRoutes);
 
 
 app.listen(3000, function () {

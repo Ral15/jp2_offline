@@ -5,6 +5,8 @@
 	"login": "/user/login",
 	"dashboard" : "/user/dashboard",
 	"getQuestions" : "/seccion/questions",
+	"sectionStart" : "/seccion/paso/",
+	"sections" : "/seccion/paso/:step",
 	"api":  {
 		"login" : "/perfiles-usuario/obtain-auth-token/",
 		"questions" : "/captura/api-obtener-informacion-preguntas/"

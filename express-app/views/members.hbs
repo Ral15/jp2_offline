@@ -51,7 +51,11 @@
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="page-content container">
-
+            {{#if error_message}}
+              <div class="alert alert-danger">
+                <span id="error_message"><strong>{{error_message}}</strong></span>
+              </div>
+            {{/if}}
             <div class="row">
             <div class="col-xs-12">
               <h1>Miembros</h1>

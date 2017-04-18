@@ -56,6 +56,12 @@
                 <div class="x_panel">
                   <div class="x_title">
 
+                    {{#if error_message}}
+                      <div class="alert alert-danger">
+                        <span id="error_message"><strong>{{error_message}}</strong></span>
+                      </div>
+                    {{/if}}
+
                     <!-- BOTON SECCIONES -->
                     <div class="col-sm-12">
                       <button id="secciones-btn">secciones</button>

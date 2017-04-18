@@ -33,7 +33,7 @@ global.before(function () {
 });
 
 
-describe('Create Estudio test', function () {
+describe('Delete Estudio test', function () {
   /**
   * Integration test suite for testing the Login.
   *

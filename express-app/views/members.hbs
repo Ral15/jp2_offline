@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>
-    Titulo
-    </title>
-    {{> head }}
+    {{> head page_title='Captura Datos Integrantes' }}
   </head>
   <!-- Hello, world! -->
   <body class="nav-md">
@@ -26,7 +23,7 @@
           
               <div class="profile_info">
                 <span>Bienvenido</span>
-                <h2>Nombre Usuario</h2>
+                <h2>{{user.username}}</h2>
               </div>
               <div class="clearfix"></div>
             </div>

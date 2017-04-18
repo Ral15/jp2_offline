@@ -34,7 +34,13 @@ module.exports = {
           })
           .catch((error) => {
             console.log(error);
-            response.render('error', { msg: 'No se pudieron obtener los estudios' });
+            sweetAlert(
+              'Mensaje de error',
+              'No se pudieron obtener los estudios',
+              'error'
+            ).then(() => {
+              location.reload();
+            });
           });
         }
         // if user is not found AND there is internet connection, check with API
@@ -43,7 +49,13 @@ module.exports = {
       })
       .catch((err) => {
         console.log(err);
-        response.render('error', { msg: 'No se pudo obtener al usuario' });
+        sweetAlert(
+          'Mensaje de error',
+          'No se pudo obtener al usuario',
+          'error'
+        ).then(() => {
+          location.reload();
+        });
       });
     });
   },
@@ -89,7 +101,13 @@ module.exports = {
           })
           .catch((err) => {
             console.log(err);
-            response.render('error', { msg: 'No se pudo crear el estudio' });
+            sweetAlert(
+              'Mensaje de error',
+              'No se pudo crear al usuario',
+              'error'
+            ).then(() => {
+              location.reload();
+            });
           });
         }
       });
@@ -110,7 +128,13 @@ module.exports = {
     })
     .catch((error) => {
       console.log(error);
-      response.render('error', { msg: 'No se pudieron obtener los estudios' });
+      sweetAlert(
+        'Mensaje de error',
+        'No se pudieron obtener los estudios',
+        'error'
+      ).then(() => {
+        location.reload();
+      });
     });
   },
 };

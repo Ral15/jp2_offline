@@ -63,13 +63,6 @@ module.exports = {
       response.render('dashboard', {user: user, active: 'Borrador'});
     }).catch((error) => {
       console.log(error);
-      sweetAlert(
-        'Mensaje de error',
-        'Las preguntas no se obtuvieron',
-        'error'
-      ).then(() => {
-        location.reload();
-      });
     });
   },
 };

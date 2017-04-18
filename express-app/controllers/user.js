@@ -25,34 +25,31 @@ module.exports = {
     const data = request.body;
     // Call promise that validates internet connection
     isOnline().then((online) => {
-      // look for the user in the local db first
-      User.findOne({ username:  data.username })
-      .then((doc) => {
-        if (doc) {
-          bcrypt.compare(data.password, doc.password, function (err, res) {
-            if (err) console.log(err);
-            else if (!res) {
-              doc.delete();
-              this.requestUser(data, request, response);
-            } else {
-              Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
-              .then((e) => {
-                request.session.user = doc;
-                response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-            }
-          });
-        }
-        // if user is not found AND there is internet connection, check with API
-        else if (online) this.requestUser(data, request, response);
-        else response.render('login', { msg: 'No hay internet' });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      // If there is internet connection, check with API
+      if (online) this.requestUser(data, request, response);
+      else {
+        User.findOne({ username:  data.username })
+        .then((doc) => {
+          if (doc) {
+            bcrypt.compare(data.password, doc.password, function (err, res) {
+              if (err) console.log(err);
+              else if (res) {
+                Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
+                .then((e) => {
+                  request.session.user = doc;
+                  response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+              } else response.render('login', { msg: 'Contraseña invalida' });
+            });
+          } else response.render('login', { msg: 'Usuario invalido' });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
     });
   },
 

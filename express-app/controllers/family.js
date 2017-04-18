@@ -69,7 +69,13 @@ module.exports = {
       console.log(f);
     }).catch((err) => {
       console.log(err);
-      response.render('error', { msg: 'No se pudieron registrar los miembros' });
+      sweetAlert(
+        'Mensaje de error',
+        'No se pudieron registrar los miembros',
+        'error'
+      ).then(() => {
+        location.reload();
+      });
     })
   },
   /**

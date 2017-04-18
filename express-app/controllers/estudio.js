@@ -29,10 +29,15 @@ module.exports = {
       .catch((error) => {
         //no estudio found
         console.log(error);
-        response.render('error', { msg: 'No se encontró a la familia' });
-      })
-    }
-    else {
+        sweetAlert(
+          'Mensaje de error',
+          'No se encontró a la familia',
+          'error'
+        ).then(() => {
+          location.reload();
+        });
+      });
+    } else {
       response.render('family');
     }
   },
@@ -71,8 +76,14 @@ module.exports = {
     .catch((error) => {
       //estudio could not be created
       console.log(error);
-      response.render('error', { msg: 'No se pudo crear el estudio' });
-    })
+      sweetAlert(
+        'Mensaje de error',
+        'No se pudo crear el estudio',
+        'error'
+      ).then(() => {
+        location.reload();
+      });
+    });
   },
   /**
   * This function edits the address of a Estudio previously created
@@ -105,7 +116,13 @@ module.exports = {
     .catch((error) => {
       //estudio not edited
       console.log(error);
-      response.render('error', { msg: 'El estudio no se pudo editar' });
+      sweetAlert(
+        'Mensaje de error',
+        'El estudio no se pudo editar',
+        'error'
+      ).then(() => {
+        location.reload();
+      });
     });
   },
   /**
@@ -132,8 +149,14 @@ module.exports = {
     })
     .catch((err) => {
       console.log(err);
-      response.render('error', { msg: 'El estudio no se pudo borrar' });
-      return response.sendStatus(500);
+      sweetAlert(
+        'Mensaje de error',
+        'El estudio no se pudo borrar',
+        'error'
+      ).then(() => {
+        location.reload();
+        return response.sendStatus(500);
+      });
     });
   },
   /**
@@ -160,7 +183,13 @@ module.exports = {
     })
     .catch((err) => {
       console.log(e);
-      response.render('error', { msg: 'No se pudo obtener los estudios' });
+      sweetAlert(
+        'Mensaje de error',
+        'No se pudo obtener los estudios',
+        'error'
+      ).then(() => {
+        location.reload();
+      });
     })
   }
  }

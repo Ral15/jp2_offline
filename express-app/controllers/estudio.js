@@ -157,5 +157,31 @@ module.exports = {
     .catch((err) => {
       console.log(e);
     })
-  }
+  },
+  /**
+  * This function changes the status of a Estudio to 'Borrador'
+  * using the id of the estudio
+  * 
+  * 
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */ 
+  restoreEstudio: function(request, response) {
+    let estudioId = request.params.id;
+    //find estudio
+    Estudio.findOneAndUpdate({
+      _id: estudioId
+    },
+    {
+      status: 'Borrador'
+    })
+    .then((myEstudio) => {
+        return response.sendStatus(200);
+    })
+    .catch((e) => {
+      console.log(e);
+      return response.sendStatus(500);
+    });    
+  },
  }

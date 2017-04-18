@@ -140,59 +140,63 @@ describe('Create Estudio test', function () {
         assert.equal(modalText, 'Cambia el status del estudio para seguir editandolo.');
       });
   });
-  // /**
-  // * Test delete estudio
-  // *
-  // * This test will cancel the modal
-  // */
-  // it('should cancel delete estudio sweetalert2', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username',config.username)
-  //     .setValue('#password', config.password)
-  //     .click('#submit-login')
-  //     .click('#delete-estudio-' + estudioId)
-  //     .waitForVisible('#modalContentId')
-  //     .click('.swal2-cancel')
-  //     .then(async () => {
-  //       await sleep(1000);
-  //       return client.$('#delete-estudio-' + estudioId);
-  //     })
-  //     .then((estudioButton) => {
-  //       assert.isNotNull(estudioButton.value);
-  //     });
-  // });
-  // /**
-  // * Test delete estudio
-  // *
-  // * This test will delete an estudio
-  // */
-  // it('should delete an estudio change its status', async function () {
-  //   const client = this.app.client;
-  //   return client.setValue('#username',config.username)
-  //     .setValue('#password', config.password)
-  //     .click('#submit-login')
-  //     .click('#delete-estudio-' + estudioId)
-  //     .waitForVisible('#modalContentId')
-  //     .click('.swal2-confirm')
-  //     .then(async () => {
-  //       await sleep(1000);
-  //       return client.getText('#modalTitleId');
-  //     })
-  //     .then(async (modalValue) => {
-  //       assert.equal(modalValue, '¡Éxito!');
-  //       await sleep(1000);
-  //       return client.click('.swal2-confirm');
-  //     })
-  //     .then(async () => {
-  //       await sleep(1000);
-  //       return client.click('#show-deleted');
-  //     })
-  //     .then(async () => {
-  //       await sleep(1000);
-  //       return client.isVisible('#delete-estudio-' + estudioId);
-  //     })
-  //     .then((isVisible) => {
-  //       assert.isTrue(isVisible);
-  //     })
-  // });
+  /**
+  * Test restore estudio
+  *
+  * This test will cancel the modal
+  */
+  it('should cancel restore estudio sweetalert2', async function () {
+    const client = this.app.client;
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#show-deleted')
+      .waitForVisible('#home-btn')
+      .click('#restore-estudio-' + estudioId)
+      .waitForVisible('#modalContentId')
+      .click('.swal2-cancel')
+      .then(async () => {
+        await sleep(1000);
+        return client.$('#restore-estudio-' + estudioId);
+      })
+      .then((estudioButton) => {
+        assert.isNotNull(estudioButton.value);
+      });
+  });
+  /**
+  * Test restore estudio
+  *
+  * This test will restore an estudio
+  */
+  it('should restore an estudio change its status', async function () {
+    const client = this.app.client;
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#show-deleted')
+      .waitForVisible('#home-btn')
+      .click('#restore-estudio-' + estudioId)
+      .waitForVisible('#modalContentId')
+      .click('.swal2-confirm')
+      .then(async () => {
+        await sleep(1000);
+        return client.getText('#modalTitleId');
+      })
+      .then(async (modalValue) => {
+        assert.equal(modalValue, '¡Éxito!');
+        await sleep(1000);
+        return client.click('.swal2-confirm');
+      })
+      .then(async () => {
+        await sleep(1000);
+        return client.click('#show-borrador');
+      })
+      .then(async () => {
+        await sleep(1000);
+        return client.isVisible('#delete-estudio-' + estudioId);
+      })
+      .then((isVisible) => {
+        assert.isTrue(isVisible);
+      })
+  });
 });

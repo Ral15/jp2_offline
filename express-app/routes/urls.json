@@ -13,6 +13,7 @@
 	"estudio": "/estudio/",
 	"estudioCreate": "/estudio/create/",
 	"estudioDelete": "/estudio/delete/:id",
+	"estudioRestore": "/estudio/restore/:id",
 	"getEstudios" : "/estudio/get/",
 	"member": "/family/member/",
 	"memberCreate": "/estudio/member/create/"

@@ -33,5 +33,10 @@ router.get(urls.getEstudios, function(req, res) {
   estudioController.getEstudios(req, res);
 });
 
+//POSR to restore estudio
+router.post(urls.estudioRestore, function(req, res){
+  estudioController.restoreEstudio(req,res);
+});
+
 
 module.exports = router;

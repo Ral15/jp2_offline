@@ -18,7 +18,7 @@ function showDeleteMsg(id) {
   }).then(() => {
     deleteEstudio(id);
   });
-}
+};
 /**
  * This function creates a POST to the estudio controller.
  * The body of the POST is the id of the desired estudio to delete. 
@@ -62,4 +62,71 @@ function deleteEstudio(id) {
       'error'
     );    
   }); 
-}
+};
+
+/**
+ * This function shows a message to the user to make sure
+ * the user wants to restore the selected estudio.
+ * 
+ * @event
+ * @param {string} id - id of the estudio
+ */
+function showRestoreMsg(id) {
+  swal({
+    title: '¿Seguro que quieres restaurar el estudio?',
+    text: "Cambia el status del estudio para seguir editandolo.",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Restaurar',
+    cancelButtonText: 'Cancelar'
+  }).then(() => {
+    restoreEstudio(id);
+  });  
+};
+
+/**
+ * This function creates a POST to the estudio controller.
+ * The body of the POST is the id of the desired estudio to restore. 
+ *  IF response 201, it is successful and will show a message to the user
+ * IF NOT, an error message will appear.
+ *
+ *
+ * @event
+ * @param {string} id - id of the estudio
+ */
+function restoreEstudio(id) {
+ fetch('/estudio/restore/' + id, {
+    method: 'post',
+    body: JSON.stringify({
+      id: id
+    })
+  })
+  .then((response) => {
+    if (response.status == 200) {
+      swal(
+        '¡Éxito!',
+        'El estudio se ha restaurado',
+        'success'
+      ).then(() => {
+        location.reload();
+      });
+    }
+    else {
+      swal(
+        '¡Error!',
+        '¡El estudio no pudo ser restaurado!',
+        'error'
+      );
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    swal(
+      '¡Error!',
+      '¡No se puedo restaurar el estudio!',
+      'error'
+    );    
+  }); 
+};

@@ -2,7 +2,7 @@
 
 //require document class from camo
 // var Document = require('camo').Document;
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+var Document = require('camo').Document;
 const Miembro = require('./miembro.js');
 const Comentario = require('./comentario.js');
 const Transaccion = require('./transaccion.js');
@@ -40,7 +40,7 @@ const locationChoices = [
  *    Stores the location of the family.
  */
 
-class Familia extends EmbeddedDocument {
+class Familia extends Document {
   constructor() {
     super();
 

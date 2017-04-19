@@ -55,18 +55,22 @@ module.exports = {
     data.members = defaultMember;
     //create familia
     let newFamily = familyController.createFamily(data);
-    //create estudio
-    let estudio = Estudio.create({
-      tokenCapturista: token,
-      familia: newFamily
-    });
-    //save estudio
-    estudio.save()
+    //save familia
+    newFamily.save()
+    .then((newFamily) => {
+      //create estudio
+      let estudio = Estudio.create({
+        tokenCapturista: token,
+        familia: newFamily
+      });
+      //save estudio
+      return estudio.save();
+    })
     .then((newEstudio) => {
       response.render('members', {
         userToken: token, 
         estudioId: newEstudio._id, 
-        family: newFamily
+        family: newEstudio.familia
       });      
     })
     .catch((error) => {

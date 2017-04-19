@@ -103,7 +103,6 @@ module.exports = {
     let user = request.session.user;
     Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
     .then((e) => {
-      // console.log(e);
       response.render('dashboard', { user: user, estudios: e , active: 'Borrador' });
     })
     .catch((error) => {

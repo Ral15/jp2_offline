@@ -1,7 +1,7 @@
 "use strict";
 
 //require document class from camo
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+var Document = require('camo').Document;
 const Transaccion = require('./transaccion.js');
 
 //options for martial status
@@ -55,7 +55,7 @@ const relationOptions = [
  *    with the family itself.
  */
  
-class Miembro extends EmbeddedDocument {
+class Miembro extends Document {
   constructor() {
     super();
 

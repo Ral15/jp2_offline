@@ -82,9 +82,10 @@
                       <tbody>
                         {{# if estudios }}
                           {{# each estudios }}
+                          {{!-- <h1>{{json this}}</h1> --}}
                             <tr class="odd gradeX {%if this.status == status_options.RECHAZADO%} danger {%endif%}">
                               <td>{{this.familia.calle}}, {{this.familia.colonia}}, {{this.familia.codigoPostal}}</td>
-                              <td>{{this.createdDate}}</td>
+                              <td>{{this.fechaCreacion}}</td>
                               {{!-- <td>{{this.editedDate}}</td> --}}
                               <td>{{this.status}}</td>
                               <td>
@@ -110,5 +111,6 @@
       </div>
     </div>
     {{> scripts }}
+    <script src="/js/dashboard.js"> </script>
   </body>
 </html>

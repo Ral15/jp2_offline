@@ -68,6 +68,14 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use(function(request, response, next) {
+    // response.locals.csrfToken = request.csrfToken();
+  if (request.session.user){
+    response.locals.user = request.session.user;
+  }
+  next();
+});
+
 //routes
 app.use(basicRoutes);
 app.use(userRoutes);

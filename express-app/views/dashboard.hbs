@@ -1,116 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>
-    Titulo
-    </title>
-    {{> head }}
-  </head>
-  <!-- Hello, world! -->
-  <body class="nav-md">
-    <div class="container body">
-      <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="/" class="site_title">
-                <i class="fa fa-bank"></i> 
-                Instituto Juan Pablo Segundo
-              </a>
-            </div>
+{{#>  layouts/base_dashboard page_title="Captura de Estudios" which_side="dashboardSidenav" }}
+{{#*inline "panel-block"}}
+<div class="row"> 
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
 
-            <div class="clearfix"></div>
-
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-          
-              <div class="profile_info">
-                <span>Bienvenido</span>
-                <h2>Nombre Usuario</h2>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                {{> dashboardSidenav }}
-              </div>
-
-            </div>
-            <!-- /sidebar menu -->
+        {{#if error_message}}
+          <div class="alert alert-danger">
+            <span id="error_message"><strong>{{error_message}}</strong></span>
           </div>
+        {{/if}}
+
+        <!-- BOTON SECCIONES -->
+        <div class="col-sm-12">
+          <button id="secciones-btn">secciones</button>
         </div>
+        <!-- BOTON SECCIONES -->
 
-        <!-- top navigation -->
-        <div class="top_nav">
-          {{> nav }}
-        </div>
-        <!-- /top navigation -->
+        <h2>Mis estudios socioeconómicos</h2>
+        <div class="pull-right"><a href="/estudio/" class="btn btn-success" id="crear-estudio"> <span class="glyphicon glyphicon-plus"></span> Crear estudio</a></div>
+        <div class="clearfix"></div>
+      </div>
 
-        <!-- page content -->
-        <div class="right_col" role="main">
-          <div class="page-content container">
-            <div class="row"> 
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    {{#if error_message}}
-                      <div class="alert alert-danger">
-                        <strong>{{error_message}}</strong>
-                      </div>
-                    {{/if}}
-                    <h2>Mis estudios socioeconómicos</h2>
-                    <div class="pull-right"><a href="/estudio/" class="btn btn-success" id="crear-estudio"> <span class="glyphicon glyphicon-plus"></span> Crear estudio</a></div>
-                    <div class="clearfix"></div>
-                  </div>
-
-                  <div class="x_content">
-                    <table id="datatable" class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Dirección</th>
-                          <th>Fecha de creación</th>
-                          {{!-- <th>Fecha de edición</th> --}}
-                          <th>Status</th>
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
+      <div class="x_content">
+        <table id="datatable" class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Dirección</th>
+              <th>Fecha de creación</th>
+              {{!-- <th>Fecha de edición</th> --}}
+              <th>Status</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
 
 
-                      <tbody>
-                        {{# if estudios }}
-                          {{# each estudios }}
-                            <tr class="odd gradeX {%if this.status == status_options.RECHAZADO%} danger {%endif%}">
-                              <td>{{this.familia.calle}}, {{this.familia.colonia}}, {{this.familia.codigoPostal}}</td>
-                              <td>{{this.createdDate}}</td>
-                              {{!-- <td>{{this.editedDate}}</td> --}}
-                              <td>{{this.status}}</td>
-                              <td>
-                                <a href="/estudio/?estudioId={{this._id}}"><button class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></button></a>
-                                <button onclick="showDeleteMsg('{{this._id}}')" id="delete-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
-                              </td>
-                            </tr>
-                          {{/each}}
-                              
-                        {{ else }}
-                          <h5>No hay registro de estudios socioeconómicos</h5>
-                        {{/if }}
-                        
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>                
-            </div> 
-          </div>
-        </div>
-        <!-- /page content -->
+          <tbody>
+            {{# if estudios }}
+              {{# each estudios }}
+                <tr class="odd gradeX {%if this.status == status_options.RECHAZADO%} danger {%endif%}">
+                  <td>{{this.familia.calle}}, {{this.familia.colonia}}, {{this.familia.codigoPostal}}</td>
+                  <td>{{this.createdDate}}</td>
+                  {{!-- <td>{{this.editedDate}}</td> --}}
+                  <td>{{this.status}}</td>
+                  <td>
+                    <a href="/estudio/?estudioId={{this._id}}"><button class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></button></a>
+                    <button onclick="showDeleteMsg('{{this._id}}')" id="delete-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
+                  </td>
+                </tr>
+              {{/each}}
+                  
+            {{ else }}
+              <h5>No hay registro de estudios socioeconómicos</h5>
+            {{/if }}
+            
+          </tbody>
+        </table>
       </div>
     </div>
-    {{> scripts }}
-  </body>
-</html>
+  </div>                
+</div> 
+{{/inline}}
+
+{{#*inline "scripts-block"}}
+{{/inline}}
+
+{{/ layouts/base_dashboard}}

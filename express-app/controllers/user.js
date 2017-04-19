@@ -27,10 +27,11 @@ module.exports = {
       User.findOne({ username: data.username, password: data.password })
       .then((doc) => {
         if (doc) {
+          request.session.user = doc;
+          response.locals.user = request.session.user;
           Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
           .then((e) => {
-            request.session.user = doc;
-            response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
+            response.render('dashboard', {estudios: e, active: 'Borrador' });
           })
           .catch((error) => {
             console.log(error);
@@ -103,7 +104,7 @@ module.exports = {
     let user = request.session.user;
     Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
     .then((e) => {
-      response.render('dashboard', { user: user, estudios: e, active: 'Borrador' });
+      response.render('dashboard', { estudios: e , active: 'Borrador' });
     })
     .catch((error) => {
       console.log(error);

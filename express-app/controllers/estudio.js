@@ -150,7 +150,6 @@ module.exports = {
     .then((e) => {
       console.log(e)
       response.render('dashboard', { 
-        user: user, 
         estudios: e, 
         active: myStatus 
       });

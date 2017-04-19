@@ -6,7 +6,7 @@
         <h4 class="modal-title" id="myModalLabel">Ingresos</h4>
       </div>
       <div class="modal-body">
-        <form id="incomeSection" method="post" action="/estudio/income/create/?estudioId={{estudioId}}" data-toggle="validator">
+        <form id="incomeSection" method="post" action="/estudio/income/create/?estudioId={{this.estudioId}}" data-toggle="validator">
           <div class="row">
             <div class="form-group col-xs-6">
               <label for="amount">Monto*</label>
@@ -61,8 +61,8 @@
               <select class="form-control" id="tutor" name="tutor">
                 {{!-- {{#select this.relacion}} --}}
                 <option value=""></option>
-                {{#each this}}
-                <option value="{{this.nombres}}">{{this.nombres}} {{this.apellidos}}</option>
+              {{#each this.members}}
+                <option value="{{this.nombres}}/{{this.apellidos}}">{{this.nombres}} {{this.apellidos}}</option>
                 {{/each}}
                 {{!-- {{/select}} --}}
               </select>

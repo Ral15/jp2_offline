@@ -5,6 +5,12 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
 //extra models
 const Periodo = require('./periodo.js');
 
+const optionChoices = [
+  '',
+  'No comprobable',
+  'Comprobable'
+];
+
 /*
  * Transaction of a family
  * 
@@ -42,6 +48,15 @@ class Transaccion extends EmbeddedDocument {
     this.isIngreso = {
       type: Boolean
     };
+
+    this.fecha = {
+      type: Date,
+    };
+
+    this.tipo = {
+      type: String,
+      choices: optionChoices,
+    }
   } 
   /**
    * This function calculates the monthly value of the transaction.

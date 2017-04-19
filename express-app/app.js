@@ -6,6 +6,7 @@ const basicRoutes = require('./routes/basic.js');
 const userRoutes = require('./routes/user.js');
 const estudioRoutes = require('./routes/estudio.js');
 const familyRoutes = require('./routes/family.js');
+const incomeRoutes = require('./routes/income.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
@@ -71,6 +72,7 @@ app.use(basicRoutes);
 app.use(userRoutes);
 app.use(estudioRoutes);
 app.use(familyRoutes);
+app.use(incomeRoutes);
 
 
 app.listen(3000, function () {

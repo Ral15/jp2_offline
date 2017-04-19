@@ -2,6 +2,7 @@
 
 //require document class from camo
 var EmbeddedDocument = require('camo').EmbeddedDocument;
+const Transaccion = require('./transaccion.js');
 
 //options for martial status
 const academicDegreeChoices = [
@@ -103,6 +104,9 @@ class Miembro extends EmbeddedDocument {
       type: String,
       default: ''
     };
+    
+    this.transacciones = [Transaccion];
+
   }
 
   static collectionName() {

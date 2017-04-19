@@ -81,6 +81,7 @@ module.exports = {
     })
     .then((newEstudio) => {
       response.render('income', {
+        estudio: newEstudio,
         estudioId: newEstudio._id,
         members: newEstudio.familia.miembros.filter((m) => m.relacion != 'Estudiante'),
       });
@@ -170,5 +171,51 @@ module.exports = {
       sae: data.sae,
       escuela: data.school
     };
-  }
+  },
+  /**
+  * This function adds a Transaction to a Member from a Family
+  * 
+  * 
+  * @event
+  * @param {object} data - data of the memeber 
+  */  
+  addIncomeMember: function(transaction, request, response) {
+    const estudioId = request.query.estudioId;
+
+  },
+  /**
+  * This function adds a Transaction to a Family
+  * 
+  * 
+  * @event
+  * @param {object} data - data of the memeber 
+  */  
+  addIncomeFamily: function(transaction, request, response) {
+    const estudioId = request.query.estudioId;
+    console.log(estudioId);
+     Estudio.findOne({ _id: estudioId })
+    .then((currEstudio) => {
+      const newFamily = {
+        calle: currEstudio.familia.calle,
+        colonia: currEstudio.familia.colonia,
+        bastardos: currEstudio.familia.bastardos,
+        estadoCivil: currEstudio.familia.estadoCivil,
+        codigoPostal: currEstudio.familia.codigoPostal,
+        localidad: currEstudio.familia.localidad,
+        miembros: [currEstudio.familia.miembros],
+      };
+      return Estudio.findOneAndUpdate({_id: estudioId}, {familia: newFamily});
+    })
+    .then((newEstudio) => {
+      // response.render('income', {
+      //   estudio: newEstudio,
+      //   estudioId: newEstudio._id,
+      //   members: newEstudio.familia.miembros.filter((m) => m.relacion != 'Estudiante'),
+      // });
+      console.log(newEstudio);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  },
 }

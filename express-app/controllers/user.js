@@ -3,6 +3,7 @@ const req = require('request');
 const isOnline = require('is-online');
 const urls = require('../routes/urls');
 const Estudio = require('../models/estudio');
+const SectionController = require('./section');
 
 module.exports = {
   /**
@@ -34,7 +35,7 @@ module.exports = {
           })
           .catch((error) => {
             console.log(error);
-          })
+          });
         }
         //if user is not found AND there is internet connection, check with API
         else if(online) this.requestUser(data, request, response);
@@ -83,8 +84,7 @@ module.exports = {
           // Try to save user at db
           newUser.save()
           .then((user) => {
-            request.session.user = user;
-            response.render('dashboard', {user: user, active: 'Borrador'});
+            SectionController.getQuestions(user, request, response);
           })
           .catch((err) => {
             console.log(err);
@@ -93,13 +93,13 @@ module.exports = {
       });
   },
   /**
-   * This function retrieves all estudios that the user has and 
+   * This function retrieves all estudios that the user has and
    * renders the dashboard page.
    *
    * @event
    * @param {object} request - request object
    * @param {object} response - response object.
-   */   
+   */
   showDashboard: function(request, response) {
     let user = request.session.user;
     Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
@@ -108,7 +108,6 @@ module.exports = {
     })
     .catch((error) => {
       console.log(error);
-    })      
-  }
+    });
+  },
 };
-

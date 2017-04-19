@@ -1,0 +1,57 @@
+<div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="myModalLabel">Miembro</h4>
+    </div>
+    <div class="modal-body">
+      <form id="incomeSection" method="post" action="/estudio/member/create/?memberId={{estudioId}}" data-toggle="validator">
+        <div class="row">
+          <div class="form-group col-xs-6">
+            <label for="firstName">Nombres*</label>
+            <input type="text" class="form-control" name="firstName" id="firstName" required>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="lastName">Apellidos*</label>
+            <input type="text" class="form-control" name="lastName" id="lastName" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-12">
+            <label for="observations">Observaciones</label>
+            <textarea id="observations" name="observations" class="form-control" rows="5"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-6">
+            <div id="datetimepicker4" class="input-group">
+              <label for="birthDate">Fecha de nacimiento</label>
+              <div class="input-group">
+                <span class="input-group-addon add-on" id="basic-addon1">
+                  <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
+                </span>
+                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" name="birthDate" required>
+              </div>
+            </div>                                        
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="type">Tipo Ingreso</label>
+            <select class="form-control" id="type" name="type" required>
+              <option value=""></option>
+              <option value="No comprobable">No comprobable</option>
+              <option value="Comprobable">Comrpobable</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" id="submit-income" class="btn btn-primary btn-block">Guardar</button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      {{> head}}
+    </head>
+
+    <body>
+      <div class="page-content container">
+        {{#if msg}}
+          <div class="alert alert-danger">
+            <strong>{{msg}}</strong>
+          </div>
+        {{/if}}
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <div class="login-wrapper">
+              <div class="box">
+                <div class="content-wrap">
+                  <h6 id="iniciar">Inicia sesión</h6>
+                  <img src="/img/logo.png" class="brand-logo" id="main-logo">
+                  <form id="login-form" method="post" action="/user/login">
+                    <div class="form-group">
+                      <input class="form-control" type="text" placeholder="Nombre de Usuario" required name="username" id="username">
+                    </div>
+                    <div class="form-group">
+                      <input class="form-control" type="password" placeholder="Contraseña" required name="password" id="password">
+                    </div>
+                    <div class="action">
+                        <button class="btn btn-primary signup" id="submit-login" type="submit">Iniciar sesión</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <script src="/jquery/jquery.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    </body>
+  </html>

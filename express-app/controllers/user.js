@@ -37,7 +37,7 @@ module.exports = {
         }
         //if user is not found AND there is internet connection, check with API
         else if(online) this.requestUser(data, request, response);
-        else response.render('login', { msg: "No hay internet" });
+        else response.render('login', { error_message: "No hay internet" });
       })
       .catch((err) => {
         console.log(err);
@@ -71,7 +71,7 @@ module.exports = {
       function (error, httpResponse, body) {
         // If response FAILS show error message
         if (httpResponse.statusCode > 201) {
-          response.render('login', { msg: 'Usuario o contraseña invalidos' });
+          response.render('login', { error_message: 'Usuario o contraseña invalidos' });
         } else {
           // Create new user with data from the form
           const newUser = User.create({

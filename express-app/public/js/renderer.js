@@ -1,5 +1,11 @@
 $(document).ready(function(){
 
+    $(".editMember").click(function(e){
+      var myMember = $(this).data('member');
+      console.log(myMember);
+      $("#memberModal #firstName").val(myMember.nombres);
+    });
+
   // add family and remove family inputs
 
   $("#add-family-input").click(function(e) {

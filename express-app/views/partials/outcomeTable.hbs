@@ -1,0 +1,42 @@
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Monto Mensual</th>
+      <th>Monto</th>
+      <th>Periodicidad</th>
+      <th>Observación</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+
+
+  <tbody>
+    {% for egreso in egresos %}
+    <tr class="">
+      <td>{{ egreso }}</td>
+      <td>{{ egreso.obtener_valor_de_transaccion }}</td>
+      <td>{{ egreso.periodicidad }}</td>
+      <td>{{ egreso.observacion }}</td>
+
+      <td>
+        <a id="update_transaccion_{{ egreso.id }}" class="update_transaccion_link mouseClick btn btn-default" data-form="{% url 'captura:update_transaccion_modal' egreso.id %}">
+          <i class="glyphicon glyphicon-pencil"></i> 
+          Editar
+        </a>
+        &nbsp;&nbsp;
+
+        <a id="delete_user_{{ user.id }}" class="delete_user_link mouseClick btn btn-danger" data-form="{% url 'administracion:users_delete_modal' user.id %}">
+          <i class="glyphicon glyphicon-trash"></i> 
+          Borrar
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+<div>
+  <button id="add-outcome" class="btn btn-primary pull-right" data-toggle="modal" data-target="#createOutcome">
+    <span class="glyphicon glyphicon-plus"></span> Agregar Egreso
+  </button>
+</div>

@@ -1,60 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <title>
-    Titulo
-    </title>
-    {{> head }}
+    {{> head}}
+    <link type="text/css" rel="stylesheet" href="/css/dateTime.min.css"/>
   </head>
-  <!-- Hello, world! -->
-  <body class="nav-md">
-    <div class="container body">
-      <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="/" class="site_title">
-                <i class="fa fa-bank"></i> 
-                Instituto Juan Pablo Segundo
-              </a>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-          
-              <div class="profile_info">
-                <span>Bienvenido</span>
-                <h2>Nombre Usuario</h2>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                {{> sideNavPasos }}
-              </div>
-
-            </div>
-            <!-- /sidebar menu -->
-          </div>
-        </div>
-
-        <!-- top navigation -->
-        <div class="top_nav">
-          {{> nav }}
-        </div>
-        <!-- /top navigation -->
-
-        <!-- page content -->
-        <div class="right_col" role="main">
-          <div class="page-content container">
-                      <div class="row">
+  <body>  
+    <div>
+      {{> nav}}
+      <div class="page-content container" id="main-content">
+        <div class="row">
+          <div class="row">
             <br>
             <br>
             <br>
@@ -86,26 +41,23 @@
                     <div class="form-group col-xs-3">
                       <label for="location">Localidad*</label>
                       <select class="form-control" id="location" name="location" required>
-                        {{#select family.localidad}}
                         <option value=""></option>
                         <option value="Poblado Jurica">Poblado Jurica</option>
                         <option value="Nabo">Nabo</option>
                         <option value="Salitre">Salitre</option>
                         <option value="La Campana">La Campana</option>
                         <option value="Otro">Otro</option>
-                        {{/select}}
                       </select>
                     </div>
                     <h4>Información General</h4>
                     <div class="form-group col-xs-6">
                       <label for="bastards" class="control-label">Número de distintos padres*</label>
-                      <input type="number" class="form-control" min="0" name="bastards" id="bastards" required 
+                      <input type="text" class="form-control" name="bastards" id="bastards" required 
                       value="{{family.bastardos}}"> 
                     </div>                      
                     <div class="form-group col-xs-6">
                       <label for="martialStatus" class="control-label">Estado Civil*</label>
                       <select class="form-control" id="martialStatus" name="martialStatus" required>
-                        {{#select family.estadoCivil}}
                         <option value=""></option>
                         <option value="Soltero">Soltero</option>
                         <option value="Viudo">Viudo</option>
@@ -113,22 +65,17 @@
                         <option value="Casado-Civil">Casado-Civil</option>
                         <option value="Casado-Iglesia">Casado-Iglesia</option>
                         <option value="Divorciado Vuelto a Casar">Divorciado Vuelto a Casar</option>
-                        {{/select}}
                       </select>
                     </div>
                     <div class="form-group col-xs-8 col-xs-offset-2">
-                      <button type="submit" id="create-family" class="btn btn-primary btn-block">Guardar familia</button>
+                      <button type="submit" id="create-family" class="btn btn-primary btn-block">Crear familia</button>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
           </div>
-
-          </div>
         </div>
-        <!-- /page content -->
-    
       </div>
     </div>
     {{> scripts }}
@@ -136,3 +83,4 @@
     <script src="/js/validator.min.js"> </script>
   </body>
 </html>
+        

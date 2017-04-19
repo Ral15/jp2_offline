@@ -29,6 +29,9 @@ body {
   margin-top: 20px; 
 }
 
+#add-member-button {
+  margin-bottom: 20px;
+}
 
 #home-btn {
   margin-top: 10px;

@@ -8,8 +8,13 @@ const config = require('../config.js');
 
 //Database connection
 const connect = require(path.join(__dirname , '../express-app/node_modules/camo')).connect;
-var database;
-const dbUri = 'nedb://testDB';
+let database;
+let dbUri;
+if (config.ENV !== 'testing') {
+  dbUri = 'nedb://db';
+} else {
+  dbUri = 'nedb://testDB';
+}
 //end DB connection
 
 // Set the direction to launch the electron app.

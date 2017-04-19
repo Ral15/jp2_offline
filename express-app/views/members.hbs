@@ -1,156 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    {{> head page_title='Captura Datos Integrantes' }}
-  </head>
-  <!-- Hello, world! -->
-  <body class="nav-md">
-    <div class="container body">
-      <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="/" class="site_title">
-                <i class="fa fa-bank"></i> 
-                Instituto Juan Pablo Segundo
-              </a>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-          
-              <div class="profile_info">
-                <span>Bienvenido</span>
-                <h2>{{user.username}}</h2>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                {{> sideNavPasos }}
-              </div>
-
-            </div>
-            <!-- /sidebar menu -->
-          </div>
-        </div>
-
-        <!-- top navigation -->
-        <div class="top_nav">
-          {{> nav }}
-        </div>
-        <!-- /top navigation -->
-
-        <!-- page content -->
-        <div class="right_col" role="main">
-          <div class="page-content container">
-            {{#if error_message}}
-              <div class="alert alert-danger">
-                <span id="error_message"><strong>{{error_message}}</strong></span>
-              </div>
-            {{/if}}
-            <div class="row">
-            <div class="col-xs-12">
-              <h1>Miembros</h1>
-              <div class="row">
-                <div class="col-xs-10 col-xs-offset-1">
-                  <h3>En esta sección podras agregar a todos los miembros de una familia.</h3>
-                </div>
-              </div>
-              <div class="col-xs-12 well">
-                <form id="familySection" method="post" action="/estudio/member/create/?estudioId={{estudioId}}">
-                  <div id="family-wrapper">
-                    <div class="row" id="add-family-button">
-                      <button id="add-family-input" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus" area-hidden="true"></span></button>
-                    </div>
-                    <div class="row" id="input-family">
-                      <div class="form-group col-xs-3">
-                        <label for="role">Rol</label>
-                        <select class="form-control" id="role" name="role">
-                          <option></option>
-                          <option value="madre">Madre</option>
-                          <option value="padre">Padre</option>
-                          <option value="tutor">Tutor</option>
-                          <option value="estudiante">Estudiante</option>
-                        </select>
-                      </div>                      
-                      <div class="form-group col-xs-3">
-                        <label for="firstName">Nombre</label>
-                        <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Nombre">
-                      </div>
-                      <div class="form-group col-xs-3">
-                        <label for="lastName">Apellido</label>
-                        <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Apellido">
-                      </div>
-                      <div class="form-group col-xs-2">
-                        <label for="age">Edad</label>
-                        <input type="text" class="form-control" id="age" name="age" placeholder="Edad">
-                      </div>
-                      <div class="form-group col-xs-3">
-                        <label for="academicDegree">Nivel estudios</label>
-                        <select class="form-control" id="academicDegree" name="academicDegree">
-                          <option></option>
-                          <option value="1_grado">Primero Primaria</option>
-                          <option value="2_grado">Segundo Primaria</option>
-                          <option value="3_grado">Tercero Primaria</option>
-                          <option value="4_grado">Cuarto Primaria</option>
-                          <option value="5_grado">Quinto Primaria</option>
-                          <option value="6_grado">Sexto Primaria</option>
-                          <option value="7_grado">Primero Secundaria</option>
-                          <option value="8_grado">Segundo Secundaria</option>
-                          <option value="9_grado">Tercero Secundaria</option>
-                          <option value="10_grado">Primero Prepa</option>
-                          <option value="11_grado">Segundo Prepa</option>
-                          <option value="12_grado">Tercero Prepa</option>
-                          <option value="universidad">Universidad</option>
-                          <option value="maestria">Maestría</option>
-                          <option value="doctorado">Doctorado</option>
-                        </select>
-                      </div>
-                      <div class="col-xs-3 form-group">
-                        <div id="datetimepicker4" class="input-group">
-                          <label for="birthDate">Fecha de nacimiento</label>
-                          <div class="input-group">
-                            <span class="input-group-addon add-on" id="basic-addon1">
-                              <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
-                            </span>
-                            <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" name="birthDate">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group col-xs-2">
-                        <label for="phone">Teléfono</label>
-                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="442-8798-903">
-                      </div>
-                      <div class="form-group col-xs-3">
-                        <label for="email">Correo electrónico</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="eugenio@420.mx">
-                      </div>                    
-                    </div>
-                  </div>
-                  <button type="submit" id="create-members">Crear miembros</button>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          </div>
-        </div>
-        <!-- /page content -->
-    
+{{#>  layouts/base_dashboard page_title="Captura de Estudios" which_side="sideNavPasos" }}
+{{#*inline "panel-block"}}
+  {{#if error_message}}
+    <div class="alert alert-danger">
+      <span id="error_message"><strong>{{error_message}}</strong></span>
+    </div>
+  {{/if}}
+  <div class="row">
+  <div class="col-xs-12">
+    <h1>Miembros</h1>
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <h3>En esta sección podras agregar a todos los miembros de una familia.</h3>
       </div>
     </div>
+    <div class="col-xs-12 well">
+      <form id="familySection" method="post" action="/estudio/member/create/?estudioId={{estudioId}}">
+        <div id="family-wrapper">
+          <div class="row" id="add-family-button">
+            <button id="add-family-input" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus" area-hidden="true"></span></button>
+          </div>
+          <div class="row" id="input-family">
+            <div class="form-group col-xs-3">
+              <label for="role">Rol</label>
+              <select class="form-control" id="role" name="role">
+                <option></option>
+                <option value="madre">Madre</option>
+                <option value="padre">Padre</option>
+                <option value="tutor">Tutor</option>
+                <option value="estudiante">Estudiante</option>
+              </select>
+            </div>                      
+            <div class="form-group col-xs-3">
+              <label for="firstName">Nombre</label>
+              <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Nombre">
+            </div>
+            <div class="form-group col-xs-3">
+              <label for="lastName">Apellido</label>
+              <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Apellido">
+            </div>
+            <div class="form-group col-xs-2">
+              <label for="age">Edad</label>
+              <input type="text" class="form-control" id="age" name="age" placeholder="Edad">
+            </div>
+            <div class="form-group col-xs-3">
+              <label for="academicDegree">Nivel estudios</label>
+              <select class="form-control" id="academicDegree" name="academicDegree">
+                <option></option>
+                <option value="1_grado">Primero Primaria</option>
+                <option value="2_grado">Segundo Primaria</option>
+                <option value="3_grado">Tercero Primaria</option>
+                <option value="4_grado">Cuarto Primaria</option>
+                <option value="5_grado">Quinto Primaria</option>
+                <option value="6_grado">Sexto Primaria</option>
+                <option value="7_grado">Primero Secundaria</option>
+                <option value="8_grado">Segundo Secundaria</option>
+                <option value="9_grado">Tercero Secundaria</option>
+                <option value="10_grado">Primero Prepa</option>
+                <option value="11_grado">Segundo Prepa</option>
+                <option value="12_grado">Tercero Prepa</option>
+                <option value="universidad">Universidad</option>
+                <option value="maestria">Maestría</option>
+                <option value="doctorado">Doctorado</option>
+              </select>
+            </div>
+            <div class="col-xs-3 form-group">
+              <div id="datetimepicker4" class="input-group">
+                <label for="birthDate">Fecha de nacimiento</label>
+                <div class="input-group">
+                  <span class="input-group-addon add-on" id="basic-addon1">
+                    <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
+                  </span>
+                  <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" name="birthDate">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-xs-2">
+              <label for="phone">Teléfono</label>
+              <input type="tel" class="form-control" name="phone" id="phone" placeholder="442-8798-903">
+            </div>
+            <div class="form-group col-xs-3">
+              <label for="email">Correo electrónico</label>
+              <input type="email" class="form-control" name="email" id="email" placeholder="eugenio@420.mx">
+            </div>                    
+          </div>
+        </div>
+        <button type="submit" id="create-members">Crear miembros</button>
+      </form>
+    </div>
+  </div>
+</div>
 
-    {{> scripts }}
-    <script src="/js/dateTime.min.js"></script>
-    <script src="/js/renderer.js"> </script>
-    <script src="/js/validator.min.js"> </script>
-  </body>
-</html>
+          
+{{/inline}}
+{{#*inline "scripts-block"}}
+<script src="/js/dateTime.min.js"></script>
+<script src="/js/renderer.js"> </script>
+<script src="/js/validator.min.js"> </script>
+{{/inline}}
+
+{{/ layouts/base_dashboard}}
+

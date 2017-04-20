@@ -42,9 +42,9 @@ module.exports = {
                 .catch((error) => {
                   console.log(error);
                 });
-              } else response.render('login', { msg: 'Contraseña invalida' });
+              } else response.render('login', { error_message: 'Contraseña invalida' });
             });
-          } else response.render('login', { msg: 'Usuario invalido' });
+          } else response.render('login', { error_message: 'Usuario invalido' });
         })
         .catch((err) => {
           console.log(err);
@@ -85,8 +85,22 @@ module.exports = {
           User.findOne({ username:  data.username })
           .then((doc) => {
             if (doc) {
-              editedUser = self.resetPassword(doc, data);
-              SectionController.getQuestions(editedUser, request, response);
+              bcrypt.compare(data.password, doc.password, function (err, res) {
+                if (err) console.log(err);
+                else if (res) {
+                  Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
+                  .then((e) => {
+                    request.session.user = doc;
+                    response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+                } else {
+                  editedUser = self.resetPassword(doc, data);
+                  SectionController.getQuestions(editedUser, request, response);
+                }
+              });
             } else {
               // Create new user with data from the form
               const newUser = User.create({

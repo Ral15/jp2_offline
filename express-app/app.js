@@ -17,7 +17,7 @@ var database;
 var uri;
 if (ENV == 'testing') uri = 'nedb://testDB';
 else uri = 'nedb://db';
-console.log(ENV);
+console.log('current env: ' + ENV);
 connect(uri).then(function(db) {
   database = db;
 });
@@ -27,8 +27,8 @@ connect(uri).then(function(db) {
 const hbs = require('hbs');
 hbs.registerPartials(path.join(__dirname + '/views/partials'));
 // pass to doc
-hbs.registerHelper('ifEq', function(v1, v2, opt) {
-	if (v1 == v2) {
+hbs.registerHelper('ifEq', function(value1, value2, opt) {
+	if (value1 == value2) {
 		return opt.fn(this);
 	}
 	else {
@@ -43,6 +43,8 @@ app.set('view engine', 'hbs');
 
 //declare static files
 app.use('/jquery', express.static(path.join(__dirname + '/node_modules/jquery/dist/')));
+app.use('/template', express.static(path.join(__dirname + '/node_modules/gentelella/')));
+app.use('/sweetalert2', express.static(path.join(__dirname + '/node_modules/sweetalert2/')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //parser for requests
@@ -55,6 +57,14 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use(function(request, response, next) {
+    // response.locals.csrfToken = request.csrfToken();
+  if (request.session.user){
+    response.locals.user = request.session.user;
+  }
+  next();
+});
+
 //routes
 app.use(basicRoutes);
 app.use(userRoutes);
@@ -63,7 +73,7 @@ app.use(familyRoutes);
 
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
+  console.log('Juan Pablo II app listening on port 3000!')
 })
 
 

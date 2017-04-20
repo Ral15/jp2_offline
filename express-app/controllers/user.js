@@ -27,10 +27,11 @@ module.exports = {
       User.findOne({ username: data.username, password: data.password })
       .then((doc) => {
         if (doc) {
+          request.session.user = doc;
+          response.locals.user = request.session.user;
           Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
           .then((e) => {
-            request.session.user = doc;
-            response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
+            response.render('dashboard', {estudios: e, active: 'Borrador' });
           })
           .catch((error) => {
             console.log(error);
@@ -43,9 +44,9 @@ module.exports = {
             });
           });
         }
-        // if user is not found AND there is internet connection, check with API
-        else if (online) this.requestUser(data, request, response);
-        else response.render('login', { msg: 'No hay internet' });
+        //if user is not found AND there is internet connection, check with API
+        else if(online) this.requestUser(data, request, response);
+        else response.render('login', { error_message: "No hay internet" });
       })
       .catch((err) => {
         console.log(err);
@@ -86,7 +87,7 @@ module.exports = {
       function (error, httpResponse, body) {
         // If response FAILS show error message
         if (httpResponse.statusCode > 201) {
-          response.render('login', { msg: 'Usuario o contraseña invalidos' });
+          response.render('login', { error_message: 'Usuario o contraseña invalidos' });
         } else {
           // Create new user with data from the form
           const newUser = User.create({
@@ -124,7 +125,7 @@ module.exports = {
     let user = request.session.user;
     Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
     .then((e) => {
-      response.render('dashboard', { user: user, estudios: e, active: 'Borrador' });
+      response.render('dashboard', { estudios: e , active: 'Borrador' });
     })
     .catch((error) => {
       console.log(error);

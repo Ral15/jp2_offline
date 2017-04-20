@@ -33,7 +33,7 @@ global.before(function () {
 });
 
 
-describe('Create Estudio test', function () {
+describe('Delete Estudio test', function () {
   /**
   * Integration test suite for testing the Login.
   *
@@ -131,7 +131,7 @@ describe('Create Estudio test', function () {
       .click('#delete-estudio-' + estudioId)
       .then(async () => {
         await sleep(1000);
-        return client.getText('#modalContentId');
+        return client.getText('#swal2-content');
       })
       .then((modalText) => {
         assert.equal(modalText, 'No podras recuperar el estudio después de esta acción.');
@@ -148,7 +148,7 @@ describe('Create Estudio test', function () {
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#delete-estudio-' + estudioId)
-      .waitForVisible('#modalContentId')
+      .waitForVisible('#swal2-content')
       .click('.swal2-cancel')
       .then(async () => {
         await sleep(1000);
@@ -169,11 +169,11 @@ describe('Create Estudio test', function () {
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#delete-estudio-' + estudioId)
-      .waitForVisible('#modalContentId')
+      .waitForVisible('#swal2-content')
       .click('.swal2-confirm')
       .then(async () => {
         await sleep(1000);
-        return client.getText('#modalTitleId');
+        return client.getText('#swal2-title');
       })
       .then(async (modalValue) => {
         assert.equal(modalValue, '¡Éxito!');

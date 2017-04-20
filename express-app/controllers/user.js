@@ -80,7 +80,7 @@ module.exports = {
       function (error, httpResponse, body) {
         // If response FAILS show error message
         if (httpResponse.statusCode > 201) {
-          response.render('login', { msg: 'Usuario o contraseña invalidos' });
+          response.render('login', { error_message: 'Usuario o contraseña invalidos' });
         } else {
           User.findOne({ username:  data.username })
           .then((doc) => {
@@ -121,7 +121,7 @@ module.exports = {
     let user = request.session.user;
     Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
     .then((e) => {
-      response.render('dashboard', { user: user, estudios: e, active: 'Borrador' });
+      response.render('dashboard', { estudios: e , active: 'Borrador' });
     })
     .catch((error) => {
       console.log(error);

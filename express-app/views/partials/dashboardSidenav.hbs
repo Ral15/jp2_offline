@@ -1,10 +1,8 @@
-<div class="sidebar content-box" style="display: block;">
-    <ul class="nav">
-        <!-- Main menu -->
-        <li class="{{#ifEq this 'Borrador' }}current{{/ifEq}}"><a href="/estudio/get/?status=Borrador"><i class="glyphicon glyphicon-file"></i> Borradores</a></li>
-        <li class="{{#ifEq this 'Aprobado' }}current{{/ifEq}}"><a href="/estudio/get/?status=Aprobado"><i class="glyphicon glyphicon-thumbs-up"></i> Aprobados</a></li>
-        <li class="{{#ifEq this 'Rechazado' }}current{{/ifEq}}"><a href="/estudio/get/?status=Rechazado"><i class="glyphicon glyphicon-thumbs-down"></i> Rechazados</a></li>
-        <li class="{{#ifEq this 'Revisión' }}current{{/ifEq}}"><a href="/estudio/get/?status=Revisión"><i class="glyphicon glyphicon-eye-open"></i> Revisión</a></li>
-        <li class="{{#ifEq this 'Eliminado' }}current{{/ifEq}}"><a href="/estudio/get/?status=Eliminado" id="show-deleted"><i class="glyphicon glyphicon-trash"></i> Eliminado</a></li>
-    </ul>
-</div>
+<ul class="nav side-menu">
+    <!-- Main menu -->
+    <li class="{{#ifEq this 'Borrador' }}current{{/ifEq}}"><a href="/estudio/get/?status=Borrador"><i class="glyphicon glyphicon-file"></i> Borradores</a></li>
+    <li class="{{#ifEq this 'Aprobado' }}current{{/ifEq}}"><a href="/estudio/get/?status=Aprobado"><i class="glyphicon glyphicon-thumbs-up"></i> Aprobados</a></li>
+    <li class="{{#ifEq this 'Rechazado' }}current{{/ifEq}}"><a href="/estudio/get/?status=Rechazado"><i class="glyphicon glyphicon-thumbs-down"></i> Rechazados</a></li>
+    <li class="{{#ifEq this 'Revisión' }}current{{/ifEq}}"><a href="/estudio/get/?status=Revisión"><i class="glyphicon glyphicon-eye-open"></i> Revisión</a></li>
+    <li class="{{#ifEq this 'Eliminado' }}current{{/ifEq}}"><a href="/estudio/get/?status=Eliminado" id="show-deleted"><i class="glyphicon glyphicon-trash"></i> Eliminado</a></li>
+</ul>

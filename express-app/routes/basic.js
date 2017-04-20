@@ -5,7 +5,11 @@ const urls = require('./urls')
 
 //GET home page.
 router.get(urls.home, function(req, res) {
-  res.render('login');
+  if(req.session.user != null){
+    res.redirect(urls.dashboard);
+  } else {
+    res.render('login');
+  }
 });
 
 // In the future, 404, 500 routes should be in this file

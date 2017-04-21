@@ -2,8 +2,10 @@ const User = require('../models/user');
 const req = require('request');
 const isOnline = require('is-online');
 const urls = require('../routes/urls');
+const bcrypt = require('bcryptjs');
 const Estudio = require('../models/estudio');
 const SectionController = require('./section');
+
 
 module.exports = {
   /**
@@ -23,41 +25,31 @@ module.exports = {
     const data = request.body;
     // Call promise that validates internet connection
     isOnline().then((online) => {
-      // look for the user in the local db first
-      User.findOne({ username: data.username, password: data.password })
-      .then((doc) => {
-        if (doc) {
-          request.session.user = doc;
-          response.locals.user = request.session.user;
-          Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
-          .then((e) => {
-            response.render('dashboard', {estudios: e, active: 'Borrador' });
-          })
-          .catch((error) => {
-            console.log(error);
-            sweetAlert(
-              'Mensaje de error',
-              'No se pudieron obtener los estudios',
-              'error'
-            ).then(() => {
-              location.reload();
+      // If there is internet connection, check with API
+      if (online) this.requestUser(data, request, response);
+      else {
+        User.findOne({ username:  data.username })
+        .then((doc) => {
+          if (doc) {
+            bcrypt.compare(data.password, doc.password, function (err, res) {
+              if (err) console.log(err);
+              else if (res) {
+                Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
+                .then((e) => {
+                  request.session.user = doc;
+                  response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+              } else response.render('login', { error_message: 'Contraseña invalida' });
             });
-          });
-        }
-        //if user is not found AND there is internet connection, check with API
-        else if(online) this.requestUser(data, request, response);
-        else response.render('login', { error_message: "No hay internet" });
-      })
-      .catch((err) => {
-        console.log(err);
-        sweetAlert(
-          'Mensaje de error',
-          'No se pudo obtener al usuario',
-          'error'
-        ).then(() => {
-          location.reload();
+          } else response.render('login', { error_message: 'Usuario invalido' });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      });
+      }
     });
   },
 
@@ -74,6 +66,7 @@ module.exports = {
    * @param {object} response - response object.
    */
   requestUser: function (data, request, response) {
+    var self = this;
     req.post(
       // Url to post
       urls.apiUrl + urls.api.login,
@@ -89,18 +82,42 @@ module.exports = {
         if (httpResponse.statusCode > 201) {
           response.render('login', { error_message: 'Usuario o contraseña invalidos' });
         } else {
-          // Create new user with data from the form
-          const newUser = User.create({
-            username: data.username,
-            password: data.password,
-            apiToken: body.token,
-          });
-          // Try to save user at db
-          newUser.save()
-          .then((user) => {
-            SectionController.getQuestions(user, request, response);
-          })
-          .catch((err) => {
+          User.findOne({ username:  data.username })
+          .then((doc) => {
+            if (doc) {
+              bcrypt.compare(data.password, doc.password, function (err, res) {
+                if (err) console.log(err);
+                else if (res) {
+                  Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
+                  .then((e) => {
+                    request.session.user = doc;
+                    response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+                } else {
+                  editedUser = self.resetPassword(doc, data);
+                  SectionController.getQuestions(editedUser, request, response);
+                }
+              });
+            } else {
+              // Create new user with data from the form
+              const newUser = User.create({
+                username: data.username,
+                password: data.password,
+                apiToken: body.token,
+              });
+              // Try to save user at db
+              newUser.save()
+              .then((user) => {
+                SectionController.getQuestions(user, request, response);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+            }
+          }).catch((err) => {
             console.log(err);
             sweetAlert(
               'Mensaje de error',
@@ -136,6 +153,23 @@ module.exports = {
       ).then(() => {
         location.reload();
       });
+    });
+  },
+
+  /**
+  * This function reset the password from a user that was
+  * actually logged.
+  *
+  * @function
+  * @param {object} user - actual user who will be edited.
+  * @param {object} data - user updated
+  */
+  resetPassword: function (user, data) {
+    let hash = bcrypt.hashSync(data.password, bcrypt.genSaltSync(10), null);
+    User.findOneAndUpdate({ _id: user._id }, { password: hash }).then((editedUser) => {
+      return editedUser;
+    }).catch((err) => {
+      console.log(err);
     });
   },
 };

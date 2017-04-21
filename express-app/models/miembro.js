@@ -59,6 +59,10 @@ class Miembro extends Document {
   constructor() {
     super();
 
+    this.familyId = {
+      type: String,
+      required: true,
+    }
     this.nombres = {
       type: String,
       default: ''

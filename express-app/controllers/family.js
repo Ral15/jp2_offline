@@ -19,7 +19,7 @@ module.exports = {
       colonia: data.street2,
       codigoPostal: Number(data.zipCode),
       localidad: data.location,
-      miembro: [],
+      // miembro: [],
     });
   },
   /**
@@ -48,6 +48,45 @@ module.exports = {
       transacciones: data.transactions,
     });
   },
+  addMember: function(request, response) {
+    //get all data from POST
+    const data = request.body;
+    //get estudioId
+    const estudioId = request.query.estudioId;
+    //get familyId
+    const familyId = request.query.familyId;
+    // console.log(familyId);
+    //create member object
+    let myMember = this.createMember(data);
+    // array wirth all members
+    let allMembers = [];
+    myMember.save()
+    .then((newMember) => {
+      allMembers.push(newMember);
+      console.log(allMembers);
+      // allMembers = newMember;
+      return Familia.findOne({_id: familyId});
+    })
+    .then((currFam) => {
+      console.log(currFam.miembros);
+      // let finM;
+      // finM = currFam.miembros;
+      // finM.push(allMembers);
+      // console.log(finM);
+      return Familia.findOneAndUpdate({_id: familyId}, {
+        miembros: [allMembers]
+      });
+    })
+    .then((newFamily) => {
+      console.log('newFamily');
+      console.log(newFamily.miembros);
+      return 1;
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+
+  },
   // editMembers: function()
   /**
   * This function creates a member in the family model.
@@ -58,7 +97,7 @@ module.exports = {
   * @param {object} request - request object 
   * @param {object} response - response object.
   */   
-  editMembers: function (request, response) {
+  editMember: function (request, response) {
     //get all data from POST
     const data = request.body;
     //get estudioId
@@ -66,7 +105,7 @@ module.exports = {
     //get member Id
     const memberId = request.query.memberId;
     // const newData = this.parseData(data);
-    let myMember = this.addMember(data);
+    let myMember = this.createMember(data);
     console.log(myMember);
     let newMember  = [];
     myMember.save()
@@ -200,7 +239,7 @@ module.exports = {
   * @event
   * @param {object} data - data of the memeber 
   */   
-  addMember: function(data) {
+  createMember: function(data) {
     // return Miembro.create({
     return Miembro.create({
       nombres: data.firstName,

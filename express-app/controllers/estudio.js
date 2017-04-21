@@ -71,7 +71,8 @@ module.exports = {
       response.render('membersNew', {
         userToken: token, 
         estudioId: newEstudio._id,
-        family: newEstudio.familia
+        family: newEstudio.familia,
+        familyId: newEstudio.familia._id,
       });      
     })
     .catch((error) => {
@@ -114,11 +115,12 @@ module.exports = {
       });
     })
     .then((editedEstudio) => {
-      console.log(editedEstudio);
+      // console.log(editedEstudio);
       response.render('membersNew', {
         userToken: token, 
         estudioId: editedEstudio._id,
-        family: editedEstudio.familia
+        family: editedEstudio.familia,
+        familyId: editedEstudio.familia._id,
       });      
     })
     .catch((error) => {

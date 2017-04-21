@@ -68,7 +68,7 @@ module.exports = {
       console.log('es de fam');
       console.log(f);
     }).catch((err) => {
-      console.log(err);
+      response.render('members', { error_message: 'Los miembros no se pudieron guardar' });
     })
   },
   /**

@@ -14,7 +14,7 @@ module.exports = {
   * @param {object} response - response object.
   */
   showFamilyForm: function(request, response) {
-    //retrieve estudio id from url
+    // retrieve estudio id from url
     let estudioId = request.query.estudioId;
     if (estudioId) {
       Estudio.findOne({
@@ -27,8 +27,9 @@ module.exports = {
         });
       })
       .catch((error) => {
-        //no estudio found
+        // no estudio found
         console.log(error);
+        response.render('dashboard', { error_message: 'Estudio no encontrado en la base de datos' });
       });
     } else {
       response.render('family');
@@ -69,6 +70,7 @@ module.exports = {
     .catch((error) => {
       //estudio could not be created
       console.log(error);
+      response.render('family', { error_message: 'No se pudo guardar a la familia' });
     });
   },
   /**
@@ -102,6 +104,7 @@ module.exports = {
     .catch((error) => {
       //estudio not edited
       console.log(error);
+      response.render('family', { error_message: 'No se pudo editar la familia'});
     });
   },
   /**
@@ -128,6 +131,7 @@ module.exports = {
     })
     .catch((err) => {
       console.log(err);
+      return response.sendStatus(500);
     });
   },
   /**
@@ -154,6 +158,7 @@ module.exports = {
     })
     .catch((err) => {
       console.log(e);
+      response.render('dashboard', { error_message: 'Estudios no encontrados, presione recargar para volver a intentarlo'});
     })
   }
  }

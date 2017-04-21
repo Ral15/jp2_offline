@@ -46,13 +46,6 @@ module.exports = {
                   console.log('Seccion guardada');
                 }).catch((err) => {
                   console.log(err);
-                  sweetAlert(
-                    'Mensaje de error',
-                    'Las preguntas no se obtuvieron',
-                    'error'
-                  ).then(() => {
-                    location.reload();
-                  });
                 });
               });
             }

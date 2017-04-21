@@ -119,13 +119,6 @@ module.exports = {
             }
           }).catch((err) => {
             console.log(err);
-            sweetAlert(
-              'Mensaje de error',
-              'No se pudo crear al usuario',
-              'error'
-            ).then(() => {
-              location.reload();
-            });
           });
         }
       });
@@ -146,13 +139,6 @@ module.exports = {
     })
     .catch((error) => {
       console.log(error);
-      sweetAlert(
-        'Mensaje de error',
-        'No se pudieron obtener los estudios',
-        'error'
-      ).then(() => {
-        location.reload();
-      });
     });
   },
 

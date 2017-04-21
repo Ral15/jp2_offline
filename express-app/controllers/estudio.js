@@ -29,13 +29,6 @@ module.exports = {
       .catch((error) => {
         //no estudio found
         console.log(error);
-        sweetAlert(
-          'Mensaje de error',
-          'No se encontró a la familia',
-          'error'
-        ).then(() => {
-          location.reload();
-        });
       });
     } else {
       response.render('family');
@@ -76,13 +69,6 @@ module.exports = {
     .catch((error) => {
       //estudio could not be created
       console.log(error);
-      sweetAlert(
-        'Mensaje de error',
-        'No se pudo crear el estudio',
-        'error'
-      ).then(() => {
-        location.reload();
-      });
     });
   },
   /**
@@ -116,13 +102,6 @@ module.exports = {
     .catch((error) => {
       //estudio not edited
       console.log(error);
-      sweetAlert(
-        'Mensaje de error',
-        'El estudio no se pudo editar',
-        'error'
-      ).then(() => {
-        location.reload();
-      });
     });
   },
   /**
@@ -149,14 +128,6 @@ module.exports = {
     })
     .catch((err) => {
       console.log(err);
-      sweetAlert(
-        'Mensaje de error',
-        'El estudio no se pudo borrar',
-        'error'
-      ).then(() => {
-        location.reload();
-        return response.sendStatus(500);
-      });
     });
   },
   /**
@@ -183,13 +154,6 @@ module.exports = {
     })
     .catch((err) => {
       console.log(e);
-      sweetAlert(
-        'Mensaje de error',
-        'No se pudo obtener los estudios',
-        'error'
-      ).then(() => {
-        location.reload();
-      });
     })
   }
  }

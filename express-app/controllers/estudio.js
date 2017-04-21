@@ -51,8 +51,8 @@ module.exports = {
     //get data from request
     const data = request.body;
     //create default members
-    const defaultMember = [Miembro.create(), Miembro.create()];
-    data.members = defaultMember;
+    // const defaultMember = [Miembro.create(), Miembro.create()];
+    // data.members = defaultMember;
     //create familia
     let newFamily = familyController.createFamily(data);
     //save familia
@@ -67,9 +67,10 @@ module.exports = {
       return estudio.save();
     })
     .then((newEstudio) => {
-      response.render('members', {
+      console.log(newEstudio);
+      response.render('membersNew', {
         userToken: token, 
-        estudioId: newEstudio._id, 
+        estudioId: newEstudio._id,
         family: newEstudio.familia
       });      
     })
@@ -95,36 +96,26 @@ module.exports = {
     //get object with the new values for a family
     Estudio.findOne({_id: estudioId})
     .then((currEstudio) => {
-      //create array where members info will be stored
-      let allMembers = [];
-      //iterate over all miembros in the currEstudio
-      currEstudio.familia.miembros.map((i) => {
-        allMembers.push({
-          nombres: i.nombres,
-          apellidos: i.apellidos,
-          telefono: i.telefono,
-          correo: i.correo,
-          nivelEstudios: i.nivelEstudios,
-          fechaNacimiento: i.fechaNacimiento,
-          edad: i.edad,
-          activo: i.activo,
-          relacion: i.relacion,
-          escuela: i.escuela,
-          sae: i.sae,
-        });
-      });
-      //add all memebers to data object
-      data.members = allMembers;
+      let familyId = currEstudio.familia._id;
+      //add members to data
+      data.members = currEstudio.familia.miembros;
+      //add comments to data
+      data.comments = currEstudio.familia.comentarios;
+      //add transactions to data
+      data.transactions = currEstudio.familia.transacciones;
       //create object with the new family data
-      let editedFamily = familyController.editFamily(data);
-      //return promise that updates family
+      let editedFamily = familyController.editFamily(data, familyId);
+      return editedFamily;
+    })
+    .then((editedFamily) => {
       return Estudio.findOneAndUpdate({_id: estudioId}, 
       {
         familia: editedFamily
       });
     })
     .then((editedEstudio) => {
-      response.render('members', {
+      console.log(editedEstudio);
+      response.render('membersNew', {
         userToken: token, 
         estudioId: editedEstudio._id,
         family: editedEstudio.familia

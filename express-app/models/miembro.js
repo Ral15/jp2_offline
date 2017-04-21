@@ -25,10 +25,10 @@ const academicDegreeChoices = [
 ];
 const relationOptions = [
   '',
-  'Madre',
-  'Padre',
-  'Tutor',
-  'Estudiante',
+  'madre',
+  'padre',
+  'tutor',
+  'estudiante',
 ];
 
 /*

@@ -1,11 +1,5 @@
 $(document).ready(function(){
 
-    $(".editMember").click(function(e){
-      var myMember = $(this).data('member');
-      console.log(myMember);
-      $("#memberModal #firstName").val(myMember.nombres);
-    });
-
   // add family and remove family inputs
 
   $("#add-family-input").click(function(e) {
@@ -20,40 +14,26 @@ $(document).ready(function(){
     $(this).parent('div').parent().remove();
   });
 
-  $("#role").change(function(e) {
+
+  $("#add-member-button").click(function(e) {
     e.preventDefault();
-    if (e.target.value == "Estudiante") {
-      $("#school").prop("disabled", false);
-      $("#school").prop("required", true);
-      $("#sae").prop("disabled", false);
-      $("#sae").prop("required", true);
-    }
-    else {
-      $("#school").prop("disabled", true);
-      $("#school").prop("required", false);
-      $("#sae").prop("disabled", true);
-      $("#sae").prop("required", false);
-      $("#sae").val("");
-      $("#school").val("");
-    }
+    $('#schoolInput').hide();
+    $('#saeInput').hide();  
   });
 
-  /**
-   * This function adds a new input in a wrapper,
-   * it should receive the wrap-id and the html that
-   * will be added in the form.
-   * 
-   * @event
-   * @param {string} wrapId - id of wrapper
-   * @param {string} rawHTML - raw html that will be added.
-   */
-  function addInput(wrapId, rawHTML) {
-    //declare variables
-    let input = rawHTML;
-    let wrap = wrapId;
-    //append html to wrapper
-    $(wrap).append(rawHTML);
-  }
+    // hide or show certain fields based on the rol for the creation form
+  $("#role").change(function(e) {
+    e.preventDefault();
+    console.log(e);
+    if (e.target.value == 'estudiante') {
+      $('#schoolInput').show();
+      $('#saeInput').show();
+    }
+    else {
+      $('#schoolInput').hide();
+      $('#saeInput').hide();
+    }
+  });
 
 
   //date time picker
@@ -77,4 +57,10 @@ $(document).ready(function(){
   window.addEventListener('offline',  isOnline)
 
   isOnline()
+
+// $('#memberModal #studenInputs').hide();
+
+
+
+
 });

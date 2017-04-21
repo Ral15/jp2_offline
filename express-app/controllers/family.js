@@ -19,7 +19,7 @@ module.exports = {
       colonia: data.street2,
       codigoPostal: Number(data.zipCode),
       localidad: data.location,
-      miembros: data.members
+      miembro: [],
     });
   },
   /**
@@ -31,16 +31,22 @@ module.exports = {
   * @event
   * @param {object} data - data from the form
   */  
-  editFamily: function(data) {
-    return {
+  editFamily: function(data, id) {
+    return Familia.findOneAndUpdate(
+    {
+      _id: id
+    },
+    {
       bastardos: Number(data.bastards),
       estadoCivil: data.martialStatus,
       calle: data.street,
       colonia: data.street2,
       codigoPostal: Number(data.zipCode),
       localidad: data.location,
-      miembros: data.members
-    };
+      miembros: data.members,
+      comentarios: data.comments,
+      transacciones: data.transactions,
+    });
   },
   // editMembers: function()
   /**
@@ -57,15 +63,18 @@ module.exports = {
     const data = request.body;
     //get estudioId
     const estudioId = request.query.estudioId;
-    const newData = this.parseData(data);
-    //create members of the family
-    let familyMiembros = [];
-    newData.map((m) => {
-      familyMiembros.push(this.addMember(m));
-    });
-    //find estudio
-    Estudio.findOne({
-      _id: estudioId
+    //get member Id
+    const memberId = request.query.memberId;
+    // const newData = this.parseData(data);
+    let myMember = this.addMember(data);
+    console.log(myMember);
+    let newMember  = [];
+    myMember.save()
+    .then((m) => {
+      console.log(m);
+      return 1;
+      newMember.push(m);
+      return Estudio.findOne({ _id: estudioId });
     })
     .then((currEstudio) => {
       const newFamily = {
@@ -75,20 +84,54 @@ module.exports = {
         estadoCivil: currEstudio.familia.estadoCivil,
         codigoPostal: currEstudio.familia.codigoPostal,
         localidad: currEstudio.familia.localidad,
-        miembros: familyMiembros,
-      };
-      return Estudio.findOneAndUpdate({_id: estudioId}, {familia: newFamily});
+        miembros: currEstudio.familia.miembros.push(newMember),
+      };      
+      return Estudio.findOneAndUpdate({_id: estudioId}, {familia: newFamily}); 
     })
     .then((newEstudio) => {
+      console.log(newEstudio);
       response.render('income', {
         estudio: newEstudio,
         estudioId: newEstudio._id,
-        members: newEstudio.familia.miembros.filter((m) => m.relacion != 'Estudiante'),
+        // members: newEstudio.familia.miembros.filter((m) => m.relacion != 'Estudiante'),
       });
     })
     .catch((err) => {
       console.log(err);
     });
+    // return 1;
+    // //create members of the family
+    // let familyMiembros = [];
+    // newData.map((m) => {
+    //   familyMiembros.push(this.addMember(m));
+    // });
+    // //find estudio
+    // Estudio.findOne({
+    //   _id: estudioId
+    // })
+    // .then((currEstudio) => {
+    //   console.log(currEstudio.familia.miembros);
+    //   const newFamily = {
+    //     calle: currEstudio.familia.calle,
+    //     colonia: currEstudio.familia.colonia,
+    //     bastardos: currEstudio.familia.bastardos,
+    //     estadoCivil: currEstudio.familia.estadoCivil,
+    //     codigoPostal: currEstudio.familia.codigoPostal,
+    //     localidad: currEstudio.familia.localidad,
+    //     miembros: familyMiembros,
+    //   };
+    //   return Estudio.findOneAndUpdate({_id: estudioId}, {familia: newFamily});
+    // })
+    // .then((newEstudio) => {
+    //   response.render('income', {
+    //     estudio: newEstudio,
+    //     estudioId: newEstudio._id,
+    //     members: newEstudio.familia.miembros.filter((m) => m.relacion != 'Estudiante'),
+    //   });
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
   },
   /**
   * This functions converts data from POST to a more handable object
@@ -159,7 +202,7 @@ module.exports = {
   */   
   addMember: function(data) {
     // return Miembro.create({
-    return {
+    return Miembro.create({
       nombres: data.firstName,
       apellidos: data.lastName, 
       edad: data.age,
@@ -170,7 +213,7 @@ module.exports = {
       relacion: data.role,
       sae: data.sae,
       escuela: data.school
-    };
+    });
   },
   /**
   * This function adds a Transaction to a Member from a Family

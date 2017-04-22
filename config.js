@@ -1,7 +1,7 @@
 module.exports = {
-  DEBUG: true,
-  //production
-  ENV: 'production',
+  DEBUG: false,
+  //production - testing
+  ENV: 'testing',
   SECRET_SESSION: 'erikiano',
   //test credentials
   username: 'eugenio',

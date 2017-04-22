@@ -54,6 +54,10 @@ class Estudio extends Document {
       type: Date,
       default: Date.now
     };
+     this.editedDate = {
+      type: Date,
+      default: Date.now
+    };
   }
 
   static collectionName() {

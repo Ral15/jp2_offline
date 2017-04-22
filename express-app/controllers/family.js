@@ -19,15 +19,12 @@ module.exports = {
       colonia: data.street2,
       codigoPostal: Number(data.zipCode),
       localidad: data.location,
-      // miembro: [],
+      nombreFamilia: data.familyName,
     });
   },
   /**
-  * This function returns a an object with the  
-  * information of a new family, it has to be an object 
-  * because of an issue with camo.
-  * https://github.com/scottwrobinson/camo/issues/81
-  * 
+  * This funciton finds a Familia using the id and updates its data. It returns
+  * a promise that when solved returns the updated Familia object
   * @event
   * @param {object} data - data from the form
   */  
@@ -43,55 +40,47 @@ module.exports = {
       colonia: data.street2,
       codigoPostal: Number(data.zipCode),
       localidad: data.location,
-      miembros: data.members,
-      comentarios: data.comments,
-      transacciones: data.transactions,
+      nombreFamilia: data.familyName,
     });
   },
+  /**
+  * This function creates a member with a familyId
+  * 
+  * @event
+  * @param {object} request - request from the form
+  * @param {object} response - response form the form
+  *
+  */     
   addMember: function(request, response) {
     //get all data from POST
     const data = request.body;
     //get estudioId
-    const estudioId = request.query.estudioId;
+    const estudioId = request.session.estudioId;
     //get familyId
-    const familyId = request.query.familyId;
-    // console.log(familyId);
+    const familyId = request.session.familyId;
     //create member object
-    let myMember = this.createMember(data);
-    // array wirth all members
-    let allMembers = [];
+    let myMember = this.createMember(data, familyId);
+    //save member
     myMember.save()
     .then((newMember) => {
-      allMembers.push(newMember);
+      //get all members
+      return Miembro.find({familyId: familyId});
+    })
+    .then((allMembers) => {
       console.log(allMembers);
-      // allMembers = newMember;
-      return Familia.findOne({_id: familyId});
-    })
-    .then((currFam) => {
-      console.log(currFam.miembros);
-      // let finM;
-      // finM = currFam.miembros;
-      // finM.push(allMembers);
-      // console.log(finM);
-      return Familia.findOneAndUpdate({_id: familyId}, {
-        miembros: [allMembers]
+      //render members view with the info
+      return response.render('membersNew', {
+        // estudioId: estudioId,
+        members: allMembers,
+        // familyId: familyId,
       });
-    })
-    .then((newFamily) => {
-      console.log('newFamily');
-      console.log(newFamily.miembros);
-      return 1;
     })
     .catch((err) => {
       console.log(err);
-    })
-
+    });
   },
-  // editMembers: function()
   /**
-  * This function creates a member in the family model.
-  * Data obtained from the form is parsed, then it creates 
-  * the member with the role specified.
+  * This functions edits the information of a previously saved member.
   * 
   * @event
   * @param {object} request - request object 
@@ -100,79 +89,33 @@ module.exports = {
   editMember: function (request, response) {
     //get all data from POST
     const data = request.body;
-    //get estudioId
-    const estudioId = request.query.estudioId;
-    //get member Id
+    //get family id from session
+    const familyId = request.session.familyId;
+    //get estudioId from session
+    const estudioId = request.session.estudioId;
+    //get member Id from query
     const memberId = request.query.memberId;
-    // const newData = this.parseData(data);
-    let myMember = this.createMember(data);
-    console.log(myMember);
-    let newMember  = [];
-    myMember.save()
-    .then((m) => {
-      console.log(m);
-      return 1;
-      newMember.push(m);
-      return Estudio.findOne({ _id: estudioId });
+    //call promise that will update the info of the member
+    let myMember = this.editMemberInfo(data, memberId);
+    //resolve promise
+    myMember.then((newMember) => {
+      //retrieve from db all miembros that share the same familyId
+      return Miembro.find({familyId: familyId});
     })
-    .then((currEstudio) => {
-      const newFamily = {
-        calle: currEstudio.familia.calle,
-        colonia: currEstudio.familia.colonia,
-        bastardos: currEstudio.familia.bastardos,
-        estadoCivil: currEstudio.familia.estadoCivil,
-        codigoPostal: currEstudio.familia.codigoPostal,
-        localidad: currEstudio.familia.localidad,
-        miembros: currEstudio.familia.miembros.push(newMember),
-      };      
-      return Estudio.findOneAndUpdate({_id: estudioId}, {familia: newFamily}); 
-    })
-    .then((newEstudio) => {
-      console.log(newEstudio);
-      response.render('income', {
-        estudio: newEstudio,
-        estudioId: newEstudio._id,
-        // members: newEstudio.familia.miembros.filter((m) => m.relacion != 'Estudiante'),
+    .then((allMembers) => {
+      //renders members view with the new information updated
+      return response.render('membersNew', {
+        // estudioId: estudioId,
+        members: allMembers,
+        // familyId: familyId,
       });
     })
     .catch((err) => {
       console.log(err);
     });
-    // return 1;
-    // //create members of the family
-    // let familyMiembros = [];
-    // newData.map((m) => {
-    //   familyMiembros.push(this.addMember(m));
-    // });
-    // //find estudio
-    // Estudio.findOne({
-    //   _id: estudioId
-    // })
-    // .then((currEstudio) => {
-    //   console.log(currEstudio.familia.miembros);
-    //   const newFamily = {
-    //     calle: currEstudio.familia.calle,
-    //     colonia: currEstudio.familia.colonia,
-    //     bastardos: currEstudio.familia.bastardos,
-    //     estadoCivil: currEstudio.familia.estadoCivil,
-    //     codigoPostal: currEstudio.familia.codigoPostal,
-    //     localidad: currEstudio.familia.localidad,
-    //     miembros: familyMiembros,
-    //   };
-    //   return Estudio.findOneAndUpdate({_id: estudioId}, {familia: newFamily});
-    // })
-    // .then((newEstudio) => {
-    //   response.render('income', {
-    //     estudio: newEstudio,
-    //     estudioId: newEstudio._id,
-    //     members: newEstudio.familia.miembros.filter((m) => m.relacion != 'Estudiante'),
-    //   });
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
   },
   /**
+  ***********************DEPRECATED**********************************
   * This functions converts data from POST to a more handable object
   * 
   * @event
@@ -189,72 +132,7 @@ module.exports = {
     return newArray;
   },
   /**
-  ******************DEPRECATED**************************
-  * This function adds a Student Member to a Family
-  * 
-  * 
-  * @event
-  * @param {object} data - data of the member
-  *****************************************************
-  */
-  addStudent: function(data) {
-    // return Estudiante.create({
-    return {
-      nombres: data.firstName,
-      apellidos: data.lastName, 
-      edad: data.age,
-      nivelEstudios: data.academicDegree,
-      fechaNacimiento: data.birthDate,
-      telefono: data.phone,
-      correo: data.email,
-      //missing sae field*****
-      sae: '10' 
-    };
-  },
-  /**
-  ****************DEPRECATED*********************  
-  * This function adds a Tutor member to a family 
-  * 
-  * @event
-  * @param {object} data - data of the memeber
-  ************************************************
-  */ 
-  addTutor: function(data) {
-    // return Tutor.create({
-    return {
-      nombres: data.firstName,
-      apellidos: data.lastName, 
-      edad: data.age,
-      nivelEstudios: data.academicDegree,
-      fechaNacimiento: data.birthDate,
-      telefono: data.phone,
-      correo: data.email,
-      relacion: data.role      
-    };
-  },
-  /**
-  * This function adds a Member to a Family
-  * 
-  * 
-  * @event
-  * @param {object} data - data of the memeber 
-  */   
-  createMember: function(data) {
-    // return Miembro.create({
-    return Miembro.create({
-      nombres: data.firstName,
-      apellidos: data.lastName, 
-      edad: data.age,
-      nivelEstudios: data.academicDegree,
-      fechaNacimiento: data.birthDate,
-      telefono: data.phone,
-      correo: data.email,
-      relacion: data.role,
-      sae: data.sae,
-      escuela: data.school
-    });
-  },
-  /**
+  ** TODO **
   * This function adds a Transaction to a Member from a Family
   * 
   * 
@@ -266,6 +144,7 @@ module.exports = {
 
   },
   /**
+  ** TODO ***
   * This function adds a Transaction to a Family
   * 
   * 
@@ -300,4 +179,95 @@ module.exports = {
       console.log(err);
     });
   },
+  /**
+  * This function adds a Member to a Family
+  * 
+  * 
+  * @event
+  * @param {object} data - data of the memeber 
+  */   
+  createMember: function(data, id) {
+    console.log(data);
+    return Miembro.create({
+      familyId: id,
+      nombres: data.firstName,
+      apellidos: data.lastName, 
+      nivelEstudios: data.academicDegree,
+      fechaNacimiento: data.birthDate,
+      telefono: data.phone,
+      correo: data.email,
+      relacion: data.role,
+      sae: data.sae,
+      escuela: data.school,
+      oficio: data.job,
+      observacionOficio: data.jobObservation,
+      observacionEscuela: data.schoolObservation,
+    });
+  },
+  /**
+  * This function edits the information of a previously
+  * saved Member
+  * 
+  * 
+  * @event
+  * @param {object} data - data of the memeber 
+  * @param {string} id - id of the member to update
+  */     
+  editMemberInfo: function(data, id) {
+    return Miembro.findOneAndUpdate({_id : id}, {
+      nombres: data.firstName,
+      apellidos: data.lastName, 
+      nivelEstudios: data.academicDegree,
+      fechaNacimiento: data.birthDate,
+      telefono: data.phone,
+      correo: data.email,
+      relacion: data.role,
+      sae: data.sae,
+      escuela: data.school,
+      oficio: data.job,
+      observacionOficio: data.jobObservation,
+      observacionEscuela: data.schoolObservation,      
+    });
+  },  
+  /**
+  * This function deletes a member
+  * 
+  * 
+  * @event
+  * @param {object} request - request object
+  * @param {object} response - response object
+  *
+  */    
+  deleteMember: function(request, response) {
+    //retrieve member id from request
+    const memberId = request.params.id;
+    //*** delete function did not work, fuck you camo
+    Miembro.findOneAndDelete({_id: memberId})
+    .then((m) => {
+      return response.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log(err);
+      return response.sendStatus(500);
+    });
+  },
+  /**
+   * This function retrieves all the members associated to a familyId and 
+   * renders the members page.
+   *
+   * @event
+   * @param {object} request - request object
+   * @param {object} response - response object.
+   */   
+  showMemberView: function(request, response) {
+    //get family id
+    const familyId = request.session.familyId;
+    Miembro.find({ familyId: familyId })
+    .then((allMembers) => {
+      response.render('membersNew', {members: allMembers});
+    })
+    .catch((error) => {
+      console.log(error);
+    })      
+  },  
 }

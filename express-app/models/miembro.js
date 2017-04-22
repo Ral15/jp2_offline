@@ -25,10 +25,34 @@ const academicDegreeChoices = [
 ];
 const relationOptions = [
   '',
+  'tutor',
   'madre',
   'padre',
-  'tutor',
   'estudiante',
+  'hermano/a',
+  'abuelo/a',
+  'tio/a',
+];
+
+const jobOptions = [
+  '',
+  'empleado/a',
+  'obrero/a',
+  'jefe_linea',
+  'area_limpieza',
+  'administrativo/a',
+  'empleado/a_domestico',
+  'jardinero/a',
+  'plomero/a',
+  'herrero/a',
+  'carpintero/a',
+  'albañil',
+  'pintor/a',
+  'mesero/a',
+  'negocio_propio',
+  'comerciante',
+  'venta_productos',
+  'otro',
 ];
 
 /*
@@ -62,7 +86,7 @@ class Miembro extends Document {
     this.familyId = {
       type: String,
       required: true,
-    }
+    };
     this.nombres = {
       type: String,
       default: ''
@@ -87,9 +111,12 @@ class Miembro extends Document {
     this.fechaNacimiento = {
       type: Date,
     };
-    this.edad = {
-      type: Number,
-      default: null
+    this.oficio = {
+      type: String,
+      choices: jobOptions,
+    };
+    this.observacionOficio = {
+      type: String,
     };
     this.activo = {
       type: Boolean,
@@ -108,14 +135,16 @@ class Miembro extends Document {
       type: String,
       default: ''
     };
-    
-    this.transacciones = [Transaccion];
-
+    this.observacionEscuela = {
+      type: String,
+      default: '',  
+    };
   }
 
   static collectionName() {
     return 'Miembros';
   }
+
 }
 
 module.exports = Miembro;

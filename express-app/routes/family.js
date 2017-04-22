@@ -15,5 +15,12 @@ router.post(urls.memberCreate, function(req, res) {
   }
 });
 
+router.post(urls.memberDelete, function(req, res) {
+  familyController.deleteMember(req,res);
+});
+
+router.get(urls.membersView, function(req, res) {
+  familyController.showMemberView(req, res);
+});
 
 module.exports = router;

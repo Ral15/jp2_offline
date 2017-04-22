@@ -16,6 +16,8 @@
 	"getEstudios" : "/estudio/get/",
 	"member": "/family/member/",
 	"memberCreate": "/estudio/member/create/",
+	"memberDelete": "/estudio/member/delete/:id",
+	"membersView": "/members/",
 	"incomeCreate": "/estudio/income/create/",
 	"outcomeCreate": "/estudio/outcome/create/"
 }

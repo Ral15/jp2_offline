@@ -50,11 +50,10 @@ module.exports = {
     const token = request.session.user.apiToken;
     //get data from request
     const data = request.body;
-    //create default members
-    // const defaultMember = [Miembro.create(), Miembro.create()];
-    // data.members = defaultMember;
     //create familia
     let newFamily = familyController.createFamily(data);
+    let estudioId = '';
+    let familyId = '';
     //save familia
     newFamily.save()
     .then((newFamily) => {
@@ -67,18 +66,20 @@ module.exports = {
       return estudio.save();
     })
     .then((newEstudio) => {
-      console.log(newEstudio);
-      response.render('membersNew', {
-        userToken: token, 
-        estudioId: newEstudio._id,
-        family: newEstudio.familia,
-        familyId: newEstudio.familia._id,
-      });      
+      //set id's
+      estudioId = newEstudio._id;
+      familyId = newEstudio.familia._id;
+      console.log(estudioId);
+      console.log(familyId);
+      //store id's in session
+      request.session.familyId = familyId;
+      request.session.estudioId = estudioId;
+      return response.render('membersNew');
     })
     .catch((error) => {
       //estudio could not be created
       console.log(error);
-    })
+    });
   },
   /**
   * This function edits the address of a Estudio previously created
@@ -89,44 +90,45 @@ module.exports = {
   * @param {object} response - response object.
   */      
   editEstudio: function(request, response) {
-    //get estudio ID from url
-    const estudioId = request.query.estudioId;
+    //store estudioId in session
+    request.session.estudioId = request.query.estudioId;
+    const estudioId = request.session.estudioId;
     //get user token from session
     const token = request.session.user.apiToken;
     const data = request.body;
+    let familyId;
     //get object with the new values for a family
     Estudio.findOne({_id: estudioId})
     .then((currEstudio) => {
-      let familyId = currEstudio.familia._id;
-      //add members to data
-      data.members = currEstudio.familia.miembros;
-      //add comments to data
-      data.comments = currEstudio.familia.comentarios;
-      //add transactions to data
-      data.transactions = currEstudio.familia.transacciones;
+      //save familyId at session
+      familyId = currEstudio.familia._id;
+      request.session.familyId = familyId;
       //create object with the new family data
       let editedFamily = familyController.editFamily(data, familyId);
       return editedFamily;
     })
     .then((editedFamily) => {
+      //find and update estudio
       return Estudio.findOneAndUpdate({_id: estudioId}, 
       {
         familia: editedFamily
       });
     })
     .then((editedEstudio) => {
-      // console.log(editedEstudio);
+      //get all members
+      return Miembro.find({familyId: familyId})
+    })
+    .then((allMemebrs) => {
       response.render('membersNew', {
-        userToken: token, 
-        estudioId: editedEstudio._id,
-        family: editedEstudio.familia,
-        familyId: editedEstudio.familia._id,
+        // estudioId: estudioId,
+        members: allMemebrs,
+        // familyId: familyId,
       });      
     })
     .catch((error) => {
       //estudio not edited
       console.log(error);
-    })
+    });
   },
   /**
   * This function changes the status of a Estudio to 'Eliminado'

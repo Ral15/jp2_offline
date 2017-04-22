@@ -49,6 +49,7 @@ class Familia extends Document {
       default: 0,
       required: true
     };
+
     this.explicacionSolvencia = {
       type: String,
       default: ''
@@ -60,28 +61,33 @@ class Familia extends Document {
       choices: martialStatusChoices,
       required: true
     };
+
     this.localidad = {
       type: String,
       default: locationChoices[0],
       choices: locationChoices,
       required: true
     };
+
     this.calle = {
       type: String,
       required: true
     };
+
     this.colonia = {
       type: String,
       required: true
     };
+
     this.codigoPostal = {
       type: Number,
       required: true
     };
-    this.miembros = [Miembro];
-    this.comentarios = [Comentario];
-    this.transacciones = [Transaccion];
 
+    this.nombreFamilia = {
+      type: String,
+      required: true,
+    }
   }
 
   static collectionName() {

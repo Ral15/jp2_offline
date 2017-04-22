@@ -1,7 +1,7 @@
 "use strict";
 
 //EmbeddedDocument class from camo
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+var Document = require('camo').Document;
 //extra models
 const Periodo = require('./periodo.js');
 
@@ -27,7 +27,7 @@ const optionChoices = [
  * isIngreso: BOOLEAN
  *    This attrinute determines if a transaccion is an Income or an Outcome
  */
-class Transaccion extends EmbeddedDocument {
+class Transaccion extends Document {
   constructor() {
     super();
 
@@ -56,6 +56,14 @@ class Transaccion extends EmbeddedDocument {
     this.tipo = {
       type: String,
       choices: optionChoices,
+    };
+
+    this.miembroId = {
+      type: String,
+    };
+
+    this.familyId = {
+      type: String,
     }
   } 
   /**

@@ -4,6 +4,8 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const Estudio = require(path.join(__dirname , '../express-app/models/estudio.js'));
+const Familia = require(path.join(__dirname , '../express-app/models/familia.js'));
+const Miembro = require(path.join(__dirname , '../express-app/models/miembro.js'));
 const config = require('../config.js');
 
 
@@ -48,30 +50,48 @@ describe('Create Members test', function () {
   //The time out to launch the app in the test.
   this.timeout(10000);
 
-  let totalEstudios;
+  let totalMembers;
   let estudioId;
+  let familyId;
 
   before(() => {
     //connect to db
     connect(dbUri).then((db) => {
       database = db;
-      let e = Estudio.create({
-        //change later for config
-        tokenCapturista: config.apiToken,
-        familia: {
+      //create family
+      let f = Familia.create({
           bastardos: 10,
           estadoCivil: 'Soltero',
           calle: 'Erizo',
           colonia: 'Fs',
           codigoPostal: 76150,
-          localidad: 'Otro'
-        },
+          localidad: 'Otro',
+          nombreFamilia: 'Los Picapiedras',        
       });
-      return e.save();
+      return f.save();
+    })
+    .then((newFamily) => {
+      //save familyId
+      familyId = newFamily._id;
+      //create estudio 
+      let e = Estudio.create({
+        //change later for config
+        tokenCapturista: config.apiToken,
+        familia: newFamily,
+      });   
+      return e.save();   
     })
     .then((newEstudio) => {
       estudioId = newEstudio._id;
+      return Miembro.find({familyId: familyId});
     })
+    .then((count) => {
+      console.log(count);
+      totalMembers = count;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
     // end Database connection
   });
 
@@ -95,97 +115,416 @@ describe('Create Members test', function () {
     return database.dropDatabase();
   });
   /**
-  * Test Delete estudio button with estudio._id
+  * Test AddMember
   *
-  * Test if the crear-estudio button exists in the
-  * application.
+  * Test if the add-member button exists in the
+  * members view.
   */
-  it('should see delete estudio button', async function () {
+  it('should see addMember button', async function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
       .then(() => {
-        return client.$('#delete-estudio-' + estudioId);
+        return client.$('#add-member-button');
       })
-      .then((createBtn) => {
-        assert.isNotNull(createBtn.value);
+      .then((addMemberBtn) => {
+        assert.isNotNull(addMemberBtn.value);
       });
   });
-
   /**
-  * Test delete estudio
+  * Test fill addMember modal
   *
-  * This test will check if a modal shows before deleting an estudio
+  * Test if you can fill the addMember modal
   */
-  it('should see modal before deleting an estudio', async function () {
+  it('should fill addMember modal', async function () {
+    const client = this.app.client;
+    // await sleep(500);
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#myModalLabel')
+      .$('#role').selectByAttribute('value', 'madre')
+      .$('#job').selectByAttribute('value', 'albañil')
+      .setValue('#firstName', 'Pepe')
+      .setValue('#lastName', 'PicaPiedras')
+      .setValue('#phone', '4422727084')
+      .setValue('#email', 'raul@mien.com')
+      .$('#academicDegree').selectByAttribute('value', '1_grado')
+      .setValue('#birthDate', '2006-12-01')
+      .then(() => {
+        return client.$('#role').getValue();
+      })
+      .then((roleValue) => {
+        assert.equal(roleValue, 'madre');
+        return client.$('#job').getValue();
+      })
+      .then((jobValue) => {
+        assert.equal(jobValue, 'albañil');
+        return client.getValue('#firstName');
+      })
+      .then((firstNameValue) => {
+        assert.equal(firstNameValue, 'Pepe')
+        return client.getValue('#lastName');
+      })
+      .then((lastNameValue) => {
+        assert.equal(lastNameValue, 'PicaPiedras');
+        return client.getValue('#phone');
+      })
+      .then((phoneValue) => {
+        assert.equal(phoneValue, '4422727084');
+        return client.getValue('#email');
+      })
+      .then((emailValue) => {
+        assert.equal(emailValue, 'raul@mien.com');
+        return client.$('#academicDegree').getValue();
+      })
+      .then((academicValue) => {
+        assert.equal(academicValue, '1_grado');
+        return client.getValue('#birthDate');
+      })
+      .then((bitrhValue) => {
+        assert.equal(bitrhValue, '2006-12-01')
+      })
+  });  
+/**
+  * Test error at filling addMember modal
+  *
+  * Test if you can't submit the add member form
+  */
+  it('should fill form with NO role', async function () {
+    const client = this.app.client;
+    // await sleep(500);
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#myModalLabel')
+      .$('#role').selectByAttribute('value', '')
+      .$('#job').selectByAttribute('value', 'albañil')
+      .setValue('#firstName', 'Pepe')
+      .setValue('#lastName', 'PicaPiedras')
+      .setValue('#phone', '4422727084')
+      .setValue('#email', 'raul@mien.com')
+      .$('#academicDegree').selectByAttribute('value', '1_grado')
+      .setValue('#birthDate', '2006-12-01')
+      .then(() => {
+        return client.getAttribute('#submit-addMember-form', 'class');
+      })
+      .then((buttonAttributes) => {
+        assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
+      });      
+  });  
+/**
+  * Test error at filling addMember modal
+  *
+  * Test if you can't submit the add member form
+  */
+  it('should fill form with NO firstName', async function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
-      .click('#delete-estudio-' + estudioId)
-      .then(async () => {
-        await sleep(1000);
-        return client.getText('#modalContentId');
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#myModalLabel')
+      .$('#role').selectByAttribute('value', 'madre')
+      .$('#job').selectByAttribute('value', 'albañil')
+      .setValue('#firstName', '')
+      .setValue('#lastName', 'PicaPiedras')
+      .setValue('#phone', '4422727084')
+      .setValue('#email', 'raul@mien.com')
+      .$('#academicDegree').selectByAttribute('value', '1_grado')
+      .setValue('#birthDate', '2006-12-01')
+      .then(() => {
+        return client.getAttribute('#submit-addMember-form', 'class');
       })
-      .then((modalText) => {
-        assert.equal(modalText, 'No podras recuperar el estudio después de esta acción.');
-      });
+      .then((buttonAttributes) => {
+        assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
+      });      
   });
-  /**
-  * Test delete estudio
+/**
+  * Test error at filling addMember modal
   *
-  * This test will cancel the modal
+  * Test if you can't submit the add member form
   */
-  it('should cancel delete estudio sweetalert2', async function () {
+  it('should fill form with NO lastName', async function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
-      .click('#delete-estudio-' + estudioId)
-      .waitForVisible('#modalContentId')
-      .click('.swal2-cancel')
-      .then(async () => {
-        await sleep(1000);
-        return client.$('#delete-estudio-' + estudioId);
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#myModalLabel')
+      .$('#role').selectByAttribute('value', 'madre')
+      .$('#job').selectByAttribute('value', 'albañil')
+      .setValue('#firstName', 'Pepe')
+      .setValue('#lastName', '')
+      .setValue('#phone', '4422727084')
+      .setValue('#email', 'raul@mien.com')
+      .$('#academicDegree').selectByAttribute('value', '1_grado')
+      .setValue('#birthDate', '2006-12-01')
+      .then(() => {
+        return client.getAttribute('#submit-addMember-form', 'class');
       })
-      .then((estudioButton) => {
-        assert.isNotNull(estudioButton.value);
-      });
+      .then((buttonAttributes) => {
+        assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
+      });      
   });
-  /**
-  * Test delete estudio
+/**
+  * Test error at filling addMember modal
   *
-  * This test will delete an estudio
+  * Test if you can't submit the add member form
   */
-  it('should delete an estudio change its status', async function () {
+  it('should fill form with NO phone', async function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
-      .click('#delete-estudio-' + estudioId)
-      .waitForVisible('#modalContentId')
-      .click('.swal2-confirm')
-      .then(async () => {
-        await sleep(1000);
-        return client.getText('#modalTitleId');
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#myModalLabel')
+      .$('#role').selectByAttribute('value', 'madre')
+      .$('#job').selectByAttribute('value', 'albañil')
+      .setValue('#firstName', 'Pepe')
+      .setValue('#lastName', 'PicaPiedras')
+      .setValue('#phone', '')
+      .setValue('#email', 'raul@mien.com')
+      .$('#academicDegree').selectByAttribute('value', '1_grado')
+      .setValue('#birthDate', '2006-12-01')
+      .then(() => {
+        return client.getAttribute('#submit-addMember-form', 'class');
       })
-      .then(async (modalValue) => {
-        assert.equal(modalValue, '¡Éxito!');
-        await sleep(1000);
-        return client.click('.swal2-confirm');
+      .then((buttonAttributes) => {
+        assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
+      });      
+  });
+/**
+  * Test error at filling addMember modal
+  *
+  * Test if you can't submit the add member form
+  */
+  it('should fill form with NO email', async function () {
+    const client = this.app.client;
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#myModalLabel')
+      .$('#role').selectByAttribute('value', 'madre')
+      .$('#job').selectByAttribute('value', 'albañil')
+      .setValue('#firstName', 'Pepe')
+      .setValue('#lastName', 'PicaPiedras')
+      .setValue('#phone', '4422727083')
+      .setValue('#email', '')
+      .$('#academicDegree').selectByAttribute('value', '1_grado')
+      .setValue('#birthDate', '2006-12-01')
+      .then(() => {
+        return client.getAttribute('#submit-addMember-form', 'class');
       })
-      .then(async () => {
-        await sleep(1000);
-        return client.click('#show-deleted');
+      .then((buttonAttributes) => {
+        assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
+      });      
+  });
+/**
+  * Test error at filling addMember modal
+  *
+  * Test if you can't submit the add member form
+  */
+  it('should fill form with NO academicDegree', async function () {
+    const client = this.app.client;
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#myModalLabel')
+      .$('#role').selectByAttribute('value', 'madre')
+      .$('#job').selectByAttribute('value', 'albañil')
+      .setValue('#firstName', 'Pepe')
+      .setValue('#lastName', 'PicaPiedras')
+      .setValue('#phone', '442727272')
+      .setValue('#email', 'raul@mien.com')
+      .$('#academicDegree').selectByAttribute('value', '')
+      .setValue('#birthDate', '2006-12-01')
+      .then(() => {
+        return client.getAttribute('#submit-addMember-form', 'class');
       })
-      .then(async () => {
-        await sleep(1000);
-        return client.isVisible('#delete-estudio-' + estudioId);
+      .then((buttonAttributes) => {
+        assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
+      });      
+  });
+/**
+  * Test error at filling addMember modal
+  *
+  * Test if you can't submit the add member form
+  */
+  it('should fill form with NO bitrhValue', async function () {
+    const client = this.app.client;
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#myModalLabel')
+      .$('#role').selectByAttribute('value', 'madre')
+      .$('#job').selectByAttribute('value', 'albañil')
+      .setValue('#firstName', 'Pepe')
+      .setValue('#lastName', 'PicaPiedras')
+      .setValue('#phone', '442727272')
+      .setValue('#email', 'raul@mien.com')
+      .$('#academicDegree').selectByAttribute('value', '1_grado')
+      .setValue('#birthDate', '')
+      .then(() => {
+        return client.getAttribute('#submit-addMember-form', 'class');
       })
-      .then((isVisible) => {
-        assert.isTrue(isVisible);
+      .then((buttonAttributes) => {
+        assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
+      });      
+  });
+/**
+  * Test creating of a member
+  *
+  * Test if you can create a member
+  */
+  it('should submit & create a member with role Tutor', async function () {
+    const client = this.app.client;
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#addMemberSection')
+      .$('#role').selectByAttribute('value', 'tutor')
+      .$('#job').selectByAttribute('value', 'albañil')
+      .setValue('#firstName', 'Papa')
+      .setValue('#lastName', 'PicaPiedra')
+      .setValue('#phone', '442727272')
+      .setValue('#email', 'raul@mien.com')
+      .$('#academicDegree').selectByAttribute('value', 'doctorado')
+      .setValue('#birthDate', '2006-12-01')
+      .click('#submit-addMember-form')
+      .waitForVisible('#members-section')
+      .then(() => {
+        return connect(dbUri);
       })
+      .then((db) => {
+        return Miembro.count({familyId: familyId});
+      })
+      .then((newTotal) => {
+        assert.isBelow(totalMembers, newTotal);
+        totalMembers ++;
+      });
+  });
+/**
+  * Test creating of a member
+  *
+  * Test if you can create a member
+  */
+  it('should submit & create a member with role Madre', async function () {
+    const client = this.app.client;
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#memberModal #myModalLabel')
+      .$('#memberModal #role').selectByAttribute('value', 'madre')
+      .$('#memberModal #job').selectByAttribute('value', '')
+      .setValue('#memberModal #firstName', 'Mama')
+      .setValue('#memberModal #lastName', 'PicaPiedra')
+      .setValue('#memberModal #phone', '442727272')
+      .setValue('#memberModal #email', 'raul@mien.com')
+      .$('#memberModal #academicDegree').selectByAttribute('value', '1_grado')
+      .setValue('#memberModal #birthDate', '2006-12-01')
+      .click('#submit-addMember-form')
+      .waitForVisible('#members-section')
+      .then(() => {
+        return connect(dbUri);
+      })
+      .then((db) => {
+        return Miembro.count({familyId: familyId});
+      })
+      .then((newTotal) => {
+        assert.isBelow(totalMembers, newTotal);
+        totalMembers ++;
+      });
+  });
+/**
+  * Test creating of a member with role 'Estudiante'
+  *
+  * Test if you can create a member
+  */
+  it('should submit & create a member with role Estudiante', async function () {
+    const client = this.app.client;
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#edit-estudio-' + estudioId)
+      .waitForVisible('#street')
+      .click('#create-family')
+      .waitForVisible('#members-section')
+      .click('#add-member-button')
+      .waitForVisible('#memberModal #myModalLabel')
+      .$('#memberModal #role').selectByAttribute('value', 'estudiante')
+      .$('#memberModal #school').selectByAttribute('value', 'Plantel Jurica')
+      .setValue('#memberModal #sae', '1598')
+      .$('#memberModal #job').selectByAttribute('value', '')
+      .setValue('#memberModal #firstName', 'Morro')
+      .setValue('#memberModal #lastName', 'PicaPiedras')
+      .setValue('#memberModal #phone', '442727272')
+      .setValue('#memberModal #email', 'raul@mien.com')
+      .$('#memberModal #academicDegree').selectByAttribute('value', '1_grado')
+      .setValue('#memberModal #birthDate', '2006-12-01')
+      .click('#submit-addMember-form')
+      .waitForVisible('#members-section')
+      .then(() => {
+        return connect(dbUri);
+      })
+      .then((db) => {
+        return Miembro.count({familyId: familyId});
+      })
+      .then((newTotal) => {
+        assert.isBelow(totalMembers, newTotal);
+      });
   });
 });

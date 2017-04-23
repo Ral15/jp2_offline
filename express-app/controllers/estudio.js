@@ -74,7 +74,7 @@ module.exports = {
       //store id's in session
       request.session.familyId = familyId;
       request.session.estudioId = estudioId;
-      return response.render('membersNew');
+      return response.render('members');
     })
     .catch((error) => {
       //estudio could not be created
@@ -119,7 +119,7 @@ module.exports = {
       return Miembro.find({familyId: familyId})
     })
     .then((allMemebrs) => {
-      response.render('membersNew', {
+      response.render('members', {
         // estudioId: estudioId,
         members: allMemebrs,
         // familyId: familyId,

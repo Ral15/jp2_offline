@@ -69,7 +69,7 @@ module.exports = {
     .then((allMembers) => {
       console.log(allMembers);
       //render members view with the info
-      return response.render('membersNew', {
+      return response.render('members', {
         // estudioId: estudioId,
         members: allMembers,
         // familyId: familyId,
@@ -104,7 +104,7 @@ module.exports = {
     })
     .then((allMembers) => {
       //renders members view with the new information updated
-      return response.render('membersNew', {
+      return response.render('members', {
         // estudioId: estudioId,
         members: allMembers,
         // familyId: familyId,
@@ -264,7 +264,7 @@ module.exports = {
     const familyId = request.session.familyId;
     Miembro.find({ familyId: familyId })
     .then((allMembers) => {
-      response.render('membersNew', {members: allMembers});
+      response.render('members', {members: allMembers});
     })
     .catch((error) => {
       console.log(error);

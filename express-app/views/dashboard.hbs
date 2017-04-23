@@ -90,7 +90,7 @@
                               <td>{{this.editedDate}}</td>
                               <td>{{this.status}}</td>
                               <td>
-                                <a href="/estudio/?estudioId={{this._id}}"><button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</button></a>
+                                <a href="/estudio/?estudioId={{this._id}}" id="edit-estudio-{{this._id}}"><button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</button></a>
                                 <button onclick="showDeleteMsg('{{this._id}}')" id="delete-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
                               </td>
                             </tr>

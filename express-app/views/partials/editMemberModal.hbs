@@ -28,7 +28,7 @@
           <div class="form-group col-xs-6" id="schoolInput">
             <label for="school">Escuela*</label>
             <select class="form-control" id="school" name="school">
-              {{#select this.school}}
+              {{#select this.escuela}}
               <option value=""></option>
               <option value="Plantel Jurica">Plantel Jurica</option>
               <option value="Plantel Buenavista">Plantel Buenavista</option>
@@ -128,7 +128,7 @@
                 <span class="input-group-addon add-on" id="basic-addon1">
                   <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
                 </span>
-                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" value="{{this.fechaNacimiento}}"  name="birthDate" required>
+                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" value="{{this.fechaNacimiento}}"  name="birthDate" id="birthDate" required>
               </div>
             </div>                                        
           </div>

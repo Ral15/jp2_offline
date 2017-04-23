@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>
-    Titulo
-    </title>
-    {{> head }}
+    {{> head page_title=page_title }}
   </head>
   <!-- Hello, world! -->
   <body class="nav-md">
@@ -26,7 +23,7 @@
           
               <div class="profile_info">
                 <span>Bienvenido</span>
-                <h2>Nombre Usuario</h2>
+                <h2>{{user.username}}</h2>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -37,7 +34,7 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                {{> dashboardSidenav }}
+                {{> (lookup . 'which_side') }}
               </div>
 
             </div>
@@ -54,21 +51,21 @@
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="page-content container">
-              <div class="row text-center">
-                <h2>Holas</h2>
-                <div class="col-md-6 col-md-offset-3">
-                    <!-- {% include form_view %} -->
-                </div>
-            </div>
+
+            {{#> panel-block}}
+              {{!-- panel content goes here. --}}
+            {{/panel-block}}
+
+
           </div>
         </div>
         <!-- /page content -->
-    
       </div>
     </div>
-
-
-
     {{> scripts }}
+    <script src="/js/dashboard.js"></script>    
+    {{#> scripts-block}}
+      {{!-- scripts content goes here. --}}
+    {{/scripts-block}}
   </body>
 </html>

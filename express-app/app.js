@@ -59,13 +59,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //parser for requests
 const bodyParser = require('body-parser');
-app.use(bodyParser.json()); 
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
   secret: SECRET_SESSION,
   resave: false,
   saveUninitialized: true
 }));
+
+app.use(function(request, response, next) {
+    // response.locals.csrfToken = request.csrfToken();
+  if (request.session.user){
+    response.locals.user = request.session.user;
+  }
+  next();
+});
 
 //routes
 app.use(basicRoutes);

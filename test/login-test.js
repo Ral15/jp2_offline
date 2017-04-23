@@ -2,6 +2,7 @@ const Application = require('spectron').Application;
 const path = require('path');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
+const config = require('../config.js');
 
 const assert = chai.assert;
 // Set the direction to launch the electron app.
@@ -18,7 +19,7 @@ global.before(() => {
   chai.use(chaiAsPromised);
 });
 
-describe('Login Test', () => {
+describe('Login Test', function() {
   /**
   * Integration test suite for testing the Login.
   *
@@ -56,16 +57,16 @@ describe('Login Test', () => {
   */
   it('should show login form', () => {
     const client = this.app.client;
-    return client.setValue('#username', 'usuario_prueba')
-    .setValue('#password', 'contrasena')
+    return client.setValue('#username', config.username)
+    .setValue('#password', config.password)
     .then(() => {
       return client.getValue('#username');
     }).then((usernameText) => {
-      assert.equal(usernameText, 'usuario_prueba');
+      assert.equal(usernameText, config.username);
       return client.getValue('#password');
     })
     .then((passwordText) => {
-      assert.equal(passwordText, 'contrasena');
+      assert.equal(passwordText, config.password);
       return client.$('#submit-login');
     })
     .then((loginButton) => {
@@ -80,15 +81,15 @@ describe('Login Test', () => {
   * in the application.
   */
   it('should login successful', () => {
-    const username = this.app.client.elementIdText('username');
-    const password = this.app.client.elementIdText('password');
-    const submit = this.app.client.element('//button/*[text(),Iniciar sesión]');
-    username.keys('someusername');
-    password.keys('somepassword');
-
-    // click on signin button
-    submit.click();
-    this.app.client.waitForText('Hola someusername').then(() => done());
+    const client = this.app.client;
+    return client.setValue('#username', config.username)
+    .setValue('#password', config.password)
+    .click('#submit-login')
+    .then(() => {
+      return client.waitForVisible('#nav_bar_user_name').getText('#nav_bar_user_name');
+    }).then((usernameText) => {
+      assert.equal(usernameText, config.username);
+    });
   });
 
   /**
@@ -98,14 +99,14 @@ describe('Login Test', () => {
   * in the application.
   */
   it('should login fail', () => {
-    const username = this.app.client.elementIdText('username');
-    const password = this.app.client.elementIdText('password');
-    const submit = this.app.client.element('//button/*[text(),Iniciar sesión]');
-    username.keys('someusername');
-    password.keys('somepasswordfail');
-
-    // click on signin button
-    submit.click();
-    this.app.client.waitForText('Iniciar sesión').then(() => done());
+    const client = this.app.client;
+    return client.setValue('#username', config.username)
+    .setValue('#password', 'newpassword')
+    .click('#submit-login')
+    .then(() => {
+      return client.waitForVisible('#error_message').getText('#error_message');
+    }).then((error_message) => {
+      assert.equal(error_message, 'Usuario o contraseña invalidos');
+    });
   });
 });

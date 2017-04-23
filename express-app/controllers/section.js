@@ -1,7 +1,6 @@
 const Seccion = require('../models/seccion');
 const Subsection = require('./subsection');
 const req = require('request');
-const isOnline = require('is-online');
 const urls = require('../routes/urls');
 
 module.exports = {
@@ -17,16 +16,16 @@ module.exports = {
    * @param {object} request - request object
    * @param {object} response - response object.
    */
-  getQuestions: function (request, response) {
+  getQuestions: function (user, request, response) {
     // Call promise that validates internet connection
-    isOnline().then((online) => {
-      if (online) {
+    Seccion.count().then((total) => {
+      if (total === 0) {
         req.get(
           // url to get
           urls.apiUrl + urls.api.questions,
           {
             headers: {
-              'Authorization': 'Token ' + request.session.apiToken,
+              'Authorization': 'Token ' + user.apiToken,
             },
           },
           function (error, httpResponse, body) {
@@ -43,17 +42,20 @@ module.exports = {
                 item.subsecciones.forEach(function (subsection) {
                   section.subsecciones.push(Subsection.addSubsection(subsection));
                 });
-                section.save()
-                .then(() => {
+                section.save().then(() => {
                   console.log('Seccion guardada');
                 }).catch((err) => {
                   console.log(err);
                 });
               });
-              response.render('dashboard', { msg: 'Las preguntas se obtuvieron satisfactoriamente' });
             }
           });
-      } else response.render('dashboard', { msg: 'No hay internet' });
+      }
+    }).then(() => {
+      request.session.user = user;
+      response.render('dashboard', {user: user, active: 'Borrador'});
+    }).catch((error) => {
+      console.log(error);
     });
   },
 };

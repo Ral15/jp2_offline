@@ -4,6 +4,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const Estudio = require(path.join(__dirname , '../express-app/models/estudio.js'));
+const Familia = require(path.join(__dirname , '../express-app/models/familia.js'));
 const config = require('../config.js');
 
 
@@ -33,7 +34,7 @@ global.before(function () {
 });
 
 
-describe('Create Estudio test', function () {
+describe('Delete Estudio test', function () {
   /**
   * Integration test suite for testing the Login.
   *
@@ -59,22 +60,33 @@ describe('Create Estudio test', function () {
     })
     .then((total) => {
       totalEstudios = total;
-      let e = Estudio.create({
-        //change later for config
-        tokenCapturista: config.apiToken,
-        familia: {
+      let f = Familia.create({
           bastardos: 10,
           estadoCivil: 'Soltero',
           calle: 'Erizo',
           colonia: 'Fs',
           codigoPostal: 76150,
-          localidad: 'Otro'
-        },
+          localidad: 'Otro',
+          nombreFamilia: 'Los Picapiedras',        
       });
-      return e.save();
+      return f.save();
+    })
+    .then((newFamily) => {
+      //save familyId
+      // familyId = newFamily._id;
+      //create estudio 
+      let e = Estudio.create({
+        //change later for config
+        tokenCapturista: config.apiToken,
+        familia: newFamily,
+      });   
+      return e.save();   
     })
     .then((newEstudio) => {
       estudioId = newEstudio._id;
+    })
+    .catch((e) => {
+      console.log(e);
     })
     // end Database connection
   });
@@ -131,7 +143,7 @@ describe('Create Estudio test', function () {
       .click('#delete-estudio-' + estudioId)
       .then(async () => {
         await sleep(1000);
-        return client.getText('#modalContentId');
+        return client.getText('#swal2-content');
       })
       .then((modalText) => {
         assert.equal(modalText, 'No podras recuperar el estudio después de esta acción.');
@@ -148,7 +160,7 @@ describe('Create Estudio test', function () {
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#delete-estudio-' + estudioId)
-      .waitForVisible('#modalContentId')
+      .waitForVisible('#swal2-content')
       .click('.swal2-cancel')
       .then(async () => {
         await sleep(1000);
@@ -169,11 +181,11 @@ describe('Create Estudio test', function () {
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#delete-estudio-' + estudioId)
-      .waitForVisible('#modalContentId')
+      .waitForVisible('#swal2-content')
       .click('.swal2-confirm')
       .then(async () => {
         await sleep(1000);
-        return client.getText('#modalTitleId');
+        return client.getText('#swal2-title');
       })
       .then(async (modalValue) => {
         assert.equal(modalValue, '¡Éxito!');

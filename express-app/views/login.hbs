@@ -35,6 +35,8 @@
 
     <!-- Custom Theme Style -->
     <link href="/template/build/css/custom.min.css" rel="stylesheet">
+    {{!-- {{> head page_title='Juan Pablo II Login' }} --}}
+{{!-- >>>>>>> develop --}}
   </head>
 
   <body class="login">
@@ -60,7 +62,7 @@
                 
                 {{#if error_message}}
                   <div class="alert alert-danger">
-                    <strong>{{error_message}}</strong>
+                    <span id="error_message"><strong>{{error_message}}</strong></span>
                   </div>
                 {{/if}}
 

@@ -71,7 +71,7 @@ class Estudio extends Document {
    * This function deletes the familia, seccion and respuesta
    * associated to this estudio.
    *
-  **/  
+  **/
   // preDelete() {
   //   let deletes = [];
   //   // //deletes seccion

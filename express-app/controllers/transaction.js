@@ -50,6 +50,7 @@ module.exports = {
     return Transaccion.find({familyId: familyId, isIngreso: isIncome})
     .then((allT) => {
       allT.forEach((t) => {
+        console.log(t);
         totalAmount += t.valorMensual;
       });
       return totalAmount;

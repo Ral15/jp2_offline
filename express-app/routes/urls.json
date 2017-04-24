@@ -18,7 +18,7 @@
 	"memberEdit": "/member/edit/:id",
 	"memberDelete": "/member/delete/:id",
 	"membersView": "/members/",
-	"incomeView": "/income/"
-,	"incomeCreate": "/income/create/",
+	"incomeView": "/income/",
+	"incomeCreate": "/income/create/",
 	"outcomeCreate": "/outcome/create/"
 }

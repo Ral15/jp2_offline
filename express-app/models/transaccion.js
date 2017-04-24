@@ -56,6 +56,7 @@ class Transaccion extends Document {
     this.tipo = {
       type: String,
       choices: optionChoices,
+      default: optionChoices[0],
     };
 
     this.miembroId = {

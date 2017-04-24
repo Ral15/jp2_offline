@@ -16,15 +16,15 @@
 
 
   <tbody>
-    {% for egreso in egresos %}
+    {{#each outcomes}}
     <tr class="">
-      <td>{{ egreso }}</td>
-      <td>{{ egreso.obtener_valor_de_transaccion }}</td>
-      <td>{{ egreso.periodicidad }}</td>
-      <td>{{ egreso.observacion }}</td>
+      <td>${{ this.valorMensual }} MXN</td>
+      <td>${{ this.monto }} MXN</td>
+      <td>{{ this.periocidad.periodicidad }}</td>
+      <td>{{ this.observacion }}</td>
 
       <td>
-        <a id="update_transaccion_{{ egreso.id }}" class="update_transaccion_link mouseClick btn btn-default" data-form="{% url 'captura:update_transaccion_modal' egreso.id %}">
+        <a id="update_transaccion_{{ this._id }}" class="update_transaccion_link mouseClick btn btn-default" data-form="{% url 'captura:update_transaccion_modal' egreso.id %}">
           <i class="glyphicon glyphicon-pencil"></i> 
           Editar
         </a>
@@ -36,7 +36,7 @@
         </a>
       </td>
     </tr>
-    {% endfor %}
+    {{/each}}
 
   </tbody>
 </table>

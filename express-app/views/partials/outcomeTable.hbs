@@ -1,5 +1,5 @@
 <div class="row">
-  <button id="add-outcome" class="btn btn-primary pull-right" data-toggle="modal" data-target="#createOutcome">
+  <button id="add-outcome" class="btn btn-success pull-right" data-toggle="modal" data-target="#createOutcome">
     <span class="glyphicon glyphicon-plus"></span> Agregar Egreso
   </button>
 </div>
@@ -24,16 +24,14 @@
       <td>{{ this.observacion }}</td>
 
       <td>
-        <a id="update_transaccion_{{ this._id }}" class="update_transaccion_link mouseClick btn btn-default" data-form="{% url 'captura:update_transaccion_modal' egreso.id %}">
+        <a id="update_transaccion_{{ this._id }}" class="update_transaccion_link mouseClick btn btn-primary btn-sm" data-form="{% url 'captura:update_transaccion_modal' egreso.id %}">
           <i class="glyphicon glyphicon-pencil"></i> 
           Editar
         </a>
         &nbsp;&nbsp;
 
-        <a id="delete_user_{{ user.id }}" class="delete_user_link mouseClick btn btn-danger" data-form="{% url 'administracion:users_delete_modal' user.id %}">
-          <i class="glyphicon glyphicon-trash"></i> 
-          Borrar
-        </a>
+        <button onclick="showDeleteOutcome('{{this._id}}')" id="delete-outcome-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
+
       </td>
     </tr>
     {{/each}}

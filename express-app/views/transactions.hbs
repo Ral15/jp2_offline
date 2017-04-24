@@ -50,7 +50,7 @@
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="page-content container">
-            <div class="row"> 
+            <div class="row" id="transactions-section"> 
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_title">
                   <h1>Ingresos y Egresos</h1>
@@ -70,6 +70,18 @@
                 </div>                
               </div>                
             </div> 
+            <div class="row text-center">
+              <div class="col-xs-6">
+                <a href="/members">
+                  <button class="btn btn-danger pull-right">Miembros</button>
+                </a>
+              </div>
+              {{!-- <div class="col-xs-6">
+                <a href="/transactions">
+                  <button class="btn btn-danger pull-left">Ingresos y Egresos</button>
+                </a>
+              </div> --}}
+            </div>                      
           </div>
         </div>
         <!-- /page content -->
@@ -78,5 +90,6 @@
       {{> createOutcomeModal }}
     </div>
     {{> scripts }}
+  <script src="/js/transactions.js"> </script>
   </body>
 </html>

@@ -43,7 +43,7 @@ class Transaccion extends Document {
     this.observacion = {
       type: String,
       default: '',
-      required: true
+      // required: true
     };
     this.isIngreso = {
       type: Boolean

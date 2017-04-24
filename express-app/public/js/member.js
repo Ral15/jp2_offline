@@ -109,7 +109,7 @@ function showDeleteMember(id) {
  * @param {string} id - id of the member
  */
 function deleteMember(id) {
- fetch('/estudio/member/delete/' + id, {
+ fetch('/member/delete/' + id, {
     method: 'post',
     body: JSON.stringify({
       id: id

@@ -1,3 +1,6 @@
+<div class="row">
+  <button class="btn btn-primary pull-right"  id="add-income" data-toggle="modal" data-target="#createIncome"><span class="glyphicon glyphicon-plus"></span> Agregar ingreso</button>
+ </div>
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
@@ -13,15 +16,20 @@
 
 
   <tbody>
-    {% for ingreso in ingresos %}
+    {{#each incomes }}
     <tr class="">
-      <td>{{ ingreso }}</td>
-      <td>${{ ingreso.transaccion.obtener_valor_de_transaccion }}</td>
-      <td>{{ ingreso.transaccion.periodicidad }}</td>
-      <td>{{ ingreso.transaccion.observacion }}</td>
-      <td>{{ ingreso.fecha }}</td>
-      <td>{{ ingreso.tutor }}</td>
-
+      <td>${{this.valorMensual}} MXN</td>
+      <td>${{ this.monto }} MXN</td>
+      <td>{{ this.periocidad.periodicidad }}</td>
+      <td>{{ this.observacion }}</td>
+      <td>{{ this.fecha }}</td>
+      <td>
+        {{#if this.nombreMiembro}}
+          {{ this.nombreMiembro }}
+        {{else}}
+          Ingreso Familiar
+        {{/if}}
+      </td>
       <td>
         <a id="update_transaccion_{{ ingreso.transaccion.id }}" class="update_transaccion_link mouseClick btn btn-default" data-form="{% url 'captura:update_transaccion_modal' ingreso.transaccion.id %}">
           <i class="glyphicon glyphicon-pencil"></i> 
@@ -35,10 +43,7 @@
         </a>
       </td>
     </tr>
-    {% endfor %}
+    {{/each}}
     
   </tbody>
 </table>
-<div>
-  <button class="btn btn-primary pull-right"  id="add-income" data-toggle="modal" data-target="#createIncome"><span class="glyphicon glyphicon-plus"></span> Agregar ingreso</button>
- </div>

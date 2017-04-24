@@ -60,26 +60,22 @@ class Transaccion extends Document {
 
     this.miembroId = {
       type: String,
+      default: '',
     };
 
     this.familyId = {
       type: String,
+    };
+
+    this.nombreMiembro = {
+      type: String,
+      default: '',
+    };
+
+    this.valorMensual = {
+      type: Number,
     }
   } 
-  /**
-   * This function calculates the monthly value of the transaction.
-   *
-  **/ 
-  monthlyValue() {
-    // if it is not an Ingreso then make it negative
-    let value = this.isIngreso ? this.monto : this.monto * -1.0;
-    if (this.periocidad.multiplica) {
-      return value  * this.periocidad.factor;
-    }
-    else {
-      return value / this.periocidad.factor;
-    }
-  }
 
   static collectionName() {
     return 'Transacciones';

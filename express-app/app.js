@@ -7,6 +7,7 @@ const userRoutes = require('./routes/user.js');
 const estudioRoutes = require('./routes/estudio.js');
 const familyRoutes = require('./routes/family.js');
 const incomeRoutes = require('./routes/income.js');
+const memberRoutes = require('./routes/member.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
@@ -44,7 +45,9 @@ hbs.registerHelper('select', function(selected, options) {
 hbs.registerHelper('json', function(context) {
     return JSON.stringify(context);
 });
-
+hbs.registerHelper('multiply', function(value1, value2) {
+  return value1 * value2;
+});
 // setup cors
 app.use(cors())
 //view engine setup
@@ -81,7 +84,7 @@ app.use(userRoutes);
 app.use(estudioRoutes);
 app.use(familyRoutes);
 app.use(incomeRoutes);
-
+app.use(memberRoutes);
 
 app.listen(3000, function () {
   console.log('Juan Pablo II app listening on port 3000!')

@@ -35,7 +35,7 @@ global.before(function () {
 });
 
 
-describe('Create Members test', function () {
+describe('Edit member test', function () {
   /**
   * Integration test suite for testing the Edition of members.
   *

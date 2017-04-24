@@ -9,15 +9,16 @@
 		"login" : "/perfiles-usuario/obtain-auth-token/",
 		"questions" : "/captura/api-obtener-informacion-preguntas/"
 	},
-	"member": "/estudio/member/",
+	"familyView": "/family",
 	"estudio": "/estudio/",
 	"estudioCreate": "/estudio/create/",
 	"estudioDelete": "/estudio/delete/:id",
 	"getEstudios" : "/estudio/get/",
-	"member": "/family/member/",
-	"memberCreate": "/estudio/member/create/",
-	"memberDelete": "/estudio/member/delete/:id",
+	"memberCreate": "/member/create/",
+	"memberEdit": "/member/edit/:id",
+	"memberDelete": "/member/delete/:id",
 	"membersView": "/members/",
-	"incomeCreate": "/estudio/income/create/",
-	"outcomeCreate": "/estudio/outcome/create/"
+	"incomeView": "/income/"
+,	"incomeCreate": "/income/create/",
+	"outcomeCreate": "/outcome/create/"
 }

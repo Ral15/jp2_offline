@@ -1,4 +1,5 @@
 const Seccion = require('../models/seccion');
+const Respuesta = require('../models/respuesta');
 const Subsection = require('./subsection');
 const req = require('request');
 const urls = require('../routes/urls');
@@ -61,9 +62,17 @@ module.exports = {
   displaySections: function(request, response, step){
     Seccion.findOne({numero: step})
     .then((seccion) => {
-      response.render('section',  {
-        section: seccion
-      });
+      Respuesta.find({
+        idSeccion: step,
+        idEstudio: request.session.id_estudio
+      }, {
+        sort: 'orden'
+      }).then((respuestas) => {
+        response.render('section',  {
+          section: seccion,
+          respuestas: respuestas
+        });
+      })
     })
     .catch((error) => {
       //no estudio found

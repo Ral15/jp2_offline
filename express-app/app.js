@@ -45,6 +45,26 @@ hbs.registerHelper('ifGt', function(value1, value2, opt) {
   }
 });
 
+hbs.registerHelper('lookQuestions', function(idQuestion, questionList, opt){
+  let answers = [];
+  for (var i = questionList.length - 1; i >= 0; i--) {
+    if(questionList[i].idPregunta == idQuestion){
+      answers.push(questionList[i].respuesta);
+    }
+  }
+  return opt.fn(answers);
+});
+
+hbs.registerHelper('lookSelect', function(idQuestion, questionList, opt){
+  let answers = [];
+  for (var i = questionList.length - 1; i >= 0; i--) {
+    if(questionList[i].idPregunta == idQuestion){
+      return opt.fn(questionList[i].eleccion);
+    }
+  }
+  return opt.fn(-1);
+});
+
 
 // setup cors
 app.use(cors())
@@ -72,6 +92,13 @@ app.use(function(request, response, next) {
     // response.locals.csrfToken = request.csrfToken();
   if (request.session.user){
     response.locals.user = request.session.user;
+  }
+  if (request.session.id_estudio){
+    response.locals.estudioId = request.session.id_estudio;
+    response.locals.max_step = request.session.max_step
+  } else {
+    response.locals.estudioId = null;
+    response.locals.max_step = null;
   }
   next();
 });

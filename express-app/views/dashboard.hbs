@@ -46,6 +46,7 @@
                   <td>
                     <a href="/estudio/?estudioId={{this._id}}"><button class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span></button></a>
                     <button onclick="showDeleteMsg('{{this._id}}')" id="delete-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button onclick="showUploadMsg('{{this._id}}')" id="upload-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-ok"></span></button>
                   </td>
                 </tr>
               {{/each}}

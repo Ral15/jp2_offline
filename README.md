@@ -6,8 +6,10 @@ This application was build together with [Juan Pablo II online](https://github.c
 
 1. [System Requirements](#System)
 2. [For Developers](#developers)
-  1. [Quick Start](#Quick Start)
-3. [For users](#users)
+  1. [Quick Start](#quick Start)
+  2. [Build the application](#build the application)
+  3. [Test](#test)
+3. [For users](#for users)
 
 # System Requirements
 
@@ -31,6 +33,58 @@ This application was build together with [Juan Pablo II online](https://github.c
   # Install the dependencies and run
   $ npm install && npm start
 ```
+
+## Build the application
+
+To Build the application we used Electron Packager.
+To create the executable just do:
+
+```shell
+  npm build
+```
+
+This creates a executable for windows x64. To changes architecture and operating system you can run
+
+```shell
+  # To create the same executable
+  electron-packager . "San Juan Pablo II" --platform=win32 --arch=x64
+```
+
+with this command you can change the operating system and the architecture, you can see
+[Electron-packager](https://github.com/electron-userland/electron-packager) for more information
+
+## Test
+
+To test the application
+
+* In jp2_offline/config.js:
+
+```shell
+
+  DEBUG: false,
+  ENV: 'Testing'
+
+```
+
+* In your command line:
+
+```shell
+
+  # To run all test
+  npm test
+
+  # To run a specific test
+  npm test test/your-test.js
+
+```
+
+* To create a test, in directory test there is a file called base-test.js You can implement your test with this little guide.
+
+* To use eslint:
+
+ ```shell
+  npm lint
+ ```
 
 # For users
 

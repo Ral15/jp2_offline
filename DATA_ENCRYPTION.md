@@ -26,8 +26,9 @@ For this application we used NeDB as Database and Camo as ODM.
   beforeDeserialization. in the link of NeDB describes a little bit more this functions.
 
 * Using Camo we have no access to this options because Camo connect automatically the Database with camo.connect() function.
+  and when you clone the repository you can't access to the node_modules that we modified.
 
-* So the steps to encrypt the data are:
+* So, the steps to encrypt the data are:
 
   * Do a npm install when you clone the repository in jp2_offline and express-app directories as we see in Readme.md
 

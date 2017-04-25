@@ -309,7 +309,7 @@ describe('Create Estudio test', function () {
   *
   * This test will check if an estudio is created in the db
   */
-  it('should create estudio', async function () {
+  it('should create estudio', function () {
     const client = this.app.client;
     return client.setValue('#username', config.username)
       .setValue('#password', config.password)
@@ -335,5 +335,38 @@ describe('Create Estudio test', function () {
         //check if there is more etudios
         assert.isBelow(totalEstudios, newTotal);
       });
+  });
+
+/**
+  * Test No create Estudio form
+  *
+  * This test will check if an estudio is not created in the db
+  * and logs an error message
+  */
+  it('should NO create estudio', function () {
+    const client = this.app.client;
+    return client.setValue('#username', config.username)
+    .setValue('#password', config.password)
+    .click('#submit-login')
+    .click('#crear-estudio')
+    .waitForVisible('#street')
+    .setValue('#street', 'Priv. Camino Real #112 int #9')
+    .setValue('#street2', 'Los Fresnos')
+    .setValue('#zipCode', 'abcde')
+    .setValue('#bastards', '1')
+    .$('#location').selectByAttribute('value', 'Otro')
+    .$('#martialStatus').selectByAttribute('value', 'Soltero')
+    .click('#create-family')
+    .waitForVisible('#error_message')
+    .then(() => {
+      return connect(dbUri);
+    }).then((db) => {
+      database = db;
+      return Estudio.count();
+    })
+    .then((newTotal) => {
+      //check if there is more etudios
+      assert.equal(totalEstudios, newTotal);
+    });
   });
 });

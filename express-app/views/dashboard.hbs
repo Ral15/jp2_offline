@@ -1,6 +1,6 @@
 {{#>  layouts/base_dashboard page_title="Captura de Estudios" which_side="dashboardSidenav" }}
 {{#*inline "panel-block"}}
-<div class="row"> 
+<div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -10,12 +10,6 @@
             <span id="error_message"><strong>{{error_message}}</strong></span>
           </div>
         {{/if}}
-
-        <!-- BOTON SECCIONES -->
-        <div class="col-sm-12">
-          <button id="secciones-btn">secciones</button>
-        </div>
-        <!-- BOTON SECCIONES -->
 
         <h2>Mis estudios socioeconómicos</h2>
         <div class="pull-right"><a href="/estudio/" class="btn btn-success" id="crear-estudio"> <span class="glyphicon glyphicon-plus"></span> Crear estudio</a></div>
@@ -49,17 +43,17 @@
                   </td>
                 </tr>
               {{/each}}
-                  
+
             {{ else }}
               <h5>No hay registro de estudios socioeconómicos</h5>
             {{/if }}
-            
+
           </tbody>
         </table>
       </div>
     </div>
-  </div>                
-</div> 
+  </div>
+</div>
 {{/inline}}
 
 {{#*inline "scripts-block"}}

@@ -27,4 +27,11 @@ module.exports = {
       multiplica: options[period].multiply,
     });
   },
+  editPeriod: function(period) {
+    return {
+      periodicidad: period,
+      factor: options[period].factor,
+      multiplica: options[period].multiply,
+    }
+  }
 };

@@ -1,95 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    {{> head }}
-  </head>
-  <!-- Hello, world! -->
-  <body class="nav-md">
-    <div class="container body">
-      <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="/" class="site_title">
-                <i class="fa fa-bank"></i> 
-                Instituto Juan Pablo Segundo
-              </a>
-            </div>
-
-            <div class="clearfix"></div>
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-          
-              <div class="profile_info">
-                <span>Bienvenido</span>
-                <h2>Nombre Usuario</h2>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                {{> dashboardSidenav }}
-              </div>
-
-            </div>
-            <!-- /sidebar menu -->
-          </div>
-        </div>
-
-        <!-- top navigation -->
-        <div class="top_nav">
-          {{> nav }}
-        </div>
-        <!-- /top navigation -->
-
-        <!-- page content -->
-        <div class="right_col" role="main">
-          <div class="page-content container">
-            <div class="row" id="transactions-section"> 
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_title">
-                  <h1>Ingresos y Egresos</h1>
-                  <div class="row">
-                    <div class="col-xs-10 col-xs-offset-1">
-                      <h3>En esta sección podras agregar todos los ingresos y egresos de la Familia.</h3>
-                    </div>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_panel">
-                  <div class="x_content">
-                    {{> economicStatus this }}
-                    {{> incomeTable this }}
-                    {{> outcomeTable this }}
-                  </div>
-                </div>                
-              </div>                
-            </div> 
-            <div class="row text-center">
-              <div class="col-xs-6">
-                <a href="/members">
-                  <button class="btn btn-danger pull-right">Miembros</button>
-                </a>
-              </div>
-              {{!-- <div class="col-xs-6">
-                <a href="/transactions">
-                  <button class="btn btn-danger pull-left">Ingresos y Egresos</button>
-                </a>
-              </div> --}}
-            </div>                      
-          </div>
-        </div>
-        <!-- /page content -->
-      </div>
-      {{> createIncomeModal this }}
-      {{> createOutcomeModal }}
+{{#>  layouts/base_dashboard page_title="Captura de Estudios" which_side="sideNavPasos" }}
+{{#*inline "panel-block"}}
+  {{#if error_message}}
+    <div class="alert alert-danger">
+      <span id="error_message"><strong>{{error_message}}</strong></span>
     </div>
-    {{> scripts }}
-  <script src="/js/transactions.js"> </script>
-  </body>
-</html>
+  {{/if}}
+    <div class="row" id="transactions-section"> 
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_title">
+          <h1>Ingresos y Egresos</h1>
+          <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+              <h3>En esta sección podras agregar todos los ingresos y egresos de la Familia.</h3>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_panel">
+          <div class="x_content">
+            {{> economicStatus this }}
+            {{> incomeTable this }}
+            {{> outcomeTable this }}
+          </div>
+        </div>                
+      </div>                
+      <div class="row text-center">
+        <div class="col-xs-6">
+          <a href="/members">
+            <button class="btn btn-danger pull-right">Miembros</button>
+          </a>
+        </div>
+        {{!-- <div class="col-xs-6">
+          <a href="/transactions">
+            <button class="btn btn-danger pull-left">Ingresos y Egresos</button>
+          </a>
+        </div> --}}
+      </div>                      
+    </div> 
+    {{> createIncomeModal this }}
+    {{> createOutcomeModal this}}
+{{/inline}}
+{{#*inline "scripts-block"}}
+<script src="/js/dateTime.min.js"></script>
+<script src="/js/validator.min.js"> </script>
+<script src="/js/transactions.js"> </script>
+{{/inline}}
+{{/ layouts/base_dashboard}}

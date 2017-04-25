@@ -28,4 +28,28 @@ module.exports = {
       console.log(err);
     })
   },
+  /**
+  * This function editas a Transaction as an Income
+  * 
+  * @event
+  * @param {object} request - request from POST
+  * @param {object} response - response from POST
+  */  
+  editIncome: function(request, response) {
+    const data = request.body;
+    let newPeriod = periodController.editPeriod(data.period);
+    const familyId = request.session.familyId;
+    const tutorValue = data.tutor.split("/");
+    const memberId = tutorValue[0];
+    data.tutor = tutorValue[1];
+    const transactionId = request.params.id;
+    let editedTransaction = transactionController.editTransaction(data, true, newPeriod, null, familyId, transactionId);
+    editedTransaction.then((nT) => {
+      console.log(nT);
+      return transactionController.showTransactionView(request, response)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  },  
 };

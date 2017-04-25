@@ -14,13 +14,5 @@ router.post(urls.transactionDelete, function(req, res) {
 	transactionsController.deleteTransaction(req, res);
 });
 
-// router.post(urls.incomeDelete, function(req, res) {
-// 	transactionsController.deleteIncome(req, res);
-// });
-
-
-// router.post(urls.incomeEdit, function(req, res) {
-// 	transactionsController.editIncome(req, res);
-// });
 
 module.exports = router;

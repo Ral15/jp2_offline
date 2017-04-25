@@ -17,29 +17,26 @@
 
   <tbody>
     {{#each incomes }}
-    <tr class="">
-      <td>${{this.valorMensual}} MXN</td>
-      <td>${{ this.monto }} MXN</td>
-      <td>{{ this.periocidad.periodicidad }}</td>
-      <td>{{ this.observacion }}</td>
-      <td>{{ this.fecha }}</td>
-      <td>
-        {{#if this.nombreMiembro}}
-          {{ this.nombreMiembro }}
-        {{else}}
-          Ingreso Familiar
-        {{/if}}
-      </td>
-      <td>
-        <a id="update_transaccion_{{ ingreso.transaccion.id }}" class="update_transaccion_link mouseClick btn btn-primary btn-sm" data-form="{% url 'captura:update_transaccion_modal' ingreso.transaccion.id %}">
-          <i class="glyphicon glyphicon-pencil"></i> 
-          Editar
-        </a>
-        &nbsp;&nbsp;
-        
-         <button onclick="showDeleteIncome('{{this._id}}')" id="delete-income-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
-      </td>
-    </tr>
+      <tr class="">
+        <td>${{this.valorMensual}} MXN</td>
+        <td>${{ this.monto }} MXN</td>
+        <td>{{ this.periocidad.periodicidad }}</td>
+        <td>{{ this.observacion }}</td>
+        <td>{{ this.fecha }}</td>
+        <td>
+          {{#if this.nombreMiembro}}
+            {{ this.nombreMiembro }}
+          {{else}}
+            Ingreso Familiar
+          {{/if}}
+        </td>
+        <td>
+           <button class="btn btn-primary btn-sm editIncome"  id="edit-income-{{this._id}}" data-incomeid="{{this._id}}" data-toggle="modal" href="#editIncomeModal-{{this._id}}"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
+
+           <button onclick="showDeleteIncome('{{this._id}}')" id="delete-income-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
+        </td>
+      </tr>
+      {{> editIncomeModal this }}
     {{/each}}
     
   </tbody>

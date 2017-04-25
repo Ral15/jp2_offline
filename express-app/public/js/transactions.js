@@ -1,3 +1,17 @@
+$(document).ready(function(){
+
+  //date time picker
+  $('#datetimepicker-create-income').datetimepicker({
+    pickTime: false
+  });
+
+  //date time picker
+  $('#datetimepicker-edit-income').datetimepicker({
+    pickTime: false
+  });
+
+});
+
 /**
  * This function shows a message to the user to make sure
  * the user wants to delete an income.

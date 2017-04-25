@@ -20,10 +20,32 @@ module.exports = {
     let newTransaction = transactionController.createTransaction(data, false, newPeriod, null, familyId);
     newTransaction.save()
     .then((t) => {
-      return this.showIncomeView(request, response);
+      return transactionController.showTransactionView(request, response);
     })
     .catch((err) => {
       console.log(err);
     })
   },  
+  /**
+  * This function editas a Transaction as an Income
+  * 
+  * @event
+  * @param {object} request - request from POST
+  * @param {object} response - response from POST
+  */  
+  editOutcome: function(request, response) {
+    const data = request.body;
+    data.type = '';
+    let newPeriod = periodController.editPeriod(data.period);
+    const familyId = request.session.familyId;
+    const transactionId = request.params.id;
+    let editedTransaction = transactionController.editTransaction(data, false, newPeriod, null, familyId, transactionId);
+    editedTransaction.then((nT) => {
+      // console.log(nT);
+      return transactionController.showTransactionView(request, response)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  },
 };

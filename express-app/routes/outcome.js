@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const urls = require('./urls');
-const outcomeController = require('../controllers/income');
+const outcomeController = require('../controllers/outcome');
 
 
 
-// router.get(urls.incomeView, function(req, res) {
-// 	outcomeController.showIncomeView(req, res);
-// })
 
-// POST to create income 
+// POST to create outcome 
 router.post(urls.outcomeCreate, function(req, res) {
 	outcomeController.createOutcome(req,res);
 });
-
+//POST to edit outcome
+router.post(urls.outcomeEdit, function(req, res) {
+	outcomeController.editOutcome(req,res);
+});
 
 module.exports = router;

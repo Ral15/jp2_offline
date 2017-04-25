@@ -27,7 +27,6 @@ module.exports = {
       return myOutcomes;
     })
     .then((o) => {
-      console.log(o);
       outcomes = o;
       return obtainIncomesAmount;
     })
@@ -79,6 +78,22 @@ module.exports = {
       valorMensual: this.monthlyValue(isIncome, Number(data.amount), newPeriod.multiplica, newPeriod.factor), 
     });
   },
+  editTransaction: function (data, isIncome, newPeriod, memberId, familyId, transactionId) {
+    // return Transaccion.find({_id: transactionId});
+    return Transaccion.findOneAndUpdate({_id: transactionId},
+      {
+        monto: Number(data.amount),
+        periocidad: newPeriod,
+        observacion: data.observations,
+        isIngreso: isIncome,
+        tipo: data.type,
+        fecha: data.dateReceived,
+        miembroId: memberId,
+        familyId: familyId,
+        nombreMiembro: data.tutor,
+        valorMensual: this.monthlyValue(isIncome, Number(data.amount), newPeriod.multiplica, newPeriod.factor), 
+      });
+  },  
   /**
    * This function calculates the monthly value of the transaction.
    *
@@ -118,7 +133,7 @@ module.exports = {
     return Transaccion.find({familyId: familyId, isIngreso: isIncome})
     .then((allT) => {
       allT.forEach((t) => {
-        console.log(t);
+        // console.log(t);
         totalAmount += t.valorMensual;
       });
       return totalAmount;

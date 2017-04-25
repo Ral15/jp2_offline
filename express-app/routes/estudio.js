@@ -49,5 +49,9 @@ router.post(urls.uploadEstudio, function(req, res){
   estudioController.uploadEstudio(req,res);
 });
 
+// GET living page
+router.get(urls.living, function (req, res) {
+  estudioController.showLivingPage(req, res);
+});
 
 module.exports = router;

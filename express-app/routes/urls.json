@@ -13,6 +13,7 @@
 	"getEstudios" : "/estudio/get/",
 	"getQuestions" : "/seccion/questions",
 	"home": "/",
+	"living": "/living/",
 	"login": "/user/login",
 	"member": "/estudio/member/",
 	"member": "/family/member/",

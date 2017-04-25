@@ -13,7 +13,7 @@ module.exports = {
   * it means it is a estudio that is going to be updated.
   *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
   */
   showFamilyForm: function(request, response) {
@@ -41,17 +41,50 @@ module.exports = {
       console.log(request.session.id_estudio)
       response.render('family');
     }
-  },  
+  },
+/**
+  * This function shows the family form, IF the url query is empty
+  * then it means that the familia and estudio is created from scratch, IF NOT then
+  * it means it is a estudio that is going to be updated.
+  *
+  * @event
+  * @param {object} request - request object
+  * @param {object} response - response object.
+  */
+  showLivingPage: function(request, response) {
+    //retrieve estudio id from url
+    let estudioId = request.query.estudioId;
+    if (estudioId) {
+      request.session.id_estudio = estudioId;
+      response.locals.estudioId = request.session.id_estudio;
+      Estudio.findOne({
+        _id: estudioId
+      })
+      .then((myEstudio) => {
+        request.session.max_step = myEstudio.maxStep;
+        response.locals.max_step = request.session.max_step;
+        response.render('living');
+      })
+      .catch((error) => {
+        //no estudio found
+        console.log(error);
+      })
+    }
+    else {
+      console.log(request.session.id_estudio)
+      response.render('living');
+    }
+  },
   /**
   * This function creates a Estudio with te apiToken of the capturista,
   * and with a family,
   * then it shows the form to fill the members information.
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */    
+  */
   createEstudio: function(request, response) {
     //retrieve token from params
     const token = request.session.user.apiToken;
@@ -73,9 +106,9 @@ module.exports = {
       response.locals.max_step = request.session.max_step
       console.log(newEstudio);
       response.render('members', {
-        userToken: token, 
+        userToken: token,
         family: newFamily
-      });      
+      });
     })
     .catch((error) => {
       //estudio could not be created
@@ -84,12 +117,12 @@ module.exports = {
   },
   /**
   * This function edits the address of a Estudio previously created
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */      
+  */
   editEstudio: function(request, response) {
     //get estudio ID from url
     const estudioId = request.query.estudioId;
@@ -105,10 +138,10 @@ module.exports = {
     )
     .then((editedEstudio) => {
       response.render('members', {
-        userToken: token, 
+        userToken: token,
         estudioId: editedEstudio._id,
         family: editedFamily
-      });      
+      });
     })
     .catch((error) => {
       //estudio not edited
@@ -118,12 +151,12 @@ module.exports = {
   /**
   * This function changes the status of a Estudio to 'Eliminado'
   * using the id of the estudio
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */  
+  */
   deleteEstudio: function(request, response) {
     //get id of estudio
     let estudioId = request.params.id;
@@ -144,12 +177,12 @@ module.exports = {
   },
   /**
   * This function returns the Estudios with the status desired
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */   
+  */
   getEstudios: function(request, response) {
     let myStatus = request.query.status;
     let user = request.session.user;
@@ -159,9 +192,9 @@ module.exports = {
     })
     .then((e) => {
       console.log(e)
-      response.render('dashboard', { 
-        estudios: e, 
-        active: myStatus 
+      response.render('dashboard', {
+        estudios: e,
+        active: myStatus
       });
     })
     .catch((err) => {
@@ -176,7 +209,7 @@ module.exports = {
     let valorRespuesta = request.body.answer;
     Respuesta.find({
       idEstudio: idEstudio,
-      idPregunta: idPregunta 
+      idPregunta: idPregunta
     }, {
       sort: 'orden'
     }).then((respuestas) => {
@@ -203,7 +236,7 @@ module.exports = {
       }else{
         create = true;
       }
-      if(create){ 
+      if(create){
         let respuesta = Respuesta.create({
           idEstudio: idEstudio,
           idPregunta: idPregunta,
@@ -225,7 +258,7 @@ module.exports = {
     let idEstudio = request.body.id_estudio;
     Respuesta.findOne({
       idEstudio: idEstudio,
-      idPregunta: idPregunta 
+      idPregunta: idPregunta
     }).then((respuesta) => {
       if(respuesta){
         respuesta.eleccion = valorRespuesta;
@@ -252,7 +285,7 @@ module.exports = {
     let idEstudio = request.body.id_estudio;
     Respuesta.find({
       idEstudio: idEstudio,
-      idPregunta: idPregunta 
+      idPregunta: idPregunta
     }, {
       sort: 'orden'
     }).then((respuestas) => {

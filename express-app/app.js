@@ -10,6 +10,7 @@ const sectionRoutes = require('./routes/section.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
+const hbs = require('./hbs_conf');
 
 //Database connection
 const connect = require('camo').connect;
@@ -25,46 +26,6 @@ connect(uri).then(function(db) {
 
 
 //template engine
-const hbs = require('hbs');
-hbs.registerPartials(path.join(__dirname + '/views/partials'));
-// pass to doc
-hbs.registerHelper('ifEq', function(value1, value2, opt) {
-	if (value1 == value2) {
-		return opt.fn(this);
-	}
-	else {
-		opt.inverse(this);
-	}
-});
-hbs.registerHelper('ifGt', function(value1, value2, opt) {
-  if (value1 > value2) {
-    return opt.fn(this);
-  }
-  else {
-    opt.inverse(this);
-  }
-});
-
-hbs.registerHelper('lookQuestions', function(idQuestion, questionList, opt){
-  let answers = [];
-  for (var i = questionList.length - 1; i >= 0; i--) {
-    if(questionList[i].idPregunta == idQuestion){
-      answers.push(questionList[i].respuesta);
-    }
-  }
-  return opt.fn(answers);
-});
-
-hbs.registerHelper('lookSelect', function(idQuestion, questionList, opt){
-  let answers = [];
-  for (var i = questionList.length - 1; i >= 0; i--) {
-    if(questionList[i].idPregunta == idQuestion){
-      return opt.fn(questionList[i].eleccion);
-    }
-  }
-  return opt.fn(-1);
-});
-
 
 // setup cors
 app.use(cors())

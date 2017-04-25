@@ -43,8 +43,8 @@ module.exports = {
     }
   },
 /**
-  * This function shows the family form, IF the url query is empty
-  * then it means that the familia and estudio is created from scratch, IF NOT then
+  * This function shows the Living place form, IF the url query is empty
+  * then it means that estudio is created from scratch, IF NOT then
   * it means it is a estudio that is going to be updated.
   *
   * @event

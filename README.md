@@ -4,12 +4,12 @@ This application was build together with [Juan Pablo II online](https://github.c
 
 # Table of contents
 
-1. [System Requirements](#System)
+1. [System Requirements](#system)
 2. [For Developers](#developers)
-  1. [Quick Start](#quick Start)
-  2. [Build the application](#build the application)
+  1. [Quick Start](#quick)
+  2. [Build the application](#build)
   3. [Test](#test)
-3. [For users](#for users)
+3. [For users](#user)
 
 # System Requirements
 
@@ -88,4 +88,4 @@ To test the application
 
 # For users
 
-You can download the latest version of this application in the [online version](#http://138.197.197.47/)
+You can download the latest version of this application in the [online version](http://138.197.197.47/)

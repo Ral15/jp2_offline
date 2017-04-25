@@ -25,13 +25,13 @@ For this application we used NeDB as Database and Camo as ODM.
 * To encrypt the database, NeDB gives options in the new Datastore({}) function. For encryption are afterSerialization and
   beforeDeserialization. in the link of NeDB describes a little bit more this functions.
 
-* Using Camo we have no access to this options because Camo connect automatically the Database with a fuctions.
+* Using Camo we have no access to this options because Camo connect automatically the Database with camo.connect() function.
 
 * So the steps to encrypt the data are:
 
-  * Do a npm install when you clone the repository in jp2_offline and express-app directories as we see in [Readme.md](https://github.com/Ral15/jp2_offline/README.md)
+  * Do a npm install when you clone the repository in jp2_offline and express-app directories as we see in Readme.md
 
-  * Go to /your-path/jp2_offline/node_modules/camo/lib/clients/nedbclient.js
+  * Go to /your-path/jp2_offline/express-app/node_modules/camo/lib/clients/nedbclient.js
 
   * Add const Crypto = require('crypto-js'); in the file:
 
@@ -62,3 +62,5 @@ For this application we used NeDB as Database and Camo as ODM.
       }
     });
   ```
+
+  * After you do this you will be able to encrypt your document Using Camo and NeDB.

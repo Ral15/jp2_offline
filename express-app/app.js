@@ -6,9 +6,11 @@ const basicRoutes = require('./routes/basic.js');
 const userRoutes = require('./routes/user.js');
 const estudioRoutes = require('./routes/estudio.js');
 const familyRoutes = require('./routes/family.js');
+const sectionRoutes = require('./routes/section.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
+const hbs = require('./hbs_conf');
 
 //Database connection
 const connect = require('camo').connect;
@@ -24,17 +26,7 @@ connect(uri).then(function(db) {
 
 
 //template engine
-const hbs = require('hbs');
-hbs.registerPartials(path.join(__dirname + '/views/partials'));
-// pass to doc
-hbs.registerHelper('ifEq', function(value1, value2, opt) {
-	if (value1 == value2) {
-		return opt.fn(this);
-	}
-	else {
-		opt.inverse(this);
-	}
-});
+
 // setup cors
 app.use(cors())
 //view engine setup
@@ -62,6 +54,13 @@ app.use(function(request, response, next) {
   if (request.session.user){
     response.locals.user = request.session.user;
   }
+  if (request.session.id_estudio){
+    response.locals.estudioId = request.session.id_estudio;
+    response.locals.max_step = request.session.max_step
+  } else {
+    response.locals.estudioId = null;
+    response.locals.max_step = null;
+  }
   next();
 });
 
@@ -70,6 +69,7 @@ app.use(basicRoutes);
 app.use(userRoutes);
 app.use(estudioRoutes);
 app.use(familyRoutes);
+app.use(sectionRoutes);
 
 
 app.listen(3000, function () {

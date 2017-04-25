@@ -43,6 +43,10 @@ class Estudio extends Document {
       default: '',
       required: true,
     };
+    this.maxStep = {
+      type: Number,
+      default: 0
+    };
     this.familia = Familia;
     this.respuestas = [Respuesta];
     this.status = {

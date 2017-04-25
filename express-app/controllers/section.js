@@ -1,4 +1,5 @@
 const Seccion = require('../models/seccion');
+const Respuesta = require('../models/respuesta');
 const Subsection = require('./subsection');
 const req = require('request');
 const urls = require('../routes/urls');
@@ -17,7 +18,6 @@ module.exports = {
    * @param {object} response - response object.
    */
   getQuestions: function (user, request, response) {
-    // Call promise that validates internet connection
     Seccion.count().then((total) => {
       if (total === 0) {
         req.get(
@@ -30,11 +30,11 @@ module.exports = {
           },
           function (error, httpResponse, body) {
             if (httpResponse.statusCode > 201) {
-              response.render('dashboard', { msg: 'No se obtuvo la información' });
+              response.render('dashboard', { error_message: 'No se obtuvo la información' });
             } else {
               const data = JSON.parse(body);
               data.forEach(function (item) {
-                const section = Seccion.create({
+                let section = Seccion.create({
                   idApi: item.id,
                   nombre: item.nombre,
                   numero: item.numero,
@@ -58,4 +58,25 @@ module.exports = {
       console.log(error);
     });
   },
+
+  displaySections: function(request, response, step){
+    Seccion.findOne({numero: step})
+    .then((seccion) => {
+      Respuesta.find({
+        idSeccion: step,
+        idEstudio: request.session.id_estudio
+      }, {
+        sort: 'orden'
+      }).then((respuestas) => {
+        response.render('section',  {
+          section: seccion,
+          respuestas: respuestas
+        });
+      })
+    })
+    .catch((error) => {
+      //no estudio found
+      console.log(error);
+    });
+  }
 };

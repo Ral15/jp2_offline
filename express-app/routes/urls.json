@@ -1,19 +1,27 @@
 {
-	"home": "/",
-	"apiUrl" : "http://junipero.erikiado.com",
-	"createUser": "/user/create",
-	"login": "/user/login",
-	"dashboard" : "/user/dashboard",
-	"getQuestions" : "/seccion/questions",
 	"api":  {
 		"login" : "/perfiles-usuario/obtain-auth-token/",
-		"questions" : "/captura/api-obtener-informacion-preguntas/"
+		"questions" : "/captura/api-obtener-informacion-preguntas/",
+		"uploadEstudio" : "/captura/estudio/"
 	},
-	"member": "/estudio/member/",
+	"apiUrl" : "http://junipero.erikiado.com",
+	"createUser": "/user/create",
+	"dashboard" : "/user/dashboard",
 	"estudio": "/estudio/",
 	"estudioCreate": "/estudio/create/",
 	"estudioDelete": "/estudio/delete/:id",
 	"getEstudios" : "/estudio/get/",
+	"getQuestions" : "/seccion/questions",
+	"home": "/",
+	"login": "/user/login",
+	"member": "/estudio/member/",
 	"member": "/family/member/",
-	"memberCreate": "/estudio/member/create/"
+	"memberCreate": "/estudio/member/create/",
+	"members": "/family/members/:estudio_id",
+	"newAnswer": "/estudio/answer/",
+	"newSelectAnswer": "/estudio/answer/election",
+	"removeAnswer": "/estudio/answer/remove/",
+	"sections" : "/seccion/paso/:step",
+	"sectionStart" : "/seccion/paso/",
+	"uploadEstudio": "/estudio/upload/:id"
 }

@@ -142,5 +142,14 @@ module.exports = {
       telefono: data.phone,
       correo: data.email,
     });
+  },
+  /**
+  * This function displays the members from a family
+  */
+  showMembers: function(request, response){
+    const token = request.session.user.apiToken;
+    response.render('members', {
+      userToken: token, 
+    });
   }
 }

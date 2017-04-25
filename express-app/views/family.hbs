@@ -5,7 +5,7 @@
     <span id="error_message"><strong>{{error_message}}</strong></span>
   </div>
 {{/if}}
-          <div class="row">
+<div class="row">
 <br>
 <br>
 <br>
@@ -37,12 +37,12 @@
         <div class="form-group col-xs-3">
           <label for="location">Localidad*</label>
           <select class="form-control" id="location" name="location" required>
-            <option value=""></option>
-            <option value="Poblado Jurica">Poblado Jurica</option>
-            <option value="Nabo">Nabo</option>
-            <option value="Salitre">Salitre</option>
-            <option value="La Campana">La Campana</option>
-            <option value="Otro">Otro</option>
+            <option value="" {{# ifEq family.localidad "" }}selected{{/ifEq}}></option>
+            <option value="Poblado Jurica" {{# ifEq family.localidad "Poblado Jurica" }}selected{{/ifEq}}>Poblado Jurica</option>
+            <option value="Nabo" {{# ifEq family.localidad "Nabo" }}selected{{/ifEq}}>Nabo</option>
+            <option value="Salitre" {{# ifEq family.localidad "Salitre" }}selected{{/ifEq}}>Salitre</option>
+            <option value="La Campana" {{# ifEq family.localidad "La Campana" }}selected{{/ifEq}}>La Campana</option>
+            <option value="Otro" {{# ifEq family.localidad "Otro" }}selected{{/ifEq}}>Otro</option>
           </select>
         </div>
         <h4>Información General</h4>
@@ -54,17 +54,17 @@
         <div class="form-group col-xs-6">
           <label for="martialStatus" class="control-label">Estado Civil*</label>
           <select class="form-control" id="martialStatus" name="martialStatus" required>
-            <option value=""></option>
-            <option value="Soltero">Soltero</option>
-            <option value="Viudo">Viudo</option>
-            <option value="Unión Libre">Unión Libre</option>
-            <option value="Casado-Civil">Casado-Civil</option>
-            <option value="Casado-Iglesia">Casado-Iglesia</option>
-            <option value="Divorciado Vuelto a Casar">Divorciado Vuelto a Casar</option>
+            <option value="" {{# ifEq family.estadoCivil "" }}selected{{/ifEq}}></option>
+            <option value="Soltero" {{# ifEq family.estadoCivil "Soltero" }}selected{{/ifEq}}>Soltero</option>
+            <option value="Viudo" {{# ifEq family.estadoCivil "Viudo" }}selected{{/ifEq}}>Viudo</option>
+            <option value="Unión Libre" {{# ifEq family.estadoCivil "Unión Libre" }}selected{{/ifEq}}>Unión Libre</option>
+            <option value="Casado-Civil" {{# ifEq family.estadoCivil "Casado-Civil" }}selected{{/ifEq}}>Casado-Civil</option>
+            <option value="Casado-Iglesia" {{# ifEq family.estadoCivil "Casado-Iglesia" }}selected{{/ifEq}}>Casado-Iglesia</option>
+            <option value="Divorciado Vuelto a Casar" {{# ifEq family.estadoCivil "Divorciado Vuelto a Casar" }}selected{{/ifEq}}>Divorciado Vuelto a Casar</option>
           </select>
         </div>
         <div class="form-group col-xs-8 col-xs-offset-2">
-          <button type="submit" id="create-family" class="btn btn-primary btn-block">Crear familia</button>
+          <button type="submit" id="create-family" class="btn btn-primary btn-block">{{# if estudioId }}Guardar Cambios{{else}}Crear familia{{/if}}</button>
         </div>
       </div>
     </form>

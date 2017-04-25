@@ -9,20 +9,20 @@ const Transaccion = require('./transaccion.js');
 
 //options for martial status
 const martialStatusChoices = [
-  'Soltero',
-  'Viudo',
-  'Unión Libre',
-  'Casado-Civil',
-  'Casado-Iglesia',
-  'Divorciado Vuelto a Casar'
+  'soltero',
+  'viudo',
+  'union_libre',
+  'casado-civil',
+  'casado-iglesia',
+  'vuelto_a_casar',
 ];
 //options for location
 const locationChoices = [
-  'Poblado Jurica',
-  'Nabo',
-  'Salitre',
-  'La Campana',
-  'Otro'
+  'poblado_jurica',
+  'nabo',
+  'salitre',
+  'la_campana',
+  'otro'
 ];
 
 /*

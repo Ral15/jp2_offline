@@ -131,11 +131,13 @@ module.exports = {
    * @param {object} request - request object
    * @param {object} response - response object.
    */
-  showDashboard: function(request, response) {
+  showDashboard: function(request, response, active) {
     let user = request.session.user;
-    Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
+    console.log(user);
+    Estudio.find({ tokenCapturista: user.apiToken, status: active })
     .then((e) => {
-      response.render('dashboard', { estudios: e , active: 'Borrador' });
+      console.log(e);
+      response.render('dashboard', { estudios: e , active: active });
     })
     .catch((error) => {
       console.log(error);

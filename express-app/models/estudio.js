@@ -38,6 +38,11 @@ class Estudio extends Document {
   constructor() {
     super();
 
+    this.apiId = {
+      type: Number,
+      default: -1,
+    }
+
     this.tokenCapturista = {
       type: String,
       default: '',

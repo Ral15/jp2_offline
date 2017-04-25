@@ -35,6 +35,21 @@
             <button class="btn btn-danger pull-left">Ingresos y Egresos</button>
           </a>
         </div> --}}
+        <div class="col-xs-2">
+          <form action="/captura/estudio/" method="post">
+            <button type="submit" class="btn btn-danger pull-left">subir estudio</button>
+          </form>
+        </div>
+        <div class="col-xs-2">
+          <form action="/captura/estudio/{{this.estudioAPIId}}" method="post">
+            <button type="submit" class="btn btn-danger pull-left">editar estudio</button>
+          </form>
+        </div>
+        <div class="col-xs-2">
+          <form action="/captura/estudio/" method="get">
+            <button type="submit" class="btn btn-danger pull-left">obtener estudios</button>
+          </form>
+        </div>        
       </div>                      
     </div> 
     {{> createIncomeModal this }}

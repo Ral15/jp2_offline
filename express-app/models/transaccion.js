@@ -7,8 +7,8 @@ const Periodo = require('./periodo.js');
 
 const optionChoices = [
   '',
-  'No comprobable',
-  'Comprobable'
+  'no comprobable',
+  'comprobable'
 ];
 
 /*

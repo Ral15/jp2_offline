@@ -21,6 +21,8 @@ module.exports = {
         _id: estudioId
       })
       .then((myEstudio) => {
+        request.session.estudioAPIId = myEstudio.apiId;
+        console.log(request.session.estudioAPIId);
         response.render('family',  {
           estudioId: myEstudio._id, 
           family: myEstudio.familia
@@ -182,5 +184,22 @@ module.exports = {
     .catch((err) => {
       console.log(e);
     })
-  }
+  },
+  /**
+  * This function returns the update promise of the Estudio
+  * 
+  * 
+  * @event
+  * @param {number} apiId - apiId to add  
+  * @param {string} estudioId - estudioId to update
+  */    
+  addAPIId: function(apiId, estudioId) {
+    return Estudio.findOneAndUpdate({
+      _id: estudioId
+    },
+    {
+      apiId: apiId,
+      status: 'Revisión',
+    });
+  },
  }

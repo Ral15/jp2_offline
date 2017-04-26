@@ -102,6 +102,7 @@ describe('Create Estudio test', function () {
       })
       .then((createBtn) => {
         assert.isNotNull(createBtn.value);
+        return 1;
       });
   });
 
@@ -157,6 +158,7 @@ describe('Create Estudio test', function () {
       })
       .then((valueButton) => {
         assert.isNotNull(valueButton.value);
+        return 1;
       });
   });
   /**

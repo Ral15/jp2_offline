@@ -122,8 +122,8 @@ describe('Create Estudio test', function () {
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '23094')
       .setValue('#bastards', '100')
-      .$('#location').selectByAttribute('value', 'Otro')
-      .$('#martialStatus').selectByAttribute('value', 'Soltero')
+      .$('#location').selectByAttribute('value', 'otro')
+      .$('#martialStatus').selectByAttribute('value', 'soltero')
       .then(() => {
         return client.getValue('#familyName');
       })
@@ -148,11 +148,11 @@ describe('Create Estudio test', function () {
         return client.$('#location').getValue();
       })
       .then((locationValue) => {
-        assert.equal(locationValue, 'Otro');
+        assert.equal(locationValue, 'otro');
         return client.$('#martialStatus').getValue();
       })
       .then((martialValue) => {
-        assert.equal(martialValue, 'Soltero');
+        assert.equal(martialValue, 'soltero');
         return client.$('#create-family');
       })
       .then((valueButton) => {
@@ -176,8 +176,8 @@ describe('Create Estudio test', function () {
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '76159')
       .setValue('#bastards', '100')
-      .$('#location').selectByAttribute('value', 'Otro')
-      .$('#martialStatus').selectByAttribute('value', 'Soltero')
+      .$('#location').selectByAttribute('value', 'otro')
+      .$('#martialStatus').selectByAttribute('value', 'soltero')
       .then(() => {
         return client.getAttribute('#create-family', 'class');
       })
@@ -202,8 +202,8 @@ describe('Create Estudio test', function () {
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '76159')
       .setValue('#bastards', '100')
-      .$('#location').selectByAttribute('value', 'Otro')
-      .$('#martialStatus').selectByAttribute('value', 'Soltero')
+      .$('#location').selectByAttribute('value', 'otro')
+      .$('#martialStatus').selectByAttribute('value', 'soltero')
       .then(() => {
         return client.getAttribute('#create-family', 'class');
       })
@@ -228,8 +228,8 @@ describe('Create Estudio test', function () {
       .setValue('#street2', '')
       .setValue('#zipCode', '76159')
       .setValue('#bastards', '100')
-      .$('#location').selectByAttribute('value', 'Otro')
-      .$('#martialStatus').selectByAttribute('value', 'Soltero')
+      .$('#location').selectByAttribute('value', 'otro')
+      .$('#martialStatus').selectByAttribute('value', 'soltero')
       .then(() => {
         return client.getAttribute('#create-family', 'class');
       })
@@ -254,8 +254,8 @@ describe('Create Estudio test', function () {
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '')
       .setValue('#bastards', '100')
-      .$('#location').selectByAttribute('value', 'Otro')
-      .$('#martialStatus').selectByAttribute('value', 'Soltero')
+      .$('#location').selectByAttribute('value', 'otro')
+      .$('#martialStatus').selectByAttribute('value', 'soltero')
       .then(() => {
         return client.getAttribute('#create-family', 'class');
       })
@@ -280,8 +280,8 @@ describe('Create Estudio test', function () {
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '76159')
       .setValue('#bastards', '')
-      .$('#location').selectByAttribute('value', 'Otro')
-      .$('#martialStatus').selectByAttribute('value', 'Soltero')
+      .$('#location').selectByAttribute('value', 'otro')
+      .$('#martialStatus').selectByAttribute('value', 'soltero')
       .then(() => {
         return client.getAttribute('#create-family', 'class');
       })
@@ -307,7 +307,7 @@ describe('Create Estudio test', function () {
       .setValue('#zipCode', '76159')
       .setValue('#bastards', '100')
       .$('#location').selectByAttribute('value', '')
-      .$('#martialStatus').selectByAttribute('value', 'Soltero')
+      .$('#martialStatus').selectByAttribute('value', 'soltero')
       .then(() => {
         return client.getAttribute('#create-family', 'class');
       })
@@ -332,7 +332,7 @@ describe('Create Estudio test', function () {
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '76159')
       .setValue('#bastards', '1')
-      .$('#location').selectByAttribute('value', 'Otro')
+      .$('#location').selectByAttribute('value', 'otro')
       .$('#martialStatus').selectByAttribute('value', '')
       .then(() => {
         return client.getAttribute('#create-family', 'class');
@@ -358,8 +358,8 @@ describe('Create Estudio test', function () {
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '76159')
       .setValue('#bastards', '1')
-      .$('#location').selectByAttribute('value', 'Otro')
-      .$('#martialStatus').selectByAttribute('value', 'Soltero')
+      .$('#location').selectByAttribute('value', 'otro')
+      .$('#martialStatus').selectByAttribute('value', 'soltero')
       .click('#create-family')
       .waitForVisible('#members-section')
       .then(() => {

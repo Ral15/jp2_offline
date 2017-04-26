@@ -1,6 +1,6 @@
 module.exports = {
   DEBUG: false,
-  //production
+  //production - testing
   ENV: 'testing',
   SECRET_SESSION: 'erikiano',
   DBKey: 'juanpabloii',

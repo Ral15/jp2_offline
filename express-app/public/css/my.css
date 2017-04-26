@@ -7,9 +7,6 @@ body {
   padding: 0px;
 }
 
-#estudios-btn {
-  margin-top: 20px;
-}
 .page-content > .row {
   margin-left: 0px !important;
   margin-right: 0px !important;
@@ -21,7 +18,19 @@ body {
 }
 
 #input-family {
-  margin-bottom: 10px;
+  margin-top: 30px;
+  /*margin-bottom: 10px;*/
+}
+
+#create-members,
+#submit-income,
+#income-button,
+#estudios-btn {
+  margin-top: 20px; 
+}
+
+#add-member-button {
+  margin-bottom: 20px;
 }
 
 #home-btn {

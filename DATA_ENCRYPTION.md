@@ -47,7 +47,7 @@ For this application we used NeDB as Database and Camo as ODM.
       const Crypto = require('crypto-js');
       const Config = require('../../../../../config.js');
     ```
-  * At function createCollection you will see a new Datastore function, add the options:
+  * At function createCollection you will see a new Datastore({ filename: collectionPath, autoload: true }) function, add the options:
 
   ``` shell
     new Datastore({filename: collectionPath, autoload: true,

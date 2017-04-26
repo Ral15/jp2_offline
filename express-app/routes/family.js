@@ -10,6 +10,7 @@ router.post(urls.memberCreate, function(req, res) {
 	familyController.createMembers(req,res);
 });
 
+// GET to show family members
 router.get(urls.members, function(req, res){
   familyController.showMembers(req, res);
 });

@@ -5,6 +5,7 @@ const SectionController = require('../controllers/section');
 
 
 
+// GET to create section members
 router.get(urls.sectionStart, function(req, res) {
   res.redirect(urls.sections.replace(':step', '1'));
 });

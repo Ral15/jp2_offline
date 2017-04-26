@@ -8,13 +8,8 @@ const config = require('../config.js');
 
 //Database connection
 const connect = require(path.join(__dirname , '../express-app/node_modules/camo')).connect;
-let database;
-let dbUri;
-if (config.ENV !== 'testing') {
-  dbUri = 'nedb://db';
-} else {
-  dbUri = 'nedb://testDB';
-}
+var database;
+const dbUri = 'nedb://testDB';
 //end DB connection
 
 // Set the direction to launch the electron app.
@@ -104,7 +99,6 @@ describe('Create Estudio test', function () {
         assert.isNotNull(createBtn.value);
       });
   });
-
   /**
   * Test create Estudio form
   *

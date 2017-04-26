@@ -67,7 +67,7 @@ describe('Create Estudio test', function () {
   });
 
   // Before everything we launch the app.
-  beforeEach( function () {
+  beforeEach(function () {
     // Launch the application
     this.app = new Application({ path: electronPath, args:['.'] });
     return this.app.start();
@@ -75,7 +75,7 @@ describe('Create Estudio test', function () {
 
 
   // After test is complete we stop the app.
-  afterEach( function () {
+  afterEach(function () {
     if (this.app && this.app.isRunning()) {
       return this.app.stop();
     }

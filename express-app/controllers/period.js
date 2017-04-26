@@ -3,7 +3,7 @@ const Periodo = require('../models/periodo');
 //options for values 
 const options = {
   Diario: { factor: 30 , multiply: true },
-  Semanal: { factor: 4, multiply: true },
+  Semanal: { factor: 4.3, multiply: true },
   Quincenal: { factor: 2, multiply: true} ,
   Mensual: { factor: 1, multiply: true },
   Bimestral: { factor: 2, multiply: false },

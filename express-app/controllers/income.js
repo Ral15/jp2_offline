@@ -45,7 +45,6 @@ module.exports = {
     const transactionId = request.params.id;
     let editedTransaction = transactionController.editTransaction(data, true, newPeriod, null, familyId, transactionId);
     editedTransaction.then((nT) => {
-      console.log(nT);
       return transactionController.showTransactionView(request, response)
     })
     .catch((err) => {

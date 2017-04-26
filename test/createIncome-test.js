@@ -133,7 +133,6 @@ describe('Create incomes test', function () {
       return Transaccion.count({familyId: familyId, inIngreso: true});
     })
     .then((count) => {
-      console.log(count);
       totalIncomes = count;
     })
     .catch((err) => {
@@ -143,7 +142,7 @@ describe('Create incomes test', function () {
   });
 
   // Before everything we launch the app.
-  beforeEach(async function () {
+  beforeEach( function () {
     // Launch the application
     this.app = new Application({ path: electronPath, args:['.'] });
     return this.app.start();
@@ -151,7 +150,7 @@ describe('Create incomes test', function () {
 
 
   // After test is complete we stop the app.
-  afterEach(async function () {
+  afterEach( function () {
     if (this.app && this.app.isRunning()) {
       return this.app.stop();
     }
@@ -167,7 +166,7 @@ describe('Create incomes test', function () {
   * Test if the create income button exists in the
   * transactions view.
   */
-  it('should see create income button for transactions', async function () {
+  it('should see create income button for transactions',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -191,7 +190,7 @@ describe('Create incomes test', function () {
   *
   * Test if you can enter data to the form
   */
-  it('should fill createIncome Modal', async function () {
+  it('should fill createIncome Modal',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -239,7 +238,7 @@ describe('Create incomes test', function () {
   *
   * Test if you can enter data with errors
   */
-  it('should fill with NO amount', async function () {
+  it('should fill with NO amount',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -270,7 +269,7 @@ describe('Create incomes test', function () {
   *
   * Test if you can enter data with errors
   */
-  it('should fill with NO period', async function () {
+  it('should fill with NO period',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -301,7 +300,7 @@ describe('Create incomes test', function () {
   *
   * Test if you can enter data with errors
   */
-  it('should fill with NO dateReceived', async function () {
+  it('should fill with NO dateReceived',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -332,7 +331,7 @@ describe('Create incomes test', function () {
   *
   * Test if you can enter data with errors
   */
-  it('should fill with NO type', async function () {
+  it('should fill with NO type',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -363,7 +362,7 @@ describe('Create incomes test', function () {
   *
   * Test if you can enter data with errors
   */
-  it('should fill & create income', async function () {
+  it('should fill & create income',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)

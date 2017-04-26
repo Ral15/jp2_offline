@@ -62,7 +62,7 @@ To test the application
 ```shell
 
   DEBUG: false,
-  ENV: 'Testing'
+  ENV: 'testing'
 
 ```
 
@@ -83,7 +83,7 @@ To test the application
 * To use eslint:
 
  ```shell
-  npm lint
+  npm run lint
  ```
 
 # For users

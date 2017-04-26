@@ -109,7 +109,7 @@ class Miembro extends Document {
       choices: academicDegreeChoices
     };
     this.fechaNacimiento = {
-      type: Date,
+      type: String,
     };
     this.oficio = {
       type: String,
@@ -142,7 +142,11 @@ class Miembro extends Document {
     this.sacramentos = {
       type: String,
       default: '',
-    }
+    };
+    this.terapia = {
+      type: String,
+      default: '',
+    };
   }
 
   static collectionName() {

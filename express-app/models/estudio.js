@@ -71,7 +71,12 @@ class Estudio extends Document {
 
   preSave() {
     this.editedDate = Date();
-  }
+  };
+
+  editDate() {
+    return this.editedDate = Date();
+  };
+
   /**
    * This function deletes the familia, seccion and respuesta
    * associated to this estudio.

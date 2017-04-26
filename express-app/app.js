@@ -45,6 +45,9 @@ hbs.registerHelper('select', function(selected, options) {
         new RegExp(' value=\"' + selected + '\"'),
         '$& selected="selected"');
 });
+hbs.registerHelper('date', function(d, options) {
+    return new Date(d);
+});
 hbs.registerHelper('json', function(context) {
     return JSON.stringify(context);
 });

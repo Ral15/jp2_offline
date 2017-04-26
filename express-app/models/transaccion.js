@@ -50,7 +50,7 @@ class Transaccion extends Document {
     };
 
     this.fecha = {
-      type: Date,
+      type: String,
     };
 
     this.tipo = {

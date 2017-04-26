@@ -12,9 +12,8 @@ const urls = require('../routes/urls');
 
 module.exports = {
   /**
-  * This function shows the family form, IF the url query is empty
-  * then it means that the familia and estudio is created from scratch, IF NOT then
-  * it means it is a estudio that is going to be updated.
+  * This functions makes a GET to obtain all the Estudios associated to a 
+  * capturista
   *
   * @event
   * @param {object} request - request object 

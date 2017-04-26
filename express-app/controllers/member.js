@@ -17,6 +17,8 @@ module.exports = {
     //get all data from POST
     const data = request.body;
     //get familyId
+    // console.log(data.birthDate);
+    // return 1;
     const familyId = request.session.familyId;
     //create member object
     let myMember = this.createMember(data, familyId);
@@ -74,6 +76,7 @@ module.exports = {
       sae: data.sae,
       escuela: data.school,
       sacramentos: data.sacramentos,
+      terapia: data.terapia,
       oficio: data.job,
       observacionOficio: data.jobObservation,
       observacionEscuela: data.schoolObservation,
@@ -97,6 +100,7 @@ module.exports = {
       telefono: data.phone,
       correo: data.email,
       sacramentos: data.sacramentos,
+      terapia: data.terapia,
       relacion: data.role,
       sae: data.sae,
       escuela: data.school,

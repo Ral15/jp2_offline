@@ -92,6 +92,19 @@
           </div>
         </div>
         <div class="row">
+          <div class="form-group col-xs-12">
+            <div id="datetimepicker4">
+              <label for="birthDate">Fecha de nacimiento*</label>
+              <div class="input-group">
+                <span class="input-group-addon add-on" id="basic-addon1">
+                  <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
+                </span>
+                <input type="text" id="birthDate" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" name="birthDate" required>
+              </div>
+            </div>                                        
+          </div>
+        </div>
+        <div class="row">
           <div class="form-group col-xs-6">
             <label for="academicDegree">Nivel estudios*</label>
             <select class="form-control" id="academicDegree" name="academicDegree" required>
@@ -122,20 +135,13 @@
         </div>
         <div class="row">
           <div class="form-group col-xs-6">
-            <div id="datetimepicker4" class="input-group">
-              <label for="birthDate">Fecha de nacimiento*</label>
-              <div class="input-group">
-                <span class="input-group-addon add-on" id="basic-addon1">
-                  <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
-                </span>
-                <input type="text" id="birthDate" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" name="birthDate" required>
-              </div>
-            </div>                                        
-          </div>
-          <div class="form-group col-xs-6">
             <label for="sacramentos">Sacramentos que faltan</label>
             <textarea id="sacramentos" name="sacramentos" class="form-control" rows="5"></textarea>
           </div>
+          <div class="form-group col-xs-6">
+            <label for="terapia">¿Asiste o asistío a terapia?</label>
+            <textarea id="terapia" name="terapia" class="form-control" rows="5"></textarea>
+          </div>          
         </div>
         <div class="form-group">
           <button type="submit" id="submit-addMember-form" class="btn btn-primary btn-block">Guardar</button>

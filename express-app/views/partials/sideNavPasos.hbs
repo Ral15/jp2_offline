@@ -7,17 +7,17 @@
         </a>
     </li>
     <li class="{{#ifEq this 'Borrador' }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-        <a href="{{#if estudioId }}/family/members/{{estudioId}}{{else}}javascript:void(0){{/if}}">
+        <a href="{{#if estudioId }}/members/{{else}}javascript:void(0){{/if}}">
             <i class="glyphicon glyphicon-user"></i> 2.- Integrantes
         </a>
     </li>
     <li class="{{#ifEq this 'Aprobado' }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-        <a href="{{# if estudioId }}/estudio/get/?status=Aprobado{{else}}javascript:void(0){{/if}}">
+        <a href="{{# if estudioId }}/transactions/{{else}}javascript:void(0){{/if}}">
             <i class="glyphicon glyphicon-usd"></i> 3.- Ingresos
         </a>
     </li>
     <li class="{{#ifEq this 'Rechazado' }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-        <a href="{{# if estudioId }}/estudio/get/?status=Rechazado{{else}}javascript:void(0){{/if}}">
+        <a href="{{# if estudioId }}/members/{{else}}javascript:void(0){{/if}}">
             <i class="glyphicon glyphicon-picture"></i> 4.- Vivienda
         </a>
     </li>

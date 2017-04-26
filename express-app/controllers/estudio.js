@@ -17,8 +17,8 @@ module.exports = {
     //retrieve estudio id from url
     let estudioId = request.query.estudioId;
     if (estudioId) {
-      request.session.id_estudio = estudioId;
-      response.locals.estudioId = request.session.id_estudio;
+      request.session.estudioId = estudioId;
+      response.locals.estudioId = request.session.estudioId;
       Estudio.findOne({
         _id: estudioId
       })
@@ -35,7 +35,6 @@ module.exports = {
       })
     }
     else {
-      console.log(request.session.id_estudio)
       response.render('family');
     }
   },  

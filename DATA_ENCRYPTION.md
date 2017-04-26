@@ -34,7 +34,7 @@ For this application we used NeDB as Database and Camo as ODM.
 
   * Go to /your-path/jp2_offline/express-app/node_modules/camo/lib/clients/nedbclient.js
 
-  * Add const Crypto = require('crypto-js'); AND const Config = require('../../../../config.js'); in the file:
+  * Add const Crypto = require('crypto-js'); AND const Config = require('../../../../../config.js'); in the file:
 
     ```shell
       'use strict';
@@ -45,7 +45,7 @@ For this application we used NeDB as Database and Camo as ODM.
                 .
       const DatabaseClient = require('./client');
       const Crypto = require('crypto-js');
-      const Config = require('../../../../config.js');
+      const Config = require('../../../../../config.js');
     ```
   * At function createCollection you will see a new Datastore function, add the options:
 

@@ -86,7 +86,6 @@ describe('Create Members test', function () {
       return Miembro.find({familyId: familyId});
     })
     .then((count) => {
-      console.log(count);
       totalMembers = count;
     })
     .catch((err) => {

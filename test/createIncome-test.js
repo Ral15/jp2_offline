@@ -133,7 +133,6 @@ describe('Create incomes test', function () {
       return Transaccion.count({familyId: familyId, inIngreso: true});
     })
     .then((count) => {
-      console.log(count);
       totalIncomes = count;
     })
     .catch((err) => {

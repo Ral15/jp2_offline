@@ -133,7 +133,6 @@ describe('Create Outcomes test', function () {
       return Transaccion.count({familyId: familyId, isIngreso: false});
     })
     .then((count) => {
-      console.log(count);
       totalOutcomes = count;
     })
     .catch((err) => {

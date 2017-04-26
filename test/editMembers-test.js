@@ -131,7 +131,6 @@ describe('Edit member test', function () {
       return Miembro.count({familyId: familyId});
     })
     .then((count) => {
-      console.log(count);
       totalMembers = count;
     })
     .catch((err) => {

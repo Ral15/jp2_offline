@@ -139,6 +139,10 @@ class Miembro extends Document {
       type: String,
       default: '',  
     };
+    this.sacramentos = {
+      type: String,
+      default: '',
+    }
   }
 
   static collectionName() {

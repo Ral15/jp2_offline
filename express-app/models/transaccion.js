@@ -1,9 +1,15 @@
 "use strict";
 
 //EmbeddedDocument class from camo
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+var Document = require('camo').Document;
 //extra models
 const Periodo = require('./periodo.js');
+
+const optionChoices = [
+  '',
+  'No comprobable',
+  'Comprobable'
+];
 
 /*
  * Transaction of a family
@@ -21,7 +27,7 @@ const Periodo = require('./periodo.js');
  * isIngreso: BOOLEAN
  *    This attrinute determines if a transaccion is an Income or an Outcome
  */
-class Transaccion extends EmbeddedDocument {
+class Transaccion extends Document {
   constructor() {
     super();
 
@@ -37,26 +43,40 @@ class Transaccion extends EmbeddedDocument {
     this.observacion = {
       type: String,
       default: '',
-      required: true
+      // required: true
     };
     this.isIngreso = {
       type: Boolean
     };
+
+    this.fecha = {
+      type: Date,
+    };
+
+    this.tipo = {
+      type: String,
+      choices: optionChoices,
+      default: optionChoices[0],
+    };
+
+    this.miembroId = {
+      type: String,
+      default: '',
+    };
+
+    this.familyId = {
+      type: String,
+    };
+
+    this.nombreMiembro = {
+      type: String,
+      default: '',
+    };
+
+    this.valorMensual = {
+      type: Number,
+    }
   } 
-  /**
-   * This function calculates the monthly value of the transaction.
-   *
-  **/ 
-  monthlyValue() {
-    // if it is not an Ingreso then make it negative
-    let value = this.isIngreso ? this.monto : this.monto * -1.0;
-    if (this.periocidad.multiplica) {
-      return value  * this.periocidad.factor;
-    }
-    else {
-      return value / this.periocidad.factor;
-    }
-  }
 
   static collectionName() {
     return 'Transacciones';

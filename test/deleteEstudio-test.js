@@ -4,6 +4,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const Estudio = require(path.join(__dirname , '../express-app/models/estudio.js'));
+const Familia = require(path.join(__dirname , '../express-app/models/familia.js'));
 const config = require('../config.js');
 
 
@@ -59,22 +60,33 @@ describe('Delete Estudio test', function () {
     })
     .then((total) => {
       totalEstudios = total;
-      let e = Estudio.create({
-        //change later for config
-        tokenCapturista: config.apiToken,
-        familia: {
+      let f = Familia.create({
           bastardos: 10,
           estadoCivil: 'Soltero',
           calle: 'Erizo',
           colonia: 'Fs',
           codigoPostal: 76150,
-          localidad: 'Otro'
-        },
+          localidad: 'Otro',
+          nombreFamilia: 'Los Picapiedras',        
       });
-      return e.save();
+      return f.save();
+    })
+    .then((newFamily) => {
+      //save familyId
+      // familyId = newFamily._id;
+      //create estudio 
+      let e = Estudio.create({
+        //change later for config
+        tokenCapturista: config.apiToken,
+        familia: newFamily,
+      });   
+      return e.save();   
     })
     .then((newEstudio) => {
       estudioId = newEstudio._id;
+    })
+    .catch((e) => {
+      console.log(e);
     })
     // end Database connection
   });

@@ -6,6 +6,10 @@ const basicRoutes = require('./routes/basic.js');
 const userRoutes = require('./routes/user.js');
 const estudioRoutes = require('./routes/estudio.js');
 const familyRoutes = require('./routes/family.js');
+const incomeRoutes = require('./routes/income.js');
+const outcomeRoutes = require('./routes/outcome.js');
+const memberRoutes = require('./routes/member.js');
+const transactionsRoutes = require('./routes/transactions.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
@@ -34,6 +38,17 @@ hbs.registerHelper('ifEq', function(value1, value2, opt) {
 	else {
 		opt.inverse(this);
 	}
+});
+hbs.registerHelper('select', function(selected, options) {
+    return options.fn(this).replace(
+        new RegExp(' value=\"' + selected + '\"'),
+        '$& selected="selected"');
+});
+hbs.registerHelper('json', function(context) {
+    return JSON.stringify(context);
+});
+hbs.registerHelper('multiply', function(value1, value2) {
+  return value1 * value2;
 });
 // setup cors
 app.use(cors())
@@ -70,6 +85,10 @@ app.use(basicRoutes);
 app.use(userRoutes);
 app.use(estudioRoutes);
 app.use(familyRoutes);
+app.use(incomeRoutes);
+app.use(memberRoutes);
+app.use(outcomeRoutes);
+app.use(transactionsRoutes);
 
 
 app.listen(3000, function () {

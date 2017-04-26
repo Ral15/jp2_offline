@@ -64,7 +64,7 @@ describe('Get Sections', function () {
     .setValue('#password', 'erikiado123')
     .click('#submit-login')
     .then(() => {
-      return client.waitForVisible('#estudios-btn');
+      return client.waitForVisible('#secciones-btn');
     })
     .then((estudiosButton) => {
       if (estudiosButton && fs.existsSync(sectionsPath)) assert.isOk(true, 'test is ok');

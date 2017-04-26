@@ -1,7 +1,7 @@
 "use strict";
 
 //require document class from camo
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+var Document = require('camo').Document;
 
 
 /*
@@ -15,9 +15,14 @@ var EmbeddedDocument = require('camo').EmbeddedDocument;
  *    Stores the content of the comment
  */
  
-class Comentario extends EmbeddedDocument {
+class Comentario extends Document {
   constructor() {
-    super();
+    super();  
+
+    this.familyId = {
+      type: String,
+      required: true,
+    }
 
     this.fecha = {
       type: Date,

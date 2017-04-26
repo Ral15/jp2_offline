@@ -18,6 +18,7 @@ class Seccion extends Document {
   constructor() {
     super();
 
+
     this.idApi = {
       type: Number,
       default: 0,

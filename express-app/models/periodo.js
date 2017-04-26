@@ -15,6 +15,7 @@ const periocidadChoices = [
   'Semestral',
   'Anual'
 ];
+
 /*
  * Periocity of a Transaction
  * 

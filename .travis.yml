@@ -35,4 +35,4 @@ before_script:
   - cd ..
 
 script:
-  - npm test test/createEstudio-test.js
+  - npm test

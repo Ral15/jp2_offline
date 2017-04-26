@@ -5,7 +5,7 @@
       <span id="error_message"><strong>{{error_message}}</strong></span>
     </div>
   {{/if}}
-  <div class="row">
+<div class="row" id="members-section">
   <div class="col-xs-12">
   <div class="pull-right"><a href="/seccion/paso/" class="btn btn-success" id="start-sections"> Secciones</a></div>
     <h1>Miembros</h1>
@@ -14,88 +14,60 @@
         <h3>En esta sección podras agregar a todos los miembros de una familia.</h3>
       </div>
     </div>
-    <div class="col-xs-12 well">
-      <form id="familySection" method="post" action="/estudio/member/create/?estudioId={{estudioId}}">
-        <div id="family-wrapper">
-          <div class="row" id="add-family-button">
-            <button id="add-family-input" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus" area-hidden="true"></span></button>
-          </div>
-          <div class="row" id="input-family">
-            <div class="form-group col-xs-3">
-              <label for="role">Rol</label>
-              <select class="form-control" id="role" name="role">
-                <option></option>
-                <option value="madre">Madre</option>
-                <option value="padre">Padre</option>
-                <option value="tutor">Tutor</option>
-                <option value="estudiante">Estudiante</option>
-              </select>
-            </div>                      
-            <div class="form-group col-xs-3">
-              <label for="firstName">Nombre</label>
-              <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Nombre">
-            </div>
-            <div class="form-group col-xs-3">
-              <label for="lastName">Apellido</label>
-              <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Apellido">
-            </div>
-            <div class="form-group col-xs-2">
-              <label for="age">Edad</label>
-              <input type="text" class="form-control" id="age" name="age" placeholder="Edad">
-            </div>
-            <div class="form-group col-xs-3">
-              <label for="academicDegree">Nivel estudios</label>
-              <select class="form-control" id="academicDegree" name="academicDegree">
-                <option></option>
-                <option value="1_grado">Primero Primaria</option>
-                <option value="2_grado">Segundo Primaria</option>
-                <option value="3_grado">Tercero Primaria</option>
-                <option value="4_grado">Cuarto Primaria</option>
-                <option value="5_grado">Quinto Primaria</option>
-                <option value="6_grado">Sexto Primaria</option>
-                <option value="7_grado">Primero Secundaria</option>
-                <option value="8_grado">Segundo Secundaria</option>
-                <option value="9_grado">Tercero Secundaria</option>
-                <option value="10_grado">Primero Prepa</option>
-                <option value="11_grado">Segundo Prepa</option>
-                <option value="12_grado">Tercero Prepa</option>
-                <option value="universidad">Universidad</option>
-                <option value="maestria">Maestría</option>
-                <option value="doctorado">Doctorado</option>
-              </select>
-            </div>
-            <div class="col-xs-3 form-group">
-              <div id="datetimepicker4" class="input-group">
-                <label for="birthDate">Fecha de nacimiento</label>
-                <div class="input-group">
-                  <span class="input-group-addon add-on" id="basic-addon1">
-                    <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
-                  </span>
-                  <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" name="birthDate">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-xs-2">
-              <label for="phone">Teléfono</label>
-              <input type="tel" class="form-control" name="phone" id="phone" placeholder="442-8798-903">
-            </div>
-            <div class="form-group col-xs-3">
-              <label for="email">Correo electrónico</label>
-              <input type="email" class="form-control" name="email" id="email" placeholder="eugenio@420.mx">
-            </div>                    
-          </div>
-        </div>
-        <button type="submit" id="create-members">Crear miembros</button>
-      </form>
-    </div>
+    <div class="x_content">
+      <div class="row">
+        <button id="add-member-button" class="btn btn-success pull-right" data-toggle="modal" href="#memberModal" data-member=""><span class="glyphicon glyphicon-plus" area-hidden="true"></span> Agregar miembro</button>
+      </div>
+      <table id="datatable" class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Rol</th>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Nivel de estudios</th>
+            <th>Fecha de nacimiento</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each members}}
+          <tr>
+            <td>{{this.relacion}}</td>
+            <td>{{this.nombres}} {{this.apellidos}}</td>
+            <td>{{this.telefono}}</td>
+            <td>{{this.nivelEstudios}}</td>
+            <td>{{this.fechaNacimiento}}</td>
+            <th>
+            <button class="btn btn-primary btn-sm editMember"  id="edit-member-button-{{this._id}}" data-memberid="{{this._id}}" data-toggle="modal" href="#editMemberModal-{{this._id}}"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
+            <button onclick="showDeleteMember('{{this._id}}')" id="delete-member-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
+            </th>
+          </tr>
+          {{> editMemberModal this }}
+          {{!-- <p>{{json this}}</p> --}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>    
+    <div class="row text-center">
+      <div class="col-xs-6">
+        <a href="/family">
+          <button class="btn btn-danger pull-right" id="show-members-view">Familia</button>
+        </a>
+      </div>
+      <div class="col-xs-6">
+        <a href="/transactions">
+          <button class="btn btn-danger pull-left" id="show-transactions-view">Ingresos y Egresos</button>
+        </a>
+      </div>
+    </div>          
   </div>
 </div>
-
-          
+{{!-- modals --}}
+{{> addMemberModal }}              
 {{/inline}}
 {{#*inline "scripts-block"}}
 <script src="/js/dateTime.min.js"></script>
-<script src="/js/renderer.js"> </script>
+<script src="/js/member.js"> </script>
 <script src="/js/validator.min.js"> </script>
 {{/inline}}
 

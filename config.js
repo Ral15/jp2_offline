@@ -1,6 +1,6 @@
 module.exports = {
-  DEBUG: true,
-  //production
+  DEBUG: false,
+  //production - testing
   ENV: 'testing',
   SECRET_SESSION: 'erikiano',
   //test credentials

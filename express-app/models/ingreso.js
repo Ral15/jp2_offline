@@ -1,7 +1,7 @@
 "use strict";
 
 const Transaccion = require('./transaccion.js');
-const Tutor = require('tutor.js');
+const Tutor = require('./tutor.js');
 
 
 const optionChoices = [

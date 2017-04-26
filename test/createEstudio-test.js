@@ -67,7 +67,7 @@ describe('Create Estudio test', function () {
   });
 
   // Before everything we launch the app.
-  beforeEach(async function () {
+  beforeEach(function () {
     // Launch the application
     this.app = new Application({ path: electronPath, args:['.'] });
     return this.app.start();
@@ -75,7 +75,7 @@ describe('Create Estudio test', function () {
 
 
   // After test is complete we stop the app.
-  afterEach(async function () {
+  afterEach(function () {
     if (this.app && this.app.isRunning()) {
       return this.app.stop();
     }
@@ -91,7 +91,7 @@ describe('Create Estudio test', function () {
   * Test if the crear-estudio button exists in the
   * application.
   */
-  it('should see create estudio button', async function () {
+  it('should see create estudio button',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username', config.username)
@@ -110,13 +110,14 @@ describe('Create Estudio test', function () {
   *
   * This test will check if there is a form to create a estudio
   */
-  it('should fill create estudio form', async function () {
+  it('should fill create estudio form',  function () {
     const client = this.app.client;
     return client.setValue('#username', config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
+      .setValue('#familyName', 'Los picapiedras')
       .setValue('#street', 'Priv. Camino Real #112 int #9')
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '23094')
@@ -124,6 +125,10 @@ describe('Create Estudio test', function () {
       .$('#location').selectByAttribute('value', 'Otro')
       .$('#martialStatus').selectByAttribute('value', 'Soltero')
       .then(() => {
+        return client.getValue('#familyName');
+      })
+      .then((familyName) => {
+        assert.equal(familyName, 'Los picapiedras')
         return client.getValue('#street');
       })
       .then((streetValue) => {
@@ -159,13 +164,40 @@ describe('Create Estudio test', function () {
   *
   * This test will check if the form is validated
   */
-  it('should fill with NO street value estudio form', async function () {
+  it('should fill with NO familyName value estudio form',  function () {
     const client = this.app.client;
     return client.setValue('#username', config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
+      .setValue('#familyName', '')
+      .setValue('#street', 'Privada Camino Real')
+      .setValue('#street2', 'Los Fresnos')
+      .setValue('#zipCode', '76159')
+      .setValue('#bastards', '100')
+      .$('#location').selectByAttribute('value', 'Otro')
+      .$('#martialStatus').selectByAttribute('value', 'Soltero')
+      .then(() => {
+        return client.getAttribute('#create-family', 'class');
+      })
+      .then((buttonAttributes) => {
+        assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
+      });
+  });
+  /**
+  * Test create Estudio form with no input for street
+  *
+  * This test will check if the form is validated
+  */
+  it('should fill with NO street value estudio form',  function () {
+    const client = this.app.client;
+    return client.setValue('#username', config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .click('#crear-estudio')
+      .waitForVisible('#street')
+      .setValue('#familyName', 'Los picapiedras')
       .setValue('#street', '')
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '76159')
@@ -184,13 +216,14 @@ describe('Create Estudio test', function () {
   *
   * This test will check if the form is valdated
   */
-  it('should fill with NO street2 value estudio form', async function () {
+  it('should fill with NO street2 value estudio form',  function () {
     const client = this.app.client;
     return client.setValue('#username', config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
+      .setValue('#familyName', 'Los picapiedras')
       .setValue('#street', 'Priv. Camino Real #112 int #9')
       .setValue('#street2', '')
       .setValue('#zipCode', '76159')
@@ -209,13 +242,14 @@ describe('Create Estudio test', function () {
   *
   * This test will check if the form is valdated
   */
-  it('should fill with NO zipCode value estudio form', async function () {
+  it('should fill with NO zipCode value estudio form',  function () {
     const client = this.app.client;
     return client.setValue('#username', config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
+      .setValue('#familyName', 'Los picapiedras')
       .setValue('#street', 'Priv. Camino Real #112 int #9')
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '')
@@ -234,13 +268,14 @@ describe('Create Estudio test', function () {
   *
   * This test will check if the form is valdated
   */
-  it('should fill with NO bastards value estudio form', async function () {
+  it('should fill with NO bastards value estudio form',  function () {
     const client = this.app.client;
     return client.setValue('#username', config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
+      .setValue('#familyName', 'Los picapiedras')
       .setValue('#street', 'Priv. Camino Real #112 int #9')
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '76159')
@@ -259,13 +294,14 @@ describe('Create Estudio test', function () {
   *
   * This test will check if the form is valdated
   */
-  it('should fill with NO location value estudio form', async function () {
+  it('should fill with NO location value estudio form',  function () {
     const client = this.app.client;
     return client.setValue('#username', config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
+      .setValue('#familyName', 'Los picapiedras')
       .setValue('#street', 'Priv. Camino Real #112 int #9')
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '76159')
@@ -284,13 +320,14 @@ describe('Create Estudio test', function () {
   *
   * This test will check if the form is valdated
   */
-  it('should fill with NO martialStatus value estudio form', async function () {
+  it('should fill with NO martialStatus value estudio form',  function () {
     const client = this.app.client;
     return client.setValue('#username', config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
+      .setValue('#familyName', 'Los picapiedras')
       .setValue('#street', 'Priv. Camino Real #112 int #9')
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '76159')
@@ -309,13 +346,14 @@ describe('Create Estudio test', function () {
   *
   * This test will check if an estudio is created in the db
   */
-  it('should create estudio', async function () {
+  it('should create estudio',  function () {
     const client = this.app.client;
     return client.setValue('#username', config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#crear-estudio')
       .waitForVisible('#street')
+      .setValue('#familyName', 'Los picapiedras')
       .setValue('#street', 'Priv. Camino Real #112 int #9')
       .setValue('#street2', 'Los Fresnos')
       .setValue('#zipCode', '76159')
@@ -323,7 +361,7 @@ describe('Create Estudio test', function () {
       .$('#location').selectByAttribute('value', 'Otro')
       .$('#martialStatus').selectByAttribute('value', 'Soltero')
       .click('#create-family')
-      .waitForVisible('#familySection')
+      .waitForVisible('#members-section')
       .then(() => {
         return connect(dbUri);
       })

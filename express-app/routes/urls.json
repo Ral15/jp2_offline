@@ -7,6 +7,7 @@
 	"apiUrl" : "http://junipero.erikiado.com",
 	"createUser": "/user/create",
 	"dashboard" : "/user/dashboard",
+	"familyView": "/family",
 	"estudio": "/estudio/",
 	"estudioCreate": "/estudio/create/",
 	"estudioDelete": "/estudio/delete/:id",
@@ -24,5 +25,15 @@
 	"removeAnswer": "/estudio/answer/remove/",
 	"sections" : "/seccion/paso/:step",
 	"sectionStart" : "/seccion/paso/",
-	"uploadEstudio": "/estudio/upload/:id"
+	"uploadEstudio": "/estudio/upload/:id",
+	"memberCreate": "/member/create/",
+	"memberEdit": "/member/edit/:id",
+	"memberDelete": "/member/delete/:id",
+	"membersView": "/members/",
+	"transactionsView": "/transactions/",
+	"transactionDelete": "/transaction/delete/:id",
+	"incomeCreate": "/income/create/",
+	"incomeEdit": "/income/edit/:id",
+	"outcomeCreate": "/outcome/create/",
+	"outcomeEdit" : "/outcome/edit/:id"
 }

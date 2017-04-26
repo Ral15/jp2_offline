@@ -1,0 +1,37 @@
+<div class="row">
+  <button id="add-outcome" class="btn btn-success pull-right" data-toggle="modal" data-target="#createOutcome">
+    <span class="glyphicon glyphicon-plus"></span> Agregar Egreso
+  </button>
+</div>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Monto Mensual</th>
+      <th>Monto</th>
+      <th>Periodicidad</th>
+      <th>Observación</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+
+
+  <tbody>
+    {{#each outcomes}}
+      <tr class="">
+        <td>${{ this.valorMensual }} MXN</td>
+        <td>${{ this.monto }} MXN</td>
+        <td>{{ this.periocidad.periodicidad }}</td>
+        <td>{{ this.observacion }}</td>
+
+        <td>
+          <button class="btn btn-primary btn-sm editOutcome"  id="edit-outcome-{{this._id}}" data-outcome="{{this._id}}" data-toggle="modal" href="#editOutcomeModal-{{this._id}}"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
+
+          <button onclick="showDeleteOutcome('{{this._id}}')" id="delete-outcome-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
+
+        </td>
+      </tr>
+      {{> editOutcomeModal this }}
+    {{/each}}
+
+  </tbody>
+</table>

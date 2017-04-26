@@ -1,0 +1,49 @@
+<div class="modal fade" id="createOutcome" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Egresos</h4>
+      </div>
+      <div class="modal-body">
+        <form id="outcomeSection" method="post" action="/outcome/create/" data-toggle="validator">
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="amount">Monto*</label>
+              <input type="number" min="0" class="form-control" name="amount" id="amount" required>
+            </div>
+            <div class="form-group col-xs-12">
+              <label for="period">Peridicidad*</label>
+              <select class="form-control" id="period" name="period" required>
+                {{!-- {{#select this.relacion}} --}}
+                <option value=""></option>
+                <option value="Diario">Diario</option>
+                <option value="Semanal">Semanal</option>
+                <option value="Quincenal">Quincenal</option>
+                <option value="Mensual">Mensual</option>
+                <option value="Bimestral">Bimestral</option>
+                <option value="Trimestral">Trimestral</option>
+                <option value="Cuatrimestral">Cuatrimestral</option>
+                <option value="Semestral">Semestral</option>
+                <option value="Anual">Anual</option>
+                {{!-- {{/select}} --}}
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="observations">Observaciones</label>
+              <textarea id="observations" name="observations" class="form-control" rows="5"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="submit-outcome" class="btn btn-primary btn-block">Guardar</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,13 +5,9 @@ const familyController = require('../controllers/family');
 
 
 
-// POST to create family members
-router.post(urls.memberCreate, function(req, res) {
-	familyController.createMembers(req,res);
-});
+router.get(urls.familyView, function(req, res) {
+	familyController.showFamilyView(req, res);
+})
 
-router.get(urls.members, function(req, res){
-  familyController.showMembers(req, res);
-});
 
 module.exports = router;

@@ -102,8 +102,8 @@ describe('Create Estudio test', function () {
       })
       .then((createBtn) => {
         assert.isNotNull(createBtn.value);
-        return 1;
-      });
+      })
+      .done();
   });
 
   /**
@@ -158,8 +158,8 @@ describe('Create Estudio test', function () {
       })
       .then((valueButton) => {
         assert.isNotNull(valueButton.value);
-        return 1;
-      });
+      })
+      .done();
   });
   /**
   * Test create Estudio form with no input for street
@@ -185,7 +185,8 @@ describe('Create Estudio test', function () {
       })
       .then((buttonAttributes) => {
         assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-      });
+      })
+      .done();
   });
   /**
   * Test create Estudio form with no input for street
@@ -211,7 +212,8 @@ describe('Create Estudio test', function () {
       })
       .then((buttonAttributes) => {
         assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-      });
+      })
+      .done();
   });
   /**
   * Test create Estudio form with no input for street2
@@ -237,7 +239,8 @@ describe('Create Estudio test', function () {
       })
       .then((buttonAttributes) => {
         assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-      });
+      })
+      .done();
   });
   /**
   * Test create Estudio form with no input for zipCode
@@ -263,7 +266,8 @@ describe('Create Estudio test', function () {
       })
       .then((buttonAttributes) => {
         assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-      });
+      })
+      .done();
   });
 /**
   * Test create Estudio form with no input for bastards
@@ -289,7 +293,8 @@ describe('Create Estudio test', function () {
       })
       .then((buttonAttributes) => {
         assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-      });
+      })
+      .done();
   });
 /**
   * Test create Estudio form with no input for location
@@ -315,7 +320,8 @@ describe('Create Estudio test', function () {
       })
       .then((buttonAttributes) => {
         assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-      });
+      })
+      .done();
   });
 /**
   * Test create Estudio form with no input for martialStatus
@@ -341,7 +347,8 @@ describe('Create Estudio test', function () {
       })
       .then((buttonAttributes) => {
         assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-      });
+      })
+      .done();
   });
 /**
   * Test create Estudio form
@@ -374,6 +381,7 @@ describe('Create Estudio test', function () {
       .then((newTotal) => {
         //check if there is more etudios
         assert.isBelow(totalEstudios, newTotal);
-      });
+      })
+      .done();
   });
 });

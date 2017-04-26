@@ -11,6 +11,7 @@ hbs.registerHelper('ifEq', function(value1, value2, opt) {
         opt.inverse(this);
     }
 });
+
 hbs.registerHelper('ifGt', function(value1, value2, opt) {
   if (value1 > value2) {
     return opt.fn(this);
@@ -18,6 +19,20 @@ hbs.registerHelper('ifGt', function(value1, value2, opt) {
   else {
     opt.inverse(this);
   }
+});
+
+hbs.registerHelper('select', function(selected, options) {
+    return options.fn(this).replace(
+        new RegExp(' value=\"' + selected + '\"'),
+        '$& selected="selected"');
+});
+
+hbs.registerHelper('json', function(context) {
+    return JSON.stringify(context);
+});
+
+hbs.registerHelper('multiply', function(value1, value2) {
+  return value1 * value2;
 });
 
 hbs.registerHelper('lookQuestions', function(idQuestion, questionList, opt){

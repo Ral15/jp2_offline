@@ -1,0 +1,146 @@
+<div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="myModalLabel">Miembro</h4>
+    </div>
+    <div class="modal-body">
+      <form id="addMemberSection" method="post" action="/member/create/" data-toggle="validator">
+        <div class="row">
+          <div class="form-group col-xs-12">
+            <label for="role">Rol</label>
+            <select class="form-control" id="role" name="role" required>
+              {{!-- {{#select this.relacion}} --}}
+              <option value=""></option>
+              <option value="madre">Madre</option>
+              <option value="padre">Padre</option>
+              <option value="tutor">Tutor</option>
+              <option value="estudiante">Estudiante</option>
+              <option value="abuelo/a">Abuelo/a</option>
+              <option value="hermano/a">Hermano/a</option>
+              <option value="tio/a">Tío/a</option>
+              {{!-- {{/select}} --}}
+            </select>            
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-6" id="schoolInput">
+            <label for="school">Escuela*</label>
+            <select class="form-control" id="school" name="school">
+              {{!-- {{#select this.relacion}} --}}
+              <option value=""></option>
+              <option value="Plantel Jurica">Plantel Jurica</option>
+              <option value="Plantel Buenavista">Plantel Buenavista</option>
+              {{!-- {{/select}} --}}
+            </select>            
+          </div>
+          <div class="form-group col-xs-6" id="saeInput">
+            <label for="sae">Numero Sae</label>
+            <input type="text" class="form-control" name="sae" id="sae">       
+          </div>          
+        </div>          
+        <div class="row">
+          <div class="form-group col-xs-6">
+            <label for="job">Oficio</label>
+            <select class="form-control" id="job" name="job">
+              {{!-- {{#select this.relacion}} --}}
+              <option value=""/>Ninguno</option>
+              <option value='empleado/a'/>Empleado/a</option>
+              <option value='obrero/a'/>Obrero/a</option>
+              <option value='jefe_linea'/>Jefe de línea</option>
+              <option value='area_limpieza'/>Area de limpieza</option>
+              <option value='administrativo/a'/>Administrativo/a</option>
+              <option value='empleado/a_domestico'/>Empleado domestico/a</option>
+              <option value='jardinero/a'/>Jardinero/a</option>
+              <option value='plomero/a'/>Plomero/a</option>
+              <option value='herrero/a'/>Herrero/a</option>
+              <option value='carpintero/a'/>Carpientero/a</option>
+              <option value='albañil'/>Albañil</option>
+              <option value='pintor/a'/>Pintor/a</option>
+              <option value='mesero/a'/>Mesero/a</option>
+              <option value='negocio_propio'/>Negocio propio</option>
+              <option value='comerciante'/>Comerciante</option>
+              <option value='venta_productos'/>Venta de productos</option>
+              <option value='otro'/>Otro</option>
+              {{!-- {{/select}} --}}
+            </select>                        
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="jobObservation">Especificación de oficio</label>
+            <textarea id="jobObservation" name="jobObservation" class="form-control" rows="5"></textarea>
+          </div>          
+        </div>    
+        <div class="row">
+          <div class="form-group col-xs-6">
+            <label for="firstName">Nombres*</label>
+            <input type="text" class="form-control" name="firstName" id="firstName" required>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="lastName">Apellidos*</label>
+            <input type="text" class="form-control" name="lastName" id="lastName" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-6">
+            <label for="phone">Teléfono*</label>
+            <input type="tel" id="phone" name="phone" class="form-control" required>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="email">Correo electrónico</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="eugenio@420.mx" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-6">
+            <label for="academicDegree">Nivel estudios</label>
+            <select class="form-control" id="academicDegree" name="academicDegree" required>
+              {{!-- {{#select this.nivelEstudios}} --}}
+              <option></option>
+              <option value="1_grado">Primero Primaria</option>
+              <option value="2_grado">Segundo Primaria</option>
+              <option value="3_grado">Tercero Primaria</option>
+              <option value="4_grado">Cuarto Primaria</option>
+              <option value="5_grado">Quinto Primaria</option>
+              <option value="6_grado">Sexto Primaria</option>
+              <option value="7_grado">Primero Secundaria</option>
+              <option value="8_grado">Segundo Secundaria</option>
+              <option value="9_grado">Tercero Secundaria</option>
+              <option value="10_grado">Primero Prepa</option>
+              <option value="11_grado">Segundo Prepa</option>
+              <option value="12_grado">Tercero Prepa</option>
+              <option value="universidad">Universidad</option>
+              <option value="maestria">Maestría</option>
+              <option value="doctorado">Doctorado</option>
+              {{!-- {{/select}} --}}
+            </select>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="schoolObservation">Especificación de estudios</label>
+            <textarea id="schoolObservation" name="schoolObservation" class="form-control" rows="5"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-6">
+            <div id="datetimepicker4" class="input-group">
+              <label for="birthDate">Fecha de nacimiento</label>
+              <div class="input-group">
+                <span class="input-group-addon add-on" id="basic-addon1">
+                  <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
+                </span>
+                <input type="text" id="birthDate" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" name="birthDate" required>
+              </div>
+            </div>                                        
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" id="submit-addMember-form" class="btn btn-primary btn-block">Guardar</button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+  </div>
+</div>
+</div>

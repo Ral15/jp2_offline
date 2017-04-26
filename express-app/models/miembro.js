@@ -1,10 +1,12 @@
 "use strict";
 
 //require document class from camo
-var EmbeddedDocument = require('camo').EmbeddedDocument;
+var Document = require('camo').Document;
+const Transaccion = require('./transaccion.js');
 
 //options for martial status
 const academicDegreeChoices = [
+  '',
   '1_grado',
   '2_grado',
   '3_grado',
@@ -20,6 +22,37 @@ const academicDegreeChoices = [
   'universidad',
   'maestria',
   'doctorado'
+];
+const relationOptions = [
+  '',
+  'tutor',
+  'madre',
+  'padre',
+  'estudiante',
+  'hermano/a',
+  'abuelo/a',
+  'tio/a',
+];
+
+const jobOptions = [
+  '',
+  'empleado/a',
+  'obrero/a',
+  'jefe_linea',
+  'area_limpieza',
+  'administrativo/a',
+  'empleado/a_domestico',
+  'jardinero/a',
+  'plomero/a',
+  'herrero/a',
+  'carpintero/a',
+  'albañil',
+  'pintor/a',
+  'mesero/a',
+  'negocio_propio',
+  'comerciante',
+  'venta_productos',
+  'otro',
 ];
 
 /*
@@ -46,10 +79,14 @@ const academicDegreeChoices = [
  *    with the family itself.
  */
  
-class Miembro extends EmbeddedDocument {
+class Miembro extends Document {
   constructor() {
     super();
 
+    this.familyId = {
+      type: String,
+      required: true,
+    };
     this.nombres = {
       type: String,
       default: ''
@@ -68,26 +105,46 @@ class Miembro extends EmbeddedDocument {
     };
     this.nivelEstudios = {
       type: String,
-      default: '',
+      default: academicDegreeChoices[0],
       choices: academicDegreeChoices
     };
     this.fechaNacimiento = {
       type: Date,
-      default: ''
     };
-    this.edad = {
-      type: Number,
-      default: 0
+    this.oficio = {
+      type: String,
+      choices: jobOptions,
+    };
+    this.observacionOficio = {
+      type: String,
     };
     this.activo = {
       type: Boolean,
       default: true
+    };
+    this.sae = {
+      type: String,
+      default: '',
+    };
+    this.relacion = {
+      type: String,
+      default: relationOptions[0],
+      choices: relationOptions,
+    };
+    this.escuela = {
+      type: String,
+      default: ''
+    };
+    this.observacionEscuela = {
+      type: String,
+      default: '',  
     };
   }
 
   static collectionName() {
     return 'Miembros';
   }
+
 }
 
 module.exports = Miembro;

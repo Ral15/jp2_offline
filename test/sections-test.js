@@ -51,7 +51,6 @@ describe('Display sections test', function () {
   this.timeout(10000);
 
   let estudioId;
-  let familyId;
 
   before(() => {
     //connect to db
@@ -70,8 +69,6 @@ describe('Display sections test', function () {
       return f.save();
     })
     .then((newFamily) => {
-      //save familyId
-      familyId = newFamily._id;
       //create estudio 
       let e = Estudio.create({
         //change later for config

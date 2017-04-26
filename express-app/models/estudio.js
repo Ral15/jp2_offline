@@ -54,6 +54,14 @@ class Estudio extends Document {
       choices: opcionesStatusChoices,
       default: opcionesStatusChoices[2],
     };
+    this.fechaCreacion = {
+      type: Date,
+      default: Date.now
+    };
+     this.editedDate = {
+      type: Date,
+      default: Date.now
+    };
   }
 
   static collectionName() {

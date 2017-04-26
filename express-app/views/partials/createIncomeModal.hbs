@@ -11,7 +11,7 @@
             <div class="form-group col-xs-6">
               <label for="tutor">Tutor</label>
               <select class="form-control" id="tutor" name="tutor">
-                <option value=""></option>
+                <option value="">Ninguno</option>
                 {{#each this.members}}
                   <option value="{{this._id}}/{{this.nombres}} {{this.apellidos}}">{{this.relacion}} - {{this.nombres}} {{this.apellidos}}</option>
                 {{/each}}

@@ -355,7 +355,6 @@ describe('Create incomes test', function () {
       })
       .then((buttonAttributes) => {
         assert(buttonAttributes.split(' ').indexOf('disabled') != -1);
-        done();
       });
   });
 /**

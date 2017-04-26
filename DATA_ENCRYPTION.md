@@ -34,7 +34,7 @@ For this application we used NeDB as Database and Camo as ODM.
 
   * Go to /your-path/jp2_offline/express-app/node_modules/camo/lib/clients/nedbclient.js
 
-  * Add const Crypto = require('crypto-js'); in the file:
+  * Add const Crypto = require('crypto-js'); AND const Config = require('../../../../config.js'); in the file:
 
     ```shell
       'use strict';
@@ -45,18 +45,22 @@ For this application we used NeDB as Database and Camo as ODM.
                 .
       const DatabaseClient = require('./client');
       const Crypto = require('crypto-js');
+      const Config = require('../../../../config.js');
     ```
   * At function createCollection you will see a new Datastore function, add the options:
 
   ``` shell
     new Datastore({filename: collectionPath, autoload: true,
       afterSerialization: function (doc) {
-        var encrypted = Crypto.AES.encrypt(doc, DBKey);
+        # Select the algorithm to encrypt the data (AES) and pass the parameters
+        # that is the doc to encrypt and a DBKey used in the encryption algorithm
+        var encrypted = Crypto.AES.encrypt(doc, Config.DBKey);
         var ciphertext = encrypted.toString();
         return ciphertext;
       },
+      # beforeDeserialization is the inverse of afterSerialization
       beforeDeserialization: function (doc) {
-        var decrypted = Crypto.AES.decrypt(doc, DBKey);
+        var decrypted = Crypto.AES.decrypt(doc, Config.DBKey);
         var plaintext = decrypted.toString(Crypto.enc.Utf8);
 
         return plaintext;

@@ -3,6 +3,7 @@ module.exports = {
   //production
   ENV: 'testing',
   SECRET_SESSION: 'erikiano',
+  DBKey: 'juanpabloii',
   //test credentials
   username: 'eugenio',
   password: 'erikiado123',

@@ -8,8 +8,7 @@
 	"api":  {
 		"login" : "/perfiles-usuario/obtain-auth-token/",
 		"questions" : "/captura/api-obtener-informacion-preguntas/",
-		"uploadEstudio": "/captura/estudio/",
-		"getEstudios": "/captura/estudio/",
+		"estudios": "/captura/estudio/",
 		"uploadImages": "captura/imagenes/"
 	},
 	"familyView": "/family",

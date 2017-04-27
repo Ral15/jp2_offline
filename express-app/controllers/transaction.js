@@ -46,6 +46,7 @@ module.exports = {
         incomeAmount: totalIncome,
         outcomeAmount: totalOutcome,
         status: totalIncome + totalOutcome,
+        estudioAPIId: request.session.estudioAPIId,
       });
     })
     .catch((err) => {

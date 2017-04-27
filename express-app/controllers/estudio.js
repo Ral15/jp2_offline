@@ -22,7 +22,7 @@ module.exports = {
       })
       .then((myEstudio) => {
         request.session.estudioAPIId = myEstudio.apiId;
-        console.log(request.session.estudioAPIId);
+        console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
         response.render('family',  {
           estudioId: myEstudio._id, 
           family: myEstudio.familia
@@ -76,6 +76,7 @@ module.exports = {
       //store id's in session
       request.session.familyId = familyId;
       request.session.estudioId = estudioId;
+      request.session.estudioAPIId = -1;
       return response.render('members');
     })
     .catch((error) => {

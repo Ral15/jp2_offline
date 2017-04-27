@@ -41,7 +41,7 @@
           </form>
         </div>
         <div class="col-xs-2">
-          <form action="/captura/estudio/{{this.estudioAPIId}}" method="post">
+          <form action="/captura/estudio/?apiId={{this.estudioAPIId}}" method="post">
             <button type="submit" class="btn btn-danger pull-left">editar estudio</button>
           </form>
         </div>
@@ -51,7 +51,8 @@
           </form>
         </div>        
       </div>                      
-    </div> 
+    </div>
+    <h1>{{json this}}</h1>
     {{> createIncomeModal this }}
     {{> createOutcomeModal this}}
 {{/inline}}

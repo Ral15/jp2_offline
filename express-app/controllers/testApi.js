@@ -22,7 +22,7 @@ module.exports = {
   getEstudios: function(request, response) {
     //retrieve estudio id from url
     req.get(
-      urls.apiUrl + urls.api.getEstudios,
+      urls.apiUrl + urls.api.estudios,
       {
         headers: {
               'Authorization': 'Token ' + request.session.user.apiToken,
@@ -100,8 +100,8 @@ module.exports = {
   //     });
   // },
   uploadEstudio: function(request, response) {
-    console.log(request.method);
-    return 1;
+    // console.log(request.method);
+    // return 1;
     let estudio;
     let familia;
     let tutores;
@@ -116,6 +116,7 @@ module.exports = {
     })
     .then((f) => {
       familia = f;
+      console.log(f);
       return Miembro.find({familyId: request.session.familyId});
     })
     .then((m) => {
@@ -136,30 +137,69 @@ module.exports = {
       let finD = JSON.stringify(data);
       // return 1;
       // return data;
-      // req.put(
-      //   urls.apiUrl + urls.api.getEstudios + estudio.apiId,
-      //   {
-      //     headers: {
-      //           'Authorization': 'Token ' + request.session.user.apiToken,
-      //         },
-      //     json: data
-      //   },
-      //   function(error, httpResponse, body) {
-      //     if (httpResponse.statusCode > 201) {
-      //       console.log(error)
-      //     }
-      //     else {
-      //       //TODO: add id to apiID
-      //       estudioConctroller.addAPIId(body.id, request.session.estudioId)
-      //       .then((editedEstudio) => {
-      //         console.log(editedEstudio);
-      //         return userController.showDashboard(request, response, 'Revisión');
-      //       })
-      //     }
-      //   }
-      // );      
-      // console.log(data);
+      //create estudio in api
+      console.log(request.session.estudioAPIId);
+      // return 1;
+      if (request.session.estudioAPIId == -1) {
+        return req.post(
+          urls.apiUrl + urls.api.estudios,
+          {
+            headers: {
+                  'Authorization': 'Token ' + request.session.user.apiToken,
+                }, 
+            json: data
+          },
+          function(error, httpResponse, body) {
+            console.log(httpResponse.body);
+            if (httpResponse.statusCode > 201) {
+              response.send(error);
+              console.log('quien soy');
+            }
+            else {
+              //TODO: add id to apiID
+              estudioConctroller.addAPIId(body.id, request.session.estudioId)
+              .then((editedEstudio) => {
+                // console.log(editedEstudio);
+                return userController.showDashboard(request, response, 'Revisión');
+              })
+            }
+          }
+        );   
+      }
+      else {
+        data.status = "borrador";
+        data.id = request.session.estudioAPIId;
+      return req.put(
+          urls.apiUrl + urls.api.estudios + request.session.estudioAPIId + '/',
+          {
+            headers: {
+                  'Authorization': 'Token ' + request.session.user.apiToken,
+                },
+            json: data
+          },
+          function(error, httpResponse, body) {
+            console.log(httpResponse.body);
+            if (httpResponse.statusCode > 201) {
+              console.log(error)
+              console.log('quien soy')
+            }
+            else {
+              //TODO: add id to apiID
+              // estudioConctroller.addAPIId(body.id, request.session.estudioId)
+              // .then((editedEstudio) => {
+              //   console.log(editedEstudio);
+              //   return userController.showDashboard(request, response, 'Revisión');
+              // })
+              // console.log(request.query.estudioAPIId);
+              console.log(body);
+            }
+          }
+        );      
+      }
     })
+    .catch((err) => {
+      console.log(err);
+    });
   },
   // askAPI: function(url, method, data) {}
   formatData: function(Estudio, Familia, Tutores, Estudiantes, Ingresos, Egresos) {

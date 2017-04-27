@@ -133,10 +133,10 @@ module.exports = {
    */
   showDashboard: function(request, response, active) {
     let user = request.session.user;
-    console.log(user);
+    // console.log(user);
     Estudio.find({ tokenCapturista: user.apiToken, status: active })
     .then((e) => {
-      console.log(e);
+      // console.log(e);
       response.render('dashboard', { estudios: e , active: active });
     })
     .catch((error) => {

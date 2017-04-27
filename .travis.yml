@@ -22,7 +22,7 @@ before_install:
   - sudo mv chromedriver /usr/bin/
   - export CHROME_BIN=chromium-browser
 
-install: 
+install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
   - npm install
 
@@ -30,9 +30,9 @@ before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 5 # give xvfb some time to start
-  # - npm run lint
+  - npm run lint
   - cd ./express-app && npm install
   - cd ..
 
 script:
-  - npm test test/createEstudio-test.js
+  - npm test

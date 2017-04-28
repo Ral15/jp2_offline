@@ -47,6 +47,7 @@ module.exports = {
                   console.log('Seccion guardada');
                 }).catch((err) => {
                   console.log(err);
+                  response.render('login', { error_message: 'Hubo un problema al recuperar información necesaria' });
                 });
               });
               response.render('dashboard', {user: user, active: 'Borrador'});

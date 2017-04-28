@@ -10,11 +10,11 @@ module.exports = {
   * it means it is a estudio that is going to be updated.
   *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
   */
   showFamilyForm: function(request, response) {
-    //retrieve estudio id from url
+    // retrieve estudio id from url
     let estudioId = request.query.estudioId;
     if (estudioId) {
       request.session.estudioId = estudioId;
@@ -30,24 +30,24 @@ module.exports = {
         });
       })
       .catch((error) => {
-        //no estudio found
+        // no estudio found
         console.log(error);
-      })
-    }
-    else {
+        response.render('dashboard', { error_message: 'Estudio no encontrado en la base de datos' });
+      });
+    } else {
       response.render('family');
     }
-  },  
+  },
   /**
   * This function creates a Estudio with te apiToken of the capturista,
   * and with a family,
   * then it shows the form to fill the members information.
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */    
+  */
   createEstudio: function(request, response) {
     //retrieve token from params
     const token = request.session.user.apiToken;
@@ -80,16 +80,17 @@ module.exports = {
     .catch((error) => {
       //estudio could not be created
       console.log(error);
+      response.render('family', { error_message: 'No se pudo guardar a la familia' });
     });
   },
   /**
   * This function edits the address of a Estudio previously created
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */      
+  */
   editEstudio: function(request, response) {
     //store estudioId in session
     request.session.estudioId = request.query.estudioId;
@@ -110,7 +111,7 @@ module.exports = {
     })
     .then((editedFamily) => {
       //find and update estudio
-      return Estudio.findOneAndUpdate({_id: estudioId}, 
+      return Estudio.findOneAndUpdate({_id: estudioId},
       {
         familia: editedFamily
       });
@@ -124,22 +125,23 @@ module.exports = {
         // estudioId: estudioId,
         members: allMemebrs,
         // familyId: familyId,
-      });      
+      });
     })
     .catch((error) => {
       //estudio not edited
       console.log(error);
+      response.render('family', { error_message: 'No se pudo editar la familia'});
     });
   },
   /**
   * This function changes the status of a Estudio to 'Eliminado'
   * using the id of the estudio
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */  
+  */
   deleteEstudio: function(request, response) {
     //get id of estudio
     let estudioId = request.params.id;
@@ -153,19 +155,19 @@ module.exports = {
     .then((myEstudio) => {
         return response.sendStatus(200);
     })
-    .catch((e) => {
-      console.log(e);
+    .catch((err) => {
+      console.log(err);
       return response.sendStatus(500);
     });
   },
   /**
   * This function returns the Estudios with the status desired
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */   
+  */
   getEstudios: function(request, response) {
     let myStatus = request.query.status;
     let user = request.session.user;
@@ -175,13 +177,14 @@ module.exports = {
     })
     .then((e) => {
       console.log(e)
-      response.render('dashboard', { 
-        estudios: e, 
-        active: myStatus 
+      response.render('dashboard', {
+        estudios: e,
+        active: myStatus
       });
     })
     .catch((err) => {
       console.log(e);
+      response.render('dashboard', { error_message: 'Estudios no encontrados, presione recargar para volver a intentarlo'});
     })
   }
  }

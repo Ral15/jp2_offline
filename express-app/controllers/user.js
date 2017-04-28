@@ -32,8 +32,10 @@ module.exports = {
         .then((doc) => {
           if (doc) {
             bcrypt.compare(data.password, doc.password, function (err, res) {
-              if (err) console.log(err);
-              else if (res) {
+              if (err) {
+                console.log(err);
+                response.render('login', { error_message: 'Hubo un error en la contraseña' });
+              } else if (res) {
                 Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
                 .then((e) => {
                   request.session.user = doc;
@@ -41,6 +43,7 @@ module.exports = {
                 })
                 .catch((error) => {
                   console.log(error);
+                  response.render('dashboard', { error_message: 'Estudios no encontrados, presione recargar para volver a intentarlo '});
                 });
               } else response.render('login', { error_message: 'Contraseña invalida' });
             });
@@ -48,6 +51,7 @@ module.exports = {
         })
         .catch((err) => {
           console.log(err);
+          response.render('login', { error_message: 'No hay internet, el usuario no fue encontrado' });
         });
       }
     });
@@ -86,7 +90,10 @@ module.exports = {
           .then((doc) => {
             if (doc) {
               bcrypt.compare(data.password, doc.password, function (err, res) {
-                if (err) console.log(err);
+                if (err) {
+                  console.log(err);
+                  response.render('login', { error_message: 'Hubo un error en la contraseña' });
+                }
                 else if (res) {
                   Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
                   .then((estudios) => {
@@ -96,6 +103,7 @@ module.exports = {
                   })
                   .catch((error) => {
                     console.log(error);
+                    response.render('dashboard', { error_message: 'Estudios no encontrados, presione recargar para volver a intentarlo' });
                   });
                 } else {
                   editedUser = self.resetPassword(doc, data);
@@ -116,10 +124,12 @@ module.exports = {
               })
               .catch((err) => {
                 console.log(err);
+                response.render('login', { error_message: 'Hubo un error al guardar el usuario' });
               });
             }
           }).catch((err) => {
             console.log(err);
+            response.render('login', { error_message: 'Hubo un error al buscar el usuario en la base de datos' });
           });
         }
       });
@@ -140,6 +150,7 @@ module.exports = {
     })
     .catch((error) => {
       console.log(error);
+      response.render('dashboard', { error_message: 'Estudios no encontrados, presione recargar para volver a intentarlo' });
     });
   },
 
@@ -157,6 +168,7 @@ module.exports = {
       return editedUser;
     }).catch((err) => {
       console.log(err);
+      response.render('login', { error_message: 'Hubo un error al resetear la contraseña' });
     });
   },
 };

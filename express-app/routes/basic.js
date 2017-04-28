@@ -14,7 +14,4 @@ router.get(urls.home, function(req, res) {
   }
 });
 
-// In the future, 404, 500 routes should be in this file
-
-
 module.exports = router;

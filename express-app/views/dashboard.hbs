@@ -9,7 +9,6 @@
             <span id="error_message"><strong>{{error_message}}</strong></span>
           </div>
         {{/if}}
-
         <h2>Mis estudios socioeconómicos</h2>
         <div class="pull-right"><a href="/estudio/" class="btn btn-success" id="crear-estudio"> <span class="glyphicon glyphicon-plus"></span> Crear estudio</a></div>
         <div class="clearfix"></div>
@@ -41,6 +40,7 @@
                   <td>
                     <a href="/estudio/?estudioId={{this._id}}" id="edit-estudio-{{this._id}}"><button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</button></a>
                     <button onclick="showDeleteMsg('{{this._id}}')" id="delete-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
+                    <button onclick="showUploadMsg('{{this._id}}')" id="upload-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-ok"></span></button>
                   </td>
                 </tr>
               {{/each}}

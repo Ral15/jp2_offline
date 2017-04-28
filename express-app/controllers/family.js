@@ -69,18 +69,16 @@ module.exports = {
   */
   showFamilyView: function(request, response) {
     //retrieve estudio id from url
-    const estudioId = request.session.estudioId;
     const familyId = request.session.familyId;
     Familia.findOne({_id: familyId})
     .then((myFamily) => {
       console.log(myFamily);
       response.render('family',  {
-        estudioId: estudioId,
         family: myFamily,
       });
     })
     .catch((err) => {
       console.log(err);
     });
-  },
+  }
 }

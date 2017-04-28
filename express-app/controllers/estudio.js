@@ -17,12 +17,15 @@ module.exports = {
     // retrieve estudio id from url
     let estudioId = request.query.estudioId;
     if (estudioId) {
+      request.session.estudioId = estudioId;
+      response.locals.estudioId = request.session.estudioId;
       Estudio.findOne({
         _id: estudioId
       })
       .then((myEstudio) => {
+        request.session.max_step = myEstudio.maxStep;
+        response.locals.max_step = request.session.max_step;
         response.render('family',  {
-          estudioId: myEstudio._id,
           family: myEstudio.familia
         });
       })
@@ -66,14 +69,12 @@ module.exports = {
       return estudio.save();
     })
     .then((newEstudio) => {
-      //set id's
-      estudioId = newEstudio._id;
-      familyId = newEstudio.familia._id;
-      console.log(estudioId);
-      console.log(familyId);
-      //store id's in session
-      request.session.familyId = familyId;
-      request.session.estudioId = estudioId;
+      request.session.estudioId = newEstudio._id;
+      request.session.familyId = newEstudio.familia._id;
+      request.session.max_step = newEstudio.maxStep;
+
+      response.locals.estudioId = request.session.estudioId;
+      response.locals.max_step = request.session.max_step
       return response.render('members');
     })
     .catch((error) => {

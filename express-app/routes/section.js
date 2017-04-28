@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const urls = require('./urls');
-const SectionController = require('../controllers/section');
+const sectionController = require('../controllers/section');
 
 
 
@@ -14,7 +14,7 @@ router.get(urls.sectionStart, function(req, res) {
 // POST to create section members
 router.get(urls.sections, function(req, res) {
   let step = Number(req.params.step);
-	SectionController.displaySections(req,res,step);
+	sectionController.displaySections(req,res,step);
 });
 
 

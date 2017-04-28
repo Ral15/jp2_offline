@@ -2,8 +2,8 @@ const Respuesta = require('../models/respuesta');
 
 module.exports = {
   /**
-  * This function changes the status of a Estudio to 'Eliminado'
-  * using the id of the estudio
+  * This controller receives a post from a section and creates an answer based on that post
+  * if the answer is already created it will be updated
   * 
   * 
   * @event
@@ -55,11 +55,28 @@ module.exports = {
           respuesta: valorRespuesta
         });
         respuesta.save().then((resp) => {
-          response.sendStatus(200);
-        });
+          return response.sendStatus(200);
+        })
+        .catch((e) => {
+          console.log(e);
+          return response.sendStatus(500);
+        });;
       }
+    })
+    .catch((e) => {
+      console.log(e);
+      return response.sendStatus(500);
     });
   },
+  /**
+  * This controller receives a post from a section and creates a select answer based on that post
+  * if the answer is already created it will be updated
+  * 
+  * 
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */  
   addSelectAnswer: function(request, response){
     let idPregunta = Number(request.body.id_pregunta);
     let idSeccion = Number(request.body.id_seccion);
@@ -81,14 +98,26 @@ module.exports = {
         });
       }
       respuesta.save().then((resp) => {
-        response.sendStatus(200);
+        return response.sendStatus(200);
       }).catch((err) => {
         console.log(err);
-        response.sendStatus(500);
+        return response.sendStatus(500);
       });
 
-    });
+    })
+    .catch((e) => {
+      console.log(e);
+      return response.sendStatus(500);
+    });;
   },
+  /**
+  * This controller receives a post from a section and delete an answer based on that post
+  * 
+  * 
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */
   removeAnswer: function(request, response){
     let idPregunta = Number(request.body.id_pregunta);
     let idEstudio = request.body.id_estudio;
@@ -109,9 +138,18 @@ module.exports = {
       return response.sendStatus(500);
     });
   },
+  /**
+  * This controller receives a post from a section and creates an array of every answer related
+  * to an estudio in order to send it to the api
+  * 
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */
   serialize: function(request, response){
+    let idEstudio = request.session.estudioId;
     Respuesta.find({
-      idEstudio: 'cB2GBahc2JKr2rTd'
+      idEstudio: idEstudio
     }).then((respuestas) => {
       let series = [];
       for(let i = 0; i < respuestas.length; i++){
@@ -133,7 +171,4 @@ module.exports = {
       return [];
     });;
   }
-  // createAnswers: function(idEstudio){
-    // return Promise.all(respuestas);
-  // }
  }

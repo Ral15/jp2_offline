@@ -59,7 +59,13 @@ module.exports = {
       console.log(error);
     });
   },
-
+  /**
+  * This controller searches for all the sections and the answers related to an estudio in order
+  * to display them.
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */
   displaySections: function(request, response, step){
     Seccion.findOne({numero: step})
     .then((seccion) => {

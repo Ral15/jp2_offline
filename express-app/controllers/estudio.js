@@ -5,6 +5,10 @@ const Miembro = require('../models/miembro');
 const familyController = require('./family');
 const req = require('request');
 const urls = require('../routes/urls');
+const fs = require('fs');
+const path = require('path');
+
+
 
 module.exports = {
   /**
@@ -322,7 +326,7 @@ module.exports = {
       return response.sendStatus(500);
     });
   },
-  uploadEstudio: function(request, response){
+  uploadEstudio: function (request, response) {
     req.post(
       urls.apiUrl + urls.api.uploadEstudio + request.params.id,
       {
@@ -338,5 +342,12 @@ module.exports = {
           console.log(body)
         }
       });
+  },
+
+  saveImage: function (request, response) {
+    fs.writeFile(request.body.image, path.join(__dirname, '..', '../db/images/', request.body.name + '.jpg'), function (err) {
+      if (err) throw err;
+      console.log("saved");
+    });
   }
  }

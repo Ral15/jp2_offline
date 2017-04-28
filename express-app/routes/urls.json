@@ -32,6 +32,7 @@
 	"membersView": "/members/",
 	"transactionsView": "/transactions/",
 	"transactionDelete": "/transaction/delete/:id",
+	"image": "/image/save/",
 	"incomeCreate": "/income/create/",
 	"incomeEdit": "/income/edit/:id",
 	"outcomeCreate": "/outcome/create/",

@@ -21,12 +21,17 @@ module.exports = {
     //retrieve estudio id from url
     let estudioId = request.query.estudioId;
     if (estudioId) {
+      request.session.estudioId = estudioId;
+      response.locals.estudioId = request.session.estudioId;
       Estudio.findOne({
         _id: estudioId
       })
       .then((myEstudio) => {
+        //set session variables
         request.session.estudioAPIId = myEstudio.apiId;
         request.session.familyId = myEstudio.familia._id;
+        request.session.max_step = myEstudio.maxStep;
+        response.locals.max_step = request.session.max_step;
         this.isEstudioValid(request.session.familyId).then((value) => {
           console.log('soy el value => ' + value);
           console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
@@ -79,13 +84,12 @@ module.exports = {
       return estudio.save();
     })
     .then((newEstudio) => {
-      //set id's
-      estudioId = newEstudio._id;
-      familyId = newEstudio.familia._id;
-      //store id's in session
-      request.session.familyId = familyId;
-      request.session.estudioId = estudioId;
       request.session.estudioAPIId = -1;
+      request.session.estudioId = newEstudio._id;
+      request.session.familyId = newEstudio.familia._id;
+      request.session.max_step = newEstudio.maxStep;
+      response.locals.estudioId = request.session.estudioId;
+      response.locals.max_step = request.session.max_step
       return memberController.showMemberView(request, response);
     })
     .catch((error) => {

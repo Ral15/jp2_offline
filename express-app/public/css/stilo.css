@@ -1,0 +1,30 @@
+.noPointer {
+    cursor: default !important;
+}
+
+.sectionAnswer{
+    margin-bottom: 20px;
+}
+.sectionAnswer > input{
+    width: 90%;
+    margin-right: 16px;
+    font-size: 1.4em;    
+}
+
+.subseccion_title{
+    font-size: 1.6em
+}
+
+.question_title{
+    font-size: 1.45em
+}
+
+.select_question{
+    font-size: 1.5em;
+    margin-left: 32px;
+}
+.select_question_text{
+    font-size: 1.5em;
+    margin-left: 8px;
+    margin-bottom: : 16px;
+}

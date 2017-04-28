@@ -91,9 +91,10 @@ module.exports = {
                 if (err) console.log(err);
                 else if (res) {
                   Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
-                  .then((e) => {
+                  .then((estudios) => {
                     request.session.user = doc;
-                    response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
+                    response.locals.estudios = estudios
+                    SectionController.getQuestions(doc, request, response);
                   })
                   .catch((error) => {
                     console.log(error);

@@ -6,6 +6,8 @@ const basicRoutes = require('./routes/basic.js');
 const userRoutes = require('./routes/user.js');
 const estudioRoutes = require('./routes/estudio.js');
 const familyRoutes = require('./routes/family.js');
+const sectionRoutes = require('./routes/section.js');
+const answerRoutes = require('./routes/answers.js');
 const incomeRoutes = require('./routes/income.js');
 const outcomeRoutes = require('./routes/outcome.js');
 const memberRoutes = require('./routes/member.js');
@@ -14,6 +16,7 @@ const apiRoutes = require('./routes/testApi.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
+const hbs = require('./hbs_conf');
 
 //Database connection
 const connect = require('camo').connect;
@@ -28,32 +31,6 @@ connect(uri).then(function(db) {
 });
 
 
-//template engine
-const hbs = require('hbs');
-hbs.registerPartials(path.join(__dirname + '/views/partials'));
-// pass to doc
-hbs.registerHelper('ifEq', function(value1, value2, opt) {
-	if (value1 == value2) {
-		return opt.fn(this);
-	}
-	else {
-		opt.inverse(this);
-	}
-});
-hbs.registerHelper('select', function(selected, options) {
-    return options.fn(this).replace(
-        new RegExp(' value=\"' + selected + '\"'),
-        '$& selected="selected"');
-});
-hbs.registerHelper('date', function(d, options) {
-    return new Date(d);
-});
-hbs.registerHelper('json', function(context) {
-    return JSON.stringify(context);
-});
-hbs.registerHelper('multiply', function(value1, value2) {
-  return value1 * value2;
-});
 // setup cors
 app.use(cors())
 //view engine setup
@@ -77,13 +54,19 @@ app.use(session({
 }));
 
 app.use(function(request, response, next) {
-    // response.locals.csrfToken = request.csrfToken();
   if (request.session.user){
     response.locals.user = request.session.user;
   }
-  // if (request.session.isValid) {
-  //   response.locals.isValid = request.session.isValid;
-  // }
+  if (request.session.isValid) {
+    response.locals.isValid = request.session.isValid;
+  }
+  if (request.session.estudioId){
+    response.locals.estudioId = request.session.estudioId;
+    response.locals.max_step = request.session.max_step
+  } else {
+    response.locals.estudioId = null;
+    response.locals.max_step = null;
+  }
   next();
 });
 
@@ -92,6 +75,8 @@ app.use(basicRoutes);
 app.use(userRoutes);
 app.use(estudioRoutes);
 app.use(familyRoutes);
+app.use(answerRoutes);
+app.use(sectionRoutes);
 app.use(incomeRoutes);
 app.use(memberRoutes);
 app.use(outcomeRoutes);

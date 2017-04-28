@@ -10,82 +10,76 @@
 <br>
 <br>
 {{json this}}
-            <div class="col-xs-12">
-              <h1>Familia</h1>
-              <div class="row">
-                <div class="col-xs-10 col-xs-offset-1">
-                  <h3>En esta sección podras agregar la información de una familia.</h3>
-                </div>
-              </div>
-              <div class="col-xs-12 well">
-                <form id="familyForm" method="post" action="/estudio/create/?estudioId={{estudioId}}" data-toggle="validator">
-                  <div class="row" id="input-address">
-                    <h4>Nombre de la Familia</h4>
-                    <div class="form-group col-xs-12">
-                      <label for="familyName" class="control-label">Nombre*</label>
-                      <input type="text" class="form-control" name="familyName" id="familyName" required 
-                      value="{{family.nombreFamilia}}"> 
-                    </div>
-                    <h4>Dirección</h4>
-                    <div class="form-group col-xs-3">
-                      <label for="street" class="control-label">Calle*</label>
-                      <input type="text" class="form-control" name="street" id="street" required 
-                      value="{{family.calle}}"> 
-                    </div>
-                    <div class="form-group col-xs-3">
-                      <label for="street2">Colonia*</label>
-                      <input type="text" class="form-control" name="street2" id="street2" required
-                      value="{{family.colonia}}">
-                    </div>
-                    <div class="form-group col-xs-3">
-                      <label for="zipCode">Código Postal*</label>
-                      <input type="tel" class="form-control" name="zipCode" id="zipCode" placeholder="" required maxlength="5" minlength="5" value="{{family.codigoPostal}}">
-                    </div>
-                    <div class="form-group col-xs-3">
-                      <label for="location">Localidad*</label>
-                      <select class="form-control" id="location" name="location" required>
-                        {{#select family.localidad}}
-                        <option value=""></option>
-                        <option value="poblado_jurica">Poblado Jurica</option>
-                        <option value="nabo">Nabo</option>
-                        <option value="salitre">Salitre</option>
-                        <option value="la_campana">La Campana</option>
-                        <option value="otro">Otro</option>
-                        {{/select}}
-                      </select>
-                    </div>
-                    <h4>Información General</h4>
-                    <div class="form-group col-xs-6">
-                      <label for="bastards" class="control-label">Número de distintos padres*</label>
-                      <input type="number" class="form-control" min="0" name="bastards" id="bastards" required 
-                      value="{{family.bastardos}}"> 
-                    </div>                      
-                    <div class="form-group col-xs-6">
-                      <label for="martialStatus" class="control-label">Estado Civil*</label>
-                      <select class="form-control" id="martialStatus" name="martialStatus" required>
-                        {{#select family.estadoCivil}}
-                        <option value=""></option>
-                        <option value="soltero">Soltero</option>
-                        <option value="viudo">Viudo</option>
-                        <option value="union_libre">Unión Libre</option>
-                        <option value="casado_civil">Casado-Civil</option>
-                        <option value="casado_iglesia">Casado-Iglesia</option>
-                        <option value="vuelto_a_casar">Divorciado Vuelto a Casar</option>
-                        {{/select}}
-                      </select>
-                    </div>
-                    <div class="form-group col-xs-8 col-xs-offset-2">
-                      <button type="submit" id="create-family" class="btn btn-primary btn-block">Guardar familia</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
+  <div class="col-xs-12">
+    <h1>Familia</h1>
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <h3>En esta sección podras agregar la información de una familia.</h3>
+      </div>
+    </div>
+    <div class="col-xs-12 well">
+      <form id="familyForm" method="post" action="/estudio/create/?estudioId={{estudioId}}" data-toggle="validator">
+        <div class="row" id="input-address">
+          <h4>Nombre de la Familia</h4>
+          <div class="form-group col-xs-12">
+            <label for="familyName" class="control-label">Nombre*</label>
+            <input type="text" class="form-control" name="familyName" id="familyName" required 
+            value="{{family.nombreFamilia}}"> 
           </div>
+          <h4>Dirección</h4>
+          <div class="form-group col-xs-3">
+            <label for="street" class="control-label">Calle*</label>
+            <input type="text" class="form-control" name="street" id="street" required 
+            value="{{family.calle}}"> 
+          </div>
+          <div class="form-group col-xs-3">
+            <label for="street2">Colonia*</label>
+            <input type="text" class="form-control" name="street2" id="street2" required
+            value="{{family.colonia}}">
+          </div>
+          <div class="form-group col-xs-3">
+            <label for="zipCode">Código Postal*</label>
+            <input type="tel" class="form-control" name="zipCode" id="zipCode" placeholder="" required maxlength="5" minlength="5" value="{{family.codigoPostal}}">
+          </div>
+          <div class="form-group col-xs-3">
+            <label for="location">Localidad*</label>
+            <select class="form-control" id="location" name="location" required>
+              {{#select family.localidad}}
+              <option value=""></option>
+              <option value="poblado_jurica">Poblado Jurica</option>
+              <option value="nabo">Nabo</option>
+              <option value="salitre">Salitre</option>
+              <option value="la_campana">La Campana</option>
+              <option value="otro">Otro</option>
+              {{/select}}
+            </select>
+          </div>
+          <h4>Información General</h4>
+          <div class="form-group col-xs-6">
+            <label for="bastards" class="control-label">Número de distintos padres*</label>
+            <input type="number" class="form-control" min="0" name="bastards" id="bastards" required 
+            value="{{family.bastardos}}"> 
+          </div>                      
+          <div class="form-group col-xs-6">
+            <label for="martialStatus" class="control-label">Estado Civil*</label>
+            <select class="form-control" id="martialStatus" name="martialStatus" required>
+              {{#select family.estadoCivil}}
+              <option value=""></option>
+              <option value="soltero">Soltero</option>
+              <option value="viudo">Viudo</option>
+              <option value="union_libre">Unión Libre</option>
+              <option value="casado_civil">Casado-Civil</option>
+              <option value="casado_iglesia">Casado-Iglesia</option>
+              <option value="vuelto_a_casar">Divorciado Vuelto a Casar</option>
+              {{/select}}
+            </select>
+          </div>
+          <div class="form-group col-xs-8 col-xs-offset-2">
+            <button type="submit" id="create-family" class="btn btn-primary btn-block">Guardar familia</button>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
 </div>

@@ -82,7 +82,7 @@ function showUploadMsg(id) {
     confirmButtonText: 'Subir',
     cancelButtonText: 'Cancelar'
   }).then(() => {
-    deleteEstudio(id);
+    uploadEstudio(id);
   });
 }
 /**
@@ -95,7 +95,7 @@ function showUploadMsg(id) {
  * @event
  * @param {string} id - id of the estudio
  */
-function deleteEstudio(id) {
+function uploadEstudio(id) {
  fetch('/estudio/upload/' + id, {
     method: 'post',
     body: JSON.stringify({

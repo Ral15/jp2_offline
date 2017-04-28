@@ -18,6 +18,7 @@ module.exports = {
    * @param {object} response - response object.
    */
   getQuestions: function (user, request, response) {
+    request.session.user = user;
     Seccion.count().then((total) => {
       if (total === 0) {
         req.get(
@@ -48,23 +49,29 @@ module.exports = {
                   console.log(err);
                 });
               });
+              response.render('dashboard', {user: user, active: 'Borrador'});
             }
           });
+      } else {
+        response.render('dashboard', {user: user, active: 'Borrador'});
       }
-    }).then(() => {
-      request.session.user = user;
-      response.render('dashboard', {user: user, active: 'Borrador'});
     }).catch((error) => {
       console.log(error);
     });
   },
-
+  /**
+  * This controller searches for all the sections and the answers related to an estudio in order
+  * to display them.
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */
   displaySections: function(request, response, step){
     Seccion.findOne({numero: step})
     .then((seccion) => {
       Respuesta.find({
         idSeccion: step,
-        idEstudio: request.session.id_estudio
+        idEstudio: request.session.estudioId
       }, {
         sort: 'orden'
       }).then((respuestas) => {

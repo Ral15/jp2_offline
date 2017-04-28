@@ -22,53 +22,58 @@
         </a>
     </li>
     <li>
-        <a>
+        <a id="nav_section_menu">
           <i class="glyphicon glyphicon-th-list"></i> 5.- Secciones 
           <span class="glyphicon glyphicon-chevron-down"></span>
         </a>
         <ul class="nav child_menu">
 
             <li class="{{#ifEq section.numero 1 }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-                <a href="{{# if estudioId }}/seccion/paso/1{{else}}javascript:void(0){{/if}}">
-                    Seccion 1
+                <a id="seccion_link_1" href="{{# if estudioId }}/seccion/paso/1{{else}}javascript:void(0){{/if}}">
+                    Sección 1
                 </a>
             </li>
             <li class="{{#ifEq section.numero 2 }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-                <a href="{{#if estudioId}}/seccion/paso/2{{else}}javascript:void(0){{/if}}">
-                    Seccion 2
+                <a id="seccion_link_2" href="{{#if estudioId}}/seccion/paso/2{{else}}javascript:void(0){{/if}}">
+                    Sección 2
                 </a>
             </li>
             <li class="{{#ifEq section.numero 3 }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-                <a href="{{# if estudioId }}/seccion/paso/3{{else}}javascript:void(0){{/if}}">
-                    Seccion 3
+                <a id="seccion_link_3" href="{{# if estudioId }}/seccion/paso/3{{else}}javascript:void(0){{/if}}">
+                    Sección 3
                 </a>
             </li>
             <li class="{{#ifEq section.numero 4 }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-                <a href="{{# if estudioId }}/seccion/paso/4{{else}}javascript:void(0){{/if}}">
-                    Seccion 4
+                <a id="seccion_link_4" href="{{# if estudioId }}/seccion/paso/4{{else}}javascript:void(0){{/if}}">
+                    Sección 4
                 </a>
             </li>
-            <li class="{{#ifEq section.numero 5 }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-                <a href="{{# if estudioId }}/seccion/paso/5{{else}}javascript:void(0){{/if}}">
-                    Seccion 5
+            {{!-- <li class="{{#ifEq section.numero 5 }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
+                <a id="seccion_link_5" href="{{# if estudioId }}/seccion/paso/5{{else}}javascript:void(0){{/if}}">
+                    Sección 5
                 </a>
-            </li>
+            </li> --}}
             <li class="{{#ifEq section.numero 6 }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-                <a href="{{# if estudioId }}/seccion/paso/6{{else}}javascript:void(0){{/if}}">
-                    Seccion 6
+                <a id="seccion_link_6" href="{{# if estudioId }}/seccion/paso/6{{else}}javascript:void(0){{/if}}">
+                    Sección 6
                 </a>
             </li>
             <li class="{{#ifEq section.numero 7 }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-                <a href="{{# if estudioId }}/seccion/paso/7{{else}}javascript:void(0){{/if}}">
-                    Seccion 7
+                <a id="seccion_link_7" href="{{# if estudioId }}/seccion/paso/7{{else}}javascript:void(0){{/if}}">
+                    Sección 7
                 </a>
             </li>
             <li class="{{#ifEq section.numero 8 }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-                <a href="{{# if estudioId }}/seccion/paso/8{{else}}javascript:void(0){{/if}}">
-                    Seccion 8
+                <a id="seccion_link_8" href="{{# if estudioId }}/seccion/paso/8{{else}}javascript:void(0){{/if}}">
+                    Sección 8
                 </a>
             </li>
 
         </ul>
+    </li>
+    <li class="{{#ifEq this 'Rechazado' }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
+        <a href="{{# if estudioId }}/members/{{else}}javascript:void(0){{/if}}">
+            <i class="glyphicon glyphicon-upload"></i> 6.- Subir
+        </a>
     </li>
 </ul>

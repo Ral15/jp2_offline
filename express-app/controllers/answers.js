@@ -101,29 +101,39 @@ module.exports = {
       respuestas[respuestas.length - 1].delete().then((complete) => {
         return response.sendStatus(200);
       }).catch((err) => {
-        console.log(e);
+        console.log(err);
         return response.sendStatus(500);
       });
     }).catch((err) => {
-      console.log(e);
+      console.log(err);
       return response.sendStatus(500);
     });
   },
-  uploadEstudio: function(request, response){
-    req.post(
-      urls.apiUrl + urls.api.uploadEstudio + request.params.id,
-      {
-        headers: {
-          'Authorization': 'Token ' + request.session.apiToken,
-        },
-
-      },
-      function (error, httpResponse, body) {
-        if (httpResponse.statusCode > 201) {
-          response.render('dashboard', { error_message: 'No se obtuvo la información' });
-        } else {
-          console.log(body)
+  serialize: function(request, response){
+    Respuesta.find({
+      idEstudio: 'cB2GBahc2JKr2rTd'
+    }).then((respuestas) => {
+      let series = [];
+      for(let i = 0; i < respuestas.length; i++){
+        let res = {};
+        res.pregunta = respuestas[i].idPregunta;
+        if(respuestas[i].respuesta){
+          res.respuesta = respuestas[i].respuesta;
+          res.eleccion = null;
+          series.push(res);
+        } else if (respuestas[i].eleccion) {
+          res.respuesta = null;
+          res.eleccion = respuestas[i].eleccion;
+          series.push(res);
         }
-      });
+      }
+      return series;
+    }).catch((err) => {
+      console.log(err);
+      return [];
+    });;
   }
+  // createAnswers: function(idEstudio){
+    // return Promise.all(respuestas);
+  // }
  }

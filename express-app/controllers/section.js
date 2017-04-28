@@ -18,6 +18,7 @@ module.exports = {
    * @param {object} response - response object.
    */
   getQuestions: function (user, request, response) {
+    request.session.user = user;
     Seccion.count().then((total) => {
       if (total === 0) {
         req.get(
@@ -48,12 +49,12 @@ module.exports = {
                   console.log(err);
                 });
               });
+              response.render('dashboard', {user: user, active: 'Borrador'});
             }
           });
+      } else {
+        response.render('dashboard', {user: user, active: 'Borrador'});
       }
-    }).then(() => {
-      request.session.user = user;
-      response.render('dashboard', {user: user, active: 'Borrador'});
     }).catch((error) => {
       console.log(error);
     });
@@ -64,7 +65,7 @@ module.exports = {
     .then((seccion) => {
       Respuesta.find({
         idSeccion: step,
-        idEstudio: request.session.id_estudio
+        idEstudio: request.session.estudioId
       }, {
         sort: 'orden'
       }).then((respuestas) => {

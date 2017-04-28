@@ -18,5 +18,4 @@ router.post(urls.removeAnswer, function(req, res){
 });
 
 
-
 module.exports = router;

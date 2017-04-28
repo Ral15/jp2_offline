@@ -1,0 +1,118 @@
+{{#>  layouts/base_dashboard page_title="Captura de Estudios" which_side="sideNavPasos" }}
+{{#*inline "panel-block"}}
+<div class="row">
+<div id="section_{{section.numero}}" class="col-xs-12">
+  <h1><small>Seccion {{section.numero}}:</small> {{section.nombre}}</h1>
+
+{{# each section.subsecciones}}
+<!-- {% for subseccion in data %} -->
+<div class="col-md-12 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2 class="subseccion_title">
+        <small>Subsección: </small>{{this.nombre}}
+    </h2>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+      {{#each this.preguntas }}    
+        <div id="question-container-{{this.idApi}}" class="question-container">
+          <h4 class="question_title" id="title_q_{{this.idApi}}">{{this.texto}}{{#if this.descripcion }}<small> - {{this.descripcion}}</small>{{/if}}</h4>
+          <div class="divider-dashed"></div>
+          {{!-- Eleccion --}}
+          {{#if this.opcionesRespuesta}}
+            <div id="sel_{{this.idApi}}">
+            {{#each this.opcionesRespuesta }}
+            {{#lookSelect ../this.idApi ../../../respuestas}}
+            <span id="sel_{{../../this.idApi}}_{{@index}}">
+              <input type="radio" class="select_question add-select" id="{{../../../../section.numero}}-{{../../../this.numero}}-{{../../this.orden}}-{{@index}}" name="{{../../../../section.numero}}-{{../../../this.numero}}-{{../../this.orden}}" value="{{../../this.idApi}}_{{../this.idApi}}" {{# ifEq ../this.idApi this}} checked {{/ifEq}}><span class="select_question_text">{{../this.texto}}</span><br>
+            </span>
+            {{/lookSelect}}
+            {{/each}}
+            </div>
+            <br>
+          {{else}}
+          {{!-- Respuestas --}}
+            <ul id="ul_{{this.idApi}}" style="list-style-type: none;">
+            {{#lookQuestions this.idApi ../../respuestas}}
+            {{!-- Si hay guardadas --}}
+            {{#if this}}
+              {{#each this}}
+              <li class="sectionAnswer" id="li_ans_{{../../this.idApi}}_{{@index}}">
+              <input type="text" id="{{../../../../section.numero}}-{{../../../this.numero}}-{{../../this.orden}}-{{@index}}" name="{{../../../../section.numero}}-{{../../../this.numero}}-{{../../this.orden}}-{{@index}}" placeholder="No hay respuesta." value="{{this}}" onchange="sendAnswer('{{../../this.idApi}}',this.value,'{{@index}}')"> 
+              <a id="remove_{{../../../this.numero}}_{{../../this.orden}}_{{../../this.idApi}}_{{@index}}" class="btn btn-danger remove-answer" href="javascript:void(0)">
+                  -
+              </a>
+              </li>
+              {{/each}}
+
+            {{else}}
+            {{!-- Nueva --}}
+              <li class="sectionAnswer" id="li_ans_{{../this.idApi}}_0">
+              <input type="text" id="{{../../../section.numero}}-{{../../this.numero}}-{{../this.orden}}-0" name="{{../../../section.numero}}-{{../../this.numero}}-{{../this.orden}}-0" placeholder="No hay respuesta." onchange="sendAnswer('{{../this.idApi}}',this.value,0)"> 
+              <a id="remove_{{../../this.numero}}_{{../this.orden}}_{{../this.idApi}}_0" class="btn btn-danger remove-answer" href="javascript:void(0)">
+                  -
+              </a>
+              </li>
+            {{/if}}
+            {{/lookQuestions}}
+            </ul>
+            <div class="text-center">
+                <a id="add_{{../this.numero}}_{{this.orden}}_{{this.idApi}}" class="btn btn-success add-answer" href="javascript:void(0)">
+                    <strong>+</strong> Agregar Respuesta
+                </a>
+            </div>
+            <br>
+            <br>
+          {{/if}}               
+        
+        </div>
+      {{/each }}
+    </div>
+  </div>
+</div>
+{{/each }}
+
+<div class="row form-group">
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"></div>
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"> 
+       {{#ifGt section.numero 1 }}
+            <a id="previous_section_button" href="/seccion/paso/{{sum section.numero  -1}}" class="btn btn-success">
+                Anterior
+            </a>
+       {{else}}
+            <a id="previous_section_button" href="/members" class="btn btn-success">
+                Vivienda
+            </a>
+       {{/ifGt }}
+    </div>
+    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1"></div>
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">   
+       {{#ifEq 7 section.numero  }}
+          <a id="previous_section_button" href="/members" class="btn btn-success">
+              Guardar Cambios
+          </a>
+        {{else}}
+          <a id="previous_section_button" href="/seccion/paso/{{sum section.numero 1}}" class="btn btn-success">
+              Siguiente
+          </a>
+       {{/ifEq }}
+    </div>
+    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2"></div>
+</div>
+
+</div>
+</div>
+{{/inline}}
+
+{{#*inline "scripts-block"}}
+<script src="/js/dateTime.min.js"></script>
+<script src="/js/validator.min.js"> </script>
+<script src="/js/sections.js"></script>
+<script type="text/javascript">
+  let estudioId = '{{estudioId}}';
+  let sectionNum = '{{section.numero}}';
+</script>
+{{/inline}}
+
+{{/ layouts/base_dashboard}}

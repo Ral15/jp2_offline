@@ -1,5 +1,5 @@
 // Require embedded document class from camo
-const EmbeddedDocument = require('camo').EmbeddedDocument;
+const Document = require('camo').Document;
 
 /*
  * The model that stores the actual answers.
@@ -19,32 +19,38 @@ const EmbeddedDocument = require('camo').EmbeddedDocument;
  *  respuesta : TextField
  *      If the answer needs to have text, it will be stored in this attribute.
  */
-class Respuesta extends EmbeddedDocument {
+class Respuesta extends Document {
   constructor() {
     super();
 
-    this.idApi = {
-      type: Number,
-      default: 0,
+    this.idEstudio = {
+      type: String,
+      required: true,
     };
     this.idPregunta = {
       type: Number,
-      default: 0,
+      default: 0, 
       required: true,
     };
-    this.idOpcionRespuesta = {
+    this.idSeccion = {
       type: Number,
-      default: 0,
+      required: true
+    };
+    this.eleccion = {
+      type: Number
     };
     this.respuesta = {
-      type: String,
-      default: '',
+      type: String
     };
+    this.orden = {
+      type: Number
+    }
   }
 
   static collectionName() {
     return 'respuesta';
   }
+
 }
 
 module.exports = Respuesta;

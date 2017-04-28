@@ -22,7 +22,6 @@ router.post(urls.estudioCreate, function(req, res) {
   }
 });
 
-
 //POST to delete an estudio
 router.post(urls.estudioDelete, function(req, res) {
   estudioController.deleteEstudio(req,res);

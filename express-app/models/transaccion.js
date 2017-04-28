@@ -31,6 +31,14 @@ class Transaccion extends Document {
   constructor() {
     super();
 
+    this.apiId = {
+      type: Number,
+    };
+
+    this.tipoId = {
+      type: Number,
+    };
+
     this.isActivo = {
       type: Boolean,
       default: true

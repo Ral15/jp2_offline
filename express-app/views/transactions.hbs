@@ -27,7 +27,7 @@
       <div class="row text-center">
         <div class="col-xs-6">
           <a href="/members">
-            <button class="btn btn-danger pull-right">Miembros</button>
+            <button class="btn btn-danger pull-right"><i class="glyphicon glyphicon-arrow-left"></i> Miembros</button>
           </a>
         </div>
         {{!-- <div class="col-xs-6">
@@ -42,17 +42,26 @@
         </div>
         <div class="col-xs-2">
           <form action="/captura/estudio/?apiId={{this.estudioAPIId}}" method="post">
-            <button type="submit" class="btn btn-danger pull-left">editar estudio</button>
+            <button type="submit" class="btn btn-danger pull-left" disabled="{{#ifEq this.estudioAPIID -1}}true{{/ifEq}}">editar estudio</button>
           </form>
         </div>
         <div class="col-xs-2">
           <form action="/captura/estudio/" method="get">
             <button type="submit" class="btn btn-danger pull-left">obtener estudios</button>
           </form>
-        </div>        
+        </div> 
+        {{!-- <div class="col-xs-2">
+          <form action="/captura/api-obtener-informacion-escuelas/" method="get">
+            <button type="submit" class="btn btn-danger pull-left">obtener escuelas</button>
+          </form>
+        </div>
+        <div class="col-xs-2">
+          <form action="/captura/api-obtener-informacion-oficios/" method="get">
+            <button type="submit" class="btn btn-danger pull-left">obtener chambas</button>
+          </form>
+        </div> --}}
       </div>                      
     </div>
-    <h1>{{json this}}</h1>
     {{> createIncomeModal this }}
     {{> createOutcomeModal this}}
 {{/inline}}

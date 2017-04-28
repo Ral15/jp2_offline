@@ -7,20 +7,19 @@ const testApiController = require('../controllers/testApi');
 
 // GET to show family form
 router.get(urls.api.estudios, function(req, res) {
-  // testApiController.getEstudios(req, res);
-  console.log(req);
-  console.log(req.method);
-  console.log('el tgegt');
+  testApiController.getEstudios(req, res);
 });
 
 router.post(urls.api.estudios, function(req, res) {
-
-  // if (req.params.id) {
-  //   testApiController.editEstudio(req, res);
-  // }
-  // else 
   testApiController.uploadEstudio(req, res);
-  // console.log('el posttosos');
+});
+
+router.get(urls.api.schools, function(req, res) {
+  testApiController.getSchools(req, res);
+});
+
+router.get(urls.api.jobs, function(req, res) {
+  testApiController.getJobs(req, res);
 });
 
 

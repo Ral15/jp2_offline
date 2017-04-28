@@ -12,8 +12,8 @@ const martialStatusChoices = [
   'soltero',
   'viudo',
   'union_libre',
-  'casado-civil',
-  'casado-iglesia',
+  'casado_civil',
+  'casado_iglesia',
   'vuelto_a_casar',
 ];
 //options for location
@@ -43,6 +43,10 @@ const locationChoices = [
 class Familia extends Document {
   constructor() {
     super();
+
+    this.apiId = {
+      type: Number,
+    };
 
     this.bastardos = { 
       type: Number,

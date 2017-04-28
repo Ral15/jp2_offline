@@ -2,6 +2,7 @@ const Familia  = require('../models/familia');
 const Miembro = require('../models/miembro');
 const Tutor = require('../models/tutor');
 const Estudio = require('../models/estudio');
+const Escuela = require('../models/escuela');
 const Estudiante = require('../models/estudiante');
 
 module.exports = {
@@ -41,6 +42,7 @@ module.exports = {
   editMember: function (request, response) {
     //get all data from POST
     const data = request.body;
+    console.log(data);
     //get family id from session
     const familyId = request.session.familyId;
     //get member Id from query
@@ -49,6 +51,7 @@ module.exports = {
     let myMember = this.editMemberInfo(data, memberId);
     //resolve promise
     myMember.then((newMember) => {
+      console.log(newMember);
       //retrieve from db all miembros that share the same familyId
       return this.showMemberView(request, response);
     })
@@ -142,9 +145,17 @@ module.exports = {
   showMemberView: function(request, response) {
     //get family id
     const familyId = request.session.familyId;
+    let allMembers;
     Miembro.find({ familyId: familyId })
-    .then((allMembers) => {
-      response.render('members', {members: allMembers});
+    .then((m) => {
+      allMembers = m;
+      return Escuela.find();
+    })
+    .then((allSchools) => {
+      response.render('members', {
+        members: allMembers,
+        schools: allSchools,
+      });
     })
     .catch((error) => {
       console.log(error);

@@ -6,11 +6,55 @@ const Periodo = require('../models/periodo');
 const familyController = require('./family');
 const estudioConctroller = require('./estudio');
 const userController = require('./user');
-const req = require('request');
+const rp = require('request-promise');
 const isOnline = require('is-online');
 const urls = require('../routes/urls');
+const schoolController = require('./school');
+const jobController = require('./job');
+
+
 
 module.exports = {
+  getSchools: function(userApiToken) {
+    let options = {
+      uri: urls.apiUrl + urls.api.schools,
+      headers: {
+          'Authorization': 'Token ' + userApiToken,
+      },
+      json: true
+    };
+    return rp(options)
+      .then((data) => {
+        let school = schoolController.saveSchool(data);
+        return school;
+      })
+      .then((s) => {
+        return s;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+  getJobs: function(userApiToken) {
+    let options = {
+      uri: urls.apiUrl + urls.api.jobs,
+      headers: {
+          'Authorization': 'Token ' + userApiToken,
+      },
+      json: true
+    };
+    return rp(options)
+      .then((data) => {
+        let jobs = jobsController.saveJobs(data);
+        return jobs;
+      })
+      .then((j) => {
+        return j;
+      })
+      .catch((err) => {
+        console.log(err);
+      });    
+  },  
   /**
   * This functions makes a GET to obtain all the Estudios associated to a 
   * capturista
@@ -38,9 +82,6 @@ module.exports = {
       }
     );
   },
-  // editEstudio: function(request, response) {
-
-  // },
   // getEstudio: function (request, response) {
   //   const estudioId = request.params.id;
   //   req.get(
@@ -203,9 +244,6 @@ module.exports = {
   },
   // askAPI: function(url, method, data) {}
   formatData: function(Estudio, Familia, Tutores, Estudiantes, Ingresos, Egresos) {
-    // return {
-    //   integrante_familia: this.formatFamily(Tutores, Estudiantes, Ingresos)
-    // };
     return {
       familia: {
         numero_hijos_diferentes_papas: Familia.bastardos,

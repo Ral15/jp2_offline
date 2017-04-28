@@ -122,7 +122,7 @@ describe('Edit Income test', function () {
         periocidad: myPeriod,
         observacion: 'puro macizo',
         isIngreso: true,
-        tipo: 'Comprobable',
+        tipo: 'comprobable',
         fecha: '2000-09-10',
         miembroId: tutor._id,
         familyId: familyId,
@@ -253,7 +253,7 @@ describe('Edit Income test', function () {
       .waitForVisible(editModal)
       .setValue(editModal + ' #amount', 100)
       .$(editModal + ' #period').selectByAttribute('value', 'Anual')
-      .$(editModal + ' #type').selectByAttribute('value', 'No comprobable')
+      .$(editModal + ' #type').selectByAttribute('value', 'no comprobable')
       .click('#submit-editIncome-' + transaction._id)
       .waitForVisible('#transactions-section')
       .then(() => {

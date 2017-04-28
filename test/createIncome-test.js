@@ -208,7 +208,7 @@ describe('Create incomes test', function () {
       .setValue('#createIncome #amount', 5000)
       .$('#createIncome #period').selectByAttribute('value', 'Mensual')
       .setValue('#createIncome #dateReceived', '2006-12-01')
-      .$('#createIncome #type').selectByAttribute('value', 'Comprobable')
+      .$('#createIncome #type').selectByAttribute('value', 'comprobable')
       .then(() => {
         // assert.equal(roleValue, tutor.relacion);
         return client.$('#createIncome #tutor').getValue();
@@ -230,7 +230,7 @@ describe('Create incomes test', function () {
         return client.$('#createIncome #type').getValue();
       })
       .then((typeValue) => {
-        assert.equal(typeValue, 'Comprobable');
+        assert.equal(typeValue, 'comprobable');
       });
   });
 /**
@@ -256,7 +256,7 @@ describe('Create incomes test', function () {
       .setValue('#createIncome #amount', '')
       .$('#createIncome #period').selectByAttribute('value', 'Mensual')
       .setValue('#createIncome #dateReceived', '2006-12-01')
-      .$('#createIncome #type').selectByAttribute('value', 'Comprobable')
+      .$('#createIncome #type').selectByAttribute('value', 'comprobable')
       .then(() => {
         return client.getAttribute('#createIncome #submit-income', 'class');
       })
@@ -287,7 +287,7 @@ describe('Create incomes test', function () {
       .setValue('#createIncome #amount', 5000)
       .$('#createIncome #period').selectByAttribute('value', '')
       .setValue('#createIncome #dateReceived', '2006-12-01')
-      .$('#createIncome #type').selectByAttribute('value', 'Comprobable')
+      .$('#createIncome #type').selectByAttribute('value', 'comprobable')
       .then(() => {
         return client.getAttribute('#createIncome #submit-income', 'class');
       })
@@ -318,7 +318,7 @@ describe('Create incomes test', function () {
       .setValue('#createIncome #amount', 5000)
       .$('#createIncome #period').selectByAttribute('value', 'Mensual')
       .setValue('#createIncome #dateReceived', '')
-      .$('#createIncome #type').selectByAttribute('value', 'Comprobable')
+      .$('#createIncome #type').selectByAttribute('value', 'comprobable')
       .then(() => {
         return client.getAttribute('#createIncome #submit-income', 'class');
       })
@@ -380,7 +380,7 @@ describe('Create incomes test', function () {
       .setValue('#createIncome #amount', 5000)
       .$('#createIncome #period').selectByAttribute('value', 'Mensual')
       .setValue('#createIncome #dateReceived', '2010-10-10')
-      .$('#createIncome #type').selectByAttribute('value', 'Comprobable')
+      .$('#createIncome #type').selectByAttribute('value', 'comprobable')
       .click('#createIncome #submit-income')
       .waitForVisible('#transactions-section')
       .then(() => {

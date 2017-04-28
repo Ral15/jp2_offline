@@ -5,6 +5,7 @@ const urls = require('../routes/urls');
 const bcrypt = require('bcryptjs');
 const Estudio = require('../models/estudio');
 const SectionController = require('./section');
+const testApiController = require('./testApi');
 
 
 module.exports = {
@@ -98,6 +99,18 @@ module.exports = {
                   });
                 } else {
                   editedUser = self.resetPassword(doc, data);
+                  console.log(editedUser.apiToken);
+                  // let schools = testApiController.getSchools(editedUser.apiToken);
+                  // let jobs = testApiController.getJobs(editedUser.apiToken);
+                  // schools.then((s) => {
+                  //   console.log(s);
+                  //   return jobs;
+                  // })
+                  // .then((j) => {
+                  //   console.log(j);
+                  //   return 1;
+                  // })
+                  // return 1;
                   SectionController.getQuestions(editedUser, request, response);
                 }
               });
@@ -111,8 +124,20 @@ module.exports = {
               // Try to save user at db
               newUser.save()
               .then((user) => {
-                SectionController.getQuestions(user, request, response);
+                let schools = testApiController.getSchools(user.apiToken);
+                return SectionController.getQuestions(user, request, response);
+                // return schools;
               })
+              // TODO: need jobs to be in server
+              // .then((s) => {
+              //   console.log(s);
+              //   let jobs = testApiController.getJobs(user.apiToken);
+              //   return jobs;
+              // })
+              // .then((j) => {
+              //   console.log(j);
+              //   // return jobs;
+              // })
               .catch((err) => {
                 console.log(err);
               });

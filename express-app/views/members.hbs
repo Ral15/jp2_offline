@@ -41,7 +41,7 @@
             <button onclick="showDeleteMember('{{this._id}}')" id="delete-member-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
             </th>
           </tr>
-          {{> editMemberModal this }}
+          {{>  editMemberModal schools=../schools}}
           {{/each}}
         </tbody>
       </table>
@@ -49,12 +49,14 @@
     <div class="row text-center">
       <div class="col-xs-6">
         <a href="/family">
-          <button class="btn btn-danger pull-right" id="show-members-view">Familia</button>
+          <button class="btn btn-danger pull-right" id="show-members-view">
+            <i class="glyphicon glyphicon-arrow-left"></i> Familia</button>
         </a>
       </div>
       <div class="col-xs-6">
         <a href="/transactions">
-          <button class="btn btn-danger pull-left" id="show-transactions-view">Ingresos y Egresos</button>
+          <button class="btn btn-danger pull-left" id="show-transactions-view">
+          <i class="glyphicon glyphicon-arrow-right"></i> Ingresos y Egresos</button>
         </a>
       </div>
     </div>          

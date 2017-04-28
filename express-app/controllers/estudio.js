@@ -1,7 +1,9 @@
 const Estudio = require('../models/estudio');
 const Familia = require('../models/familia');
-const familyController = require('./family');
 const Miembro = require('../models/miembro');
+const familyController = require('./family');
+const memberController = require('./member');
+
 
 module.exports = {
   /**
@@ -71,13 +73,11 @@ module.exports = {
       //set id's
       estudioId = newEstudio._id;
       familyId = newEstudio.familia._id;
-      console.log(estudioId);
-      console.log(familyId);
       //store id's in session
       request.session.familyId = familyId;
       request.session.estudioId = estudioId;
       request.session.estudioAPIId = -1;
-      return response.render('members');
+      return memberController.showMemberView(request, response);
     })
     .catch((error) => {
       //estudio could not be created
@@ -119,14 +119,7 @@ module.exports = {
     })
     .then((editedEstudio) => {
       //get all members
-      return Miembro.find({familyId: familyId})
-    })
-    .then((allMemebrs) => {
-      response.render('members', {
-        // estudioId: estudioId,
-        members: allMemebrs,
-        // familyId: familyId,
-      });      
+      return memberController.showMemberView(request, response);
     })
     .catch((error) => {
       //estudio not edited

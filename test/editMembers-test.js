@@ -119,7 +119,7 @@ describe('Edit member test', function () {
         observacionOficio: '',
         sae: '15090',
         relacion: 'estudiante',
-        escuela: 'Plantel Jurica',
+        escuela: 1,
         observacionEscuela: 'va mucho',
       });
       //save student
@@ -353,7 +353,7 @@ describe('Edit member test', function () {
       .click('#edit-member-button-' + student._id)
       .waitForVisible(editModal)
       .setValue(editModal + ' #sae', '00000')
-      .$(editModal + ' #school').selectByAttribute('value', 'Plantel Buenavista')
+      .$(editModal + ' #school').selectByAttribute('value', 2)
       .$(editModal + ' #job').selectByAttribute('value', 'empleado/a')
       .setValue(editModal + ' #firstName', 'NuevoMorro')
       .setValue(editModal + ' #lastName', 'PicaranasAhora')

@@ -83,6 +83,14 @@ class Miembro extends Document {
   constructor() {
     super();
 
+    this.apiId = {
+      type: Number,
+    };
+
+    this.relacionId = {
+      type: Number,
+    };
+
     this.familyId = {
       type: String,
       required: true,
@@ -133,7 +141,7 @@ class Miembro extends Document {
     };
     this.escuela = {
       type: String,
-      default: ''
+      default: '',
     };
     this.observacionEscuela = {
       type: String,

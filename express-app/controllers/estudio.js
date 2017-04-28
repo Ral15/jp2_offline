@@ -28,8 +28,10 @@ module.exports = {
         request.session.estudioAPIId = myEstudio.apiId;
         request.session.familyId = myEstudio.familia._id;
         this.isEstudioValid(request.session.familyId).then((value) => {
-          console.log('soy el value=>' + value);
+          console.log('soy el value => ' + value);
           console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
+          request.session.isValid = value;
+          response.locals.isValid = value;
           response.render('family',  {
             estudioId: myEstudio._id, 
             family: myEstudio.familia
@@ -204,6 +206,7 @@ module.exports = {
     });
   },
   /**
+  * This should be called at the init of an estudio and at the upload
   * This functions validates if an estudio can be uploades. It needs:
   * 1 family
   * 2 Members, 1 student 1 tutor

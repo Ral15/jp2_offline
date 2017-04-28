@@ -81,6 +81,9 @@ app.use(function(request, response, next) {
   if (request.session.user){
     response.locals.user = request.session.user;
   }
+  // if (request.session.isValid) {
+  //   response.locals.isValid = request.session.isValid;
+  // }
   next();
 });
 

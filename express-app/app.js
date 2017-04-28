@@ -30,7 +30,6 @@ connect(uri).then(function(db) {
 
 
 //template engine
-const hbs = require('hbs');
 hbs.registerPartials(path.join(__dirname + '/views/partials'));
 // pass to doc
 hbs.registerHelper('ifEq', function(value1, value2, opt) {

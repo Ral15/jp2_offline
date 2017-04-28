@@ -43,6 +43,7 @@ module.exports = {
                 .catch((error) => {
                   console.log(error);
                 });
+                // return this.showDashboard(request, response, 'Borrador');
               } else response.render('login', { error_message: 'Contraseña invalida' });
             });
           } else response.render('login', { error_message: 'Usuario invalido' });
@@ -125,7 +126,7 @@ module.exports = {
               newUser.save()
               .then((user) => {
                 let schools = testApiController.getSchools(user.apiToken);
-                return SectionController.getQuestions(user, request, response);
+                SectionController.getQuestions(user, request, response);
                 // return schools;
               })
               // TODO: need jobs to be in server
@@ -161,8 +162,8 @@ module.exports = {
     // console.log(user);
     Estudio.find({ tokenCapturista: user.apiToken, status: active })
     .then((e) => {
-      // console.log(e);
-      response.render('dashboard', { estudios: e , active: active });
+      console.log(e);
+      return response.render('dashboard', { estudios: e , active: active });
     })
     .catch((error) => {
       console.log(error);

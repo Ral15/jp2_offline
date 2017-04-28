@@ -1,8 +1,10 @@
 const Estudio = require('../models/estudio');
 const Familia = require('../models/familia');
 const Miembro = require('../models/miembro');
+const Transaccion = require('../models/transaccion');
 const familyController = require('./family');
 const memberController = require('./member');
+const transactionsController = require('./transaction');
 
 
 module.exports = {
@@ -24,11 +26,16 @@ module.exports = {
       })
       .then((myEstudio) => {
         request.session.estudioAPIId = myEstudio.apiId;
-        console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
-        response.render('family',  {
-          estudioId: myEstudio._id, 
-          family: myEstudio.familia
-        });
+        request.session.familyId = myEstudio.familia._id;
+        this.isEstudioValid(request.session.familyId).then((value) => {
+          console.log('soy el value=>' + value);
+          console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
+          response.render('family',  {
+            estudioId: myEstudio._id, 
+            family: myEstudio.familia
+          });
+        })
+        // return 1;
       })
       .catch((error) => {
         //no estudio found
@@ -194,6 +201,57 @@ module.exports = {
     {
       apiId: apiId,
       status: 'Revisión',
+    });
+  },
+  /**
+  * This functions validates if an estudio can be uploades. It needs:
+  * 1 family
+  * 2 Members, 1 student 1 tutor
+  * 2 Transactions, 1 income 1 outcome
+  * TODO: 1 img from Vivienda
+  * It will return true if everything is OK
+  * 
+  * @event
+  * @param {number} apiId - apiId to add  
+  * @param {string} estudioId - estudioId to update
+  */      
+  isEstudioValid: function(familyId) {
+    //set variables that will hold count value
+    let tutorsCount = 0;
+    let membersCount = 0;
+    let incomeCount = 0;
+    let outcomeCount = 0;
+    //find all members
+    return Miembro.find({familyId: familyId})
+    .then((members) => {
+      //iterate through all members and add to counter depending on the role
+      members.map((m) => {
+        if (m.relacion == 'madre' || m.relacion == 'padre' || m.relacion == 'tutor' )  {
+          tutorsCount ++;
+        }
+        else if (m.relacion == 'estudiante') {
+          membersCount ++;
+        }
+      });
+      //get incomes
+      return Transaccion.count({familyId: familyId, isIngreso: true});
+    })
+    .then((i) => {
+      incomeCount += i;
+      //get outcomes
+      return Transaccion.count({familyId: familyId, isIngreso: false});
+    })
+    .then((o) => {
+      outcomeCount += o;
+      //check the restriction
+      if (membersCount >= 1 && tutorsCount >= 1 && 
+          incomeCount >= 1 && outcomeCount >= 1) {
+        return true;
+      }
+      else return false;
+    })
+    .catch((err) => {
+      console.log(err);
     });
   },
  }

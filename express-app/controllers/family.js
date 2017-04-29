@@ -69,10 +69,11 @@ module.exports = {
   */
   showFamilyView: function(request, response) {
     //retrieve estudio id from url
+    response.locals.estudioActive = 'family';
     const familyId = request.session.familyId;
     Familia.findOne({_id: familyId})
     .then((myFamily) => {
-      console.log(myFamily);
+      console.log(myFamily);P
       response.render('family',  {
         family: myFamily,
       });

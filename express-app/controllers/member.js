@@ -145,6 +145,7 @@ module.exports = {
   showMemberView: function(request, response) {
     //get family id
     const familyId = request.session.familyId;
+    response.locals.estudioActive = 'members';
     let allMembers;
     Miembro.find({ familyId: familyId })
     .then((m) => {
@@ -152,7 +153,7 @@ module.exports = {
       return Escuela.find();
     })
     .then((allSchools) => {
-      response.render('members', {
+      return response.render('members', {
         members: allMembers,
         schools: allSchools,
       });

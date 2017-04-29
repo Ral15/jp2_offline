@@ -11,6 +11,7 @@ module.exports = {
   showTransactionView: function(request, response) {
     //obtain familyId
     const familyId = request.session.familyId;
+    response.locals.estudioActive = 'transactions';
     //obtain incomes amount
     const obtainIncomesAmount = this.getTransactionsAmount(familyId, true);
     const obtainOutcomesAmount = this.getTransactionsAmount(familyId, false);

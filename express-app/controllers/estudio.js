@@ -20,6 +20,8 @@ module.exports = {
   showFamilyForm: function(request, response) {
     //retrieve estudio id from url
     let estudioId = request.query.estudioId;
+    response.locals.estudioActive = 'family';
+    console.log(estudioId);
     if (estudioId) {
       request.session.estudioId = estudioId;
       response.locals.estudioId = request.session.estudioId;
@@ -35,10 +37,10 @@ module.exports = {
         this.isEstudioValid(request.session.familyId).then((value) => {
           console.log('soy el value => ' + value);
           console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
-          request.session.isValid = value;
+          // request.session.isValid = value;
           response.locals.isValid = value;
-          response.render('family',  {
-            estudioId: myEstudio._id, 
+          // console.log(myEstudio.familia);
+          return response.render('family',  {
             family: myEstudio.familia
           });
         })
@@ -86,9 +88,9 @@ module.exports = {
     .then((newEstudio) => {
       request.session.estudioAPIId = -1;
       request.session.estudioId = newEstudio._id;
+      response.locals.estudioId = request.session.estudioId;
       request.session.familyId = newEstudio.familia._id;
       request.session.max_step = newEstudio.maxStep;
-      response.locals.estudioId = request.session.estudioId;
       response.locals.max_step = request.session.max_step
       return memberController.showMemberView(request, response);
     })
@@ -225,7 +227,7 @@ module.exports = {
   isEstudioValid: function(familyId) {
     //set variables that will hold count value
     let tutorsCount = 0;
-    let membersCount = 0;
+    let studentsCount = 0;
     let incomeCount = 0;
     let outcomeCount = 0;
     //find all members
@@ -237,7 +239,7 @@ module.exports = {
           tutorsCount ++;
         }
         else if (m.relacion == 'estudiante') {
-          membersCount ++;
+          studentsCount ++;
         }
       });
       //get incomes
@@ -251,7 +253,7 @@ module.exports = {
     .then((o) => {
       outcomeCount += o;
       //check the restriction
-      if (membersCount >= 1 && tutorsCount >= 1 && 
+      if (studentsCount >= 1 && tutorsCount >= 1 && 
           incomeCount >= 1 && outcomeCount >= 1) {
         return true;
       }
@@ -261,4 +263,8 @@ module.exports = {
       console.log(err);
     });
   },
+  showUploadView: function(request, response) {
+    response.locals.estudioActive = 'upload';
+    return response.render('uploadEstudio');
+  }
  }

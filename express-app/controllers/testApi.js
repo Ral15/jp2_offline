@@ -6,35 +6,22 @@ const Periodo = require('../models/periodo');
 const familyController = require('./family');
 const estudioConctroller = require('./estudio');
 const userController = require('./user');
+const req = require('request');
 const rp = require('request-promise');
 const isOnline = require('is-online');
 const urls = require('../routes/urls');
 const schoolController = require('./school');
 const jobController = require('./job');
-
+const answerController = require('./answers');
 
 
 module.exports = {
-  getSchools: function(userApiToken) {
-    let options = {
-      uri: urls.apiUrl + urls.api.schools,
-      headers: {
-          'Authorization': 'Token ' + userApiToken,
-      },
-      json: true
-    };
-    return rp(options)
-      .then((data) => {
-        let school = schoolController.saveSchool(data);
-        return school;
-      })
-      .then((s) => {
-        return s;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
+  /**
+  * This functions makes a GET to obtain all the Jobs
+  *
+  * @event
+  * @param {string} userApiToken - user api token 
+  */   
   getJobs: function(userApiToken) {
     let options = {
       uri: urls.apiUrl + urls.api.jobs,
@@ -150,6 +137,7 @@ module.exports = {
     let ingresos;
     let egresos;
     let data;
+    console.log(request.session);
     Estudio.findOne({_id: request.session.estudioId})
     .then((e) => {
       estudio = e;
@@ -172,7 +160,11 @@ module.exports = {
     })
     .then((tE) => {
       egresos = tE;
-      data = this.formatData(estudio, familia, tutores, estudiantes, ingresos, egresos);
+      return answerController.serialize(request.session.estudioId);
+    })
+    .then((r) => {
+      console.log(r);
+      data = this.formatData(estudio, familia, tutores, estudiantes, ingresos, egresos, r);
       // data = this.formatTutores(tutores, ingresos);
       console.log(JSON.stringify(data));
       let finD = JSON.stringify(data);
@@ -181,7 +173,7 @@ module.exports = {
       //create estudio in api
       console.log(request.session.estudioAPIId);
       // return 1;
-      if (request.session.estudioAPIId == -1) {
+      // if (request.session.estudioAPIId == -1) {
         return req.post(
           urls.apiUrl + urls.api.estudios,
           {
@@ -191,84 +183,114 @@ module.exports = {
             json: data
           },
           function(error, httpResponse, body) {
+            // console.log(h)
             console.log(httpResponse.body);
             if (httpResponse.statusCode > 201) {
-              response.send(error);
+              response.send(JSON.parse(error));
               console.log('quien soy');
             }
             else {
-              //TODO: add id to apiID
-              estudioConctroller.addAPIId(body.id, request.session.estudioId)
-              .then((editedEstudio) => {
-                // console.log(editedEstudio);
-                return userController.showDashboard(request, response, 'Revisión');
-              })
-            }
-          }
-        );   
-      }
-      else {
-        data.status = "borrador";
-        data.id = request.session.estudioAPIId;
-      return req.put(
-          urls.apiUrl + urls.api.estudios + request.session.estudioAPIId + '/',
-          {
-            headers: {
-                  'Authorization': 'Token ' + request.session.user.apiToken,
-                },
-            json: data
-          },
-          function(error, httpResponse, body) {
-            console.log(httpResponse.body);
-            if (httpResponse.statusCode > 201) {
-              console.log(error)
-              console.log('quien soy')
-            }
-            else {
+              console.log(body);
               //TODO: add id to apiID
               // estudioConctroller.addAPIId(body.id, request.session.estudioId)
               // .then((editedEstudio) => {
+              //   // console.log(editedEstudio);
+              //   // userController.showDashboard(request, response, 'Revisión');
               //   console.log(editedEstudio);
-              //   return userController.showDashboard(request, response, 'Revisión');
               // })
-              // console.log(request.query.estudioAPIId);
-              console.log(body);
             }
           }
-        );      
-      }
+        );   
+      // }
+      // else {
+      //   data.status = "borrador";
+      //   data.id = request.session.estudioAPIId;
+      // return req.put(
+      //     urls.apiUrl + urls.api.estudios + request.session.estudioAPIId + '/',
+      //     {
+      //       headers: {
+      //             'Authorization': 'Token ' + request.session.user.apiToken,
+      //           },
+      //       json: data
+      //     },
+      //     function(error, httpResponse, body) {
+      //       console.log(httpResponse.body);
+      //       if (httpResponse.statusCode > 201) {
+      //         console.log(error)
+      //         console.log('quien soy')
+      //       }
+      //       else {
+      //         //TODO: add id to apiID
+      //         // estudioConctroller.addAPIId(body.id, request.session.estudioId)
+      //         // .then((editedEstudio) => {
+      //         //   console.log(editedEstudio);
+      //         //   return userController.showDashboard(request, response, 'Revisión');
+      //         // })
+      //         // console.log(request.query.estudioAPIId);
+      //         console.log(body);
+      //       }
+      //     }
+      //   );      
+      // }
     })
     .catch((err) => {
       console.log(err);
     });
   },
-  // askAPI: function(url, method, data) {}
-  formatData: function(Estudio, Familia, Tutores, Estudiantes, Ingresos, Egresos) {
+  /**
+  * This functions parses all data necessary for POST body
+  *
+  * @event
+  * @param {object} estudio - estudio object
+  * @param {object} family - family object associated to an estudio
+  * @param {array} tutors - all tutors from a family
+  * @param {array} students - all students from a family
+  * @param {array} incomes - array with all incomes from a family & members
+  * @param {array} outcomes - array with all outcomes from a family & members
+  * @param {array} answers - array with all answers from a estudio
+  */     
+  formatData: function(estudio, family, tutors, students, incomes, outcomes, answers) {
     return {
       familia: {
-        numero_hijos_diferentes_papas: Familia.bastardos,
+        numero_hijos_diferentes_papas: family.bastardos,
         explicacion_solvencia: '',
-        estado_civil: Familia.estadoCivil,
-        localidad: Familia.localidad,
+        estado_civil: 'soltero',
+        localidad: 'nabo',
         comentario_familia: [],
         // integrante_familia: [],
-        integrante_familia: this.formatFamily(Tutores, Estudiantes, Ingresos),
-        transacciones: this.formatTransactions(Familia._id, Ingresos, Egresos),
+        integrante_familia: this.formatFamily(tutors, students, incomes),
+        transacciones: this.formatTransactions(family._id, incomes, outcomes),
         // transacciones: [],
       },
-      respuesta_estudio: [],
+      respuesta_estudio: answers,
       status: 'borrador'
     }
   },
-  formatFamily: function(tutores, estudiantes, ingresos) {
-    let tutors = this.formatTutores(tutores, ingresos);
-    return tutors;
-  },
-  formatTutores: function (tutores, ingresos) {
+  /**
+  * This functions parses the family
+  *
+  * @event
+  * @param {array} tutors - array with all tutors from a family
+  * @param {array} students - all students from a family
+  * @param {array} incomes - all incomes from a family
+  */     
+  formatFamily: function(tutors, students, incomes) {
+    let formatedTutors = this.formatTutores(tutors, incomes);
+    //TODO:: formatStudents
+    return formatedTutors;
+  },  
+  /**
+  * This functions parses all tutors associated to a family
+  *
+  * @event
+  * @param {array} tutors - array with all tutors from a family
+  * @param {array} incomes - all incomes from a family
+  */      
+  formatTutores: function (tutors, incomes) {
     let myTutors;
     let myIncomes;
-    myTutors = tutores.map((t) => {
-      myIncomes = this.formatIncomesTutors(ingresos, t._id);
+    myTutors = tutors.map((t) => {
+      myIncomes = this.formatIncomesTutors(incomes, t._id);
       return {
         nombres: t.nombres,
         apellidos: t.apellidos,
@@ -285,28 +307,36 @@ module.exports = {
     });
     return myTutors;
   },
-  formatIncomesTutors: function(ingresos, id) {
-    let formatIncome = ingresos.filter((i) => {
+  /**
+  * This functions parses all incomes associated to a tutor
+  *
+  * @event
+  * @param {array} incomes - array with all incomes from a family
+  * @param {string} id - id of tutor
+  */    
+  formatIncomesTutors: function(incomes, id) {
+    //filter incomes of the member
+    let formatIncome = incomes.filter((i) => {
       return i.miembroId == id;
-    }).map((i) => {
-      if (i.miembroId == id) {
-        return {
-              fecha: '2003-03-19',
-              tipo: i.tipo,
-              transaccion: {
-                activo: i.isActivo,
-                monto: i.monto,
-                periodicidad: {
-                  periodicidad: i.periocidad.periodicidad,
-                  factor: i.periocidad.factor,
-                  multiplica: i.periocidad.multiplica,
-                },
-                observacion: i.observacion,
-                es_ingreso: true
-              }
+    }).map((i) => { //map through all filtered incomes
+      // if (i.miembroId == id) {
+      return {
+            fecha: '2003-03-19',
+            tipo: i.tipo,
+            transaccion: {
+              activo: i.isActivo,
+              monto: i.monto,
+              periodicidad: {
+                periodicidad: i.periocidad.periodicidad,
+                factor: i.periocidad.factor,
+                multiplica: i.periocidad.multiplica,
+              },
+              observacion: i.observacion,
+              es_ingreso: true
             }
-        }
-        else return null;
+          }
+      // }
+        // else return null;
     });
     return formatIncome;
   },
@@ -322,8 +352,16 @@ module.exports = {
   //         tutor_integrante: {},
   //       ],
   //     },
-  formatTransactions: function(familyId, ingresos, egresos) {
-    let allIncomes = ingresos.map((i) => {
+  /**
+  * This functions parses all incomes and outcomes from a family
+  *
+  * @event
+  * @param {string} familyId - id of the 
+  * @param {array} incomes - array with all incomes
+  * @param {array} outcomes - array with all outcomes
+  */  
+  formatTransactions: function(familyId, incomes, outcomes) {
+    let allIncomes = incomes.map((i) => {
       return {
         activo: true,
         monto: i.monto,
@@ -336,7 +374,7 @@ module.exports = {
         es_ingreso: true
       }
     });
-    let allOutcomes = egresos.map((e) => {
+    let allOutcomes = outcomes.map((e) => {
       return {
         activo: true,
         monto: e.monto,

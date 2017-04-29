@@ -1,7 +1,5 @@
-// const Familia  = require('../models/familia');
-// const Miembro = require('../models/miembro');
-// const Tutor = require('../models/tutor');
-// const Estudio = require('../models/estudio');
+const rp = require('request-promise');
+const urls = require('../routes/urls');
 const Escuela = require('../models/escuela');
 
 module.exports = {
@@ -17,6 +15,12 @@ module.exports = {
       nombre: data.nombre,
     });
   },
+  /**
+  * This function saves a school
+  * 
+  * @event
+  * @param {object} data - data from the form
+  */   
   saveSchool: function(data) {
     let createdSchools = [];
     data.map((s) => {
@@ -30,5 +34,31 @@ module.exports = {
       mySavedSchools.push(p);
     });
     return Promise.all(mySavedSchools);
+  },
+  /**
+  * This functions makes a GET to obtain all the Schools
+  *
+  * @event
+  * @param {string} userApiToken - user api token 
+  */  
+  getSchools: function(userApiToken) {
+    let options = {
+      uri: urls.apiUrl + urls.api.schools,
+      headers: {
+          'Authorization': 'Token ' + userApiToken,
+      },
+      json: true
+    };
+    return rp(options)
+      .then((data) => {
+        let school = this.saveSchool(data);
+        return school;
+      })
+      .then((s) => {
+        return s;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 }

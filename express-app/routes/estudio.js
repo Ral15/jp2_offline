@@ -33,4 +33,10 @@ router.get(urls.getEstudios, function(req, res) {
 });
 
 
+router.get(urls.showUploadView, function(req, res) {
+  estudioController.showUploadView(req, res);
+});
+
+// router.post(urls.)
+
 module.exports = router;

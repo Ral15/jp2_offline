@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const Estudio = require('../models/estudio');
 const SectionController = require('./section');
 const testApiController = require('./testApi');
+const schoolController = require('./school');
 
 
 module.exports = {
@@ -126,7 +127,7 @@ module.exports = {
               // Try to save user at db
               newUser.save()
               .then((user) => {
-                let schools = testApiController.getSchools(user.apiToken);
+                let schools = schoolController.getSchools(user.apiToken);
                 SectionController.getQuestions(user, request, response);
                 // return schools;
               })

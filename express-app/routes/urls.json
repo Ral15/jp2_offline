@@ -33,5 +33,6 @@
 	"sectionStart" : "/seccion/paso/",
 	"transactionDelete": "/transaction/delete/:id",
 	"transactionsView": "/transactions/",
-	"uploadEstudio": "/estudio/upload/:id"
+	"uploadEstudio": "/estudio/upload/:id",
+	"showUploadView": "/upload/"
 }

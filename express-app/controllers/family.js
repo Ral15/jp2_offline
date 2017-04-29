@@ -73,7 +73,7 @@ module.exports = {
     const familyId = request.session.familyId;
     Familia.findOne({_id: familyId})
     .then((myFamily) => {
-      console.log(myFamily);P
+      console.log(myFamily);
       response.render('family',  {
         family: myFamily,
       });
@@ -81,5 +81,32 @@ module.exports = {
     .catch((err) => {
       console.log(err);
     });
-  }
+  },
+  /**
+  * TODO: edit address values aswell
+  *
+  * This function adds the family apiID
+  *
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */  
+  addAPIId: function(data, familyId) {
+    // console.log(data);
+    // return 1;
+    return Familia.findOneAndUpdate(
+      {
+        _id: familyId
+      },
+      {
+        apiId: data.id,
+        bastardos: data.numero_hijos_diferentes_papas,
+        estadoCivil: data.estado_civil,
+        // calle: data.street,
+        // colonia: data.street2,
+        // codigoPostal: Number(data.zipCode),
+        localidad: data.localidad,
+        // nombreFamilia: data.familyName,
+      });
+  },
 }

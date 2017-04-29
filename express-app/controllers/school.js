@@ -61,4 +61,13 @@ module.exports = {
         console.log(err);
       });
   },
+  getSchool: function(apiId) {
+    return Escuela.findOne({apiId: apiId})
+      .then((e) => {
+        return e;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 }

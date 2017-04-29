@@ -36,15 +36,8 @@ module.exports = {
             bcrypt.compare(data.password, doc.password, function (err, res) {
               if (err) console.log(err);
               else if (res) {
-                Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
-                .then((e) => {
-                  request.session.user = doc;
-                  response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-                // return this.showDashboard(request, response, 'Borrador');
+                request.session.user = doc;
+                return this.showDashboard(request, response, 'Borrador');
               } else response.render('login', { error_message: 'Contraseña invalida' });
             });
           } else response.render('login', { error_message: 'Usuario invalido' });
@@ -162,9 +155,12 @@ module.exports = {
   showDashboard: function(request, response, active) {
     let user = request.session.user;
     // console.log(user);
-    Estudio.find({ tokenCapturista: user.apiToken, status: active })
+    request.session.estudioId = null;
+    request.session.familyId = null;
+    request.session.estudioAPIId = null;
+    return Estudio.find({ tokenCapturista: user.apiToken, status: active })
     .then((e) => {
-      console.log(e);
+      // console.log(e);
       return response.render('dashboard', { estudios: e , active: active });
     })
     .catch((error) => {

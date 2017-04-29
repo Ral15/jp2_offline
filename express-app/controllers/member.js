@@ -4,6 +4,7 @@ const Tutor = require('../models/tutor');
 const Estudio = require('../models/estudio');
 const Escuela = require('../models/escuela');
 const Estudiante = require('../models/estudiante');
+const schoolController = require('./school');
 
 module.exports = {
   /**
@@ -24,7 +25,7 @@ module.exports = {
     //create member object
     let myMember = this.createMember(data, familyId);
     //save member
-    myMember.save()
+    return myMember.save()
     .then((newMember) => {
       return this.showMemberView(request, response);
     })
@@ -50,7 +51,7 @@ module.exports = {
     //call promise that will update the info of the member
     let myMember = this.editMemberInfo(data, memberId);
     //resolve promise
-    myMember.then((newMember) => {
+    return myMember.then((newMember) => {
       console.log(newMember);
       //retrieve from db all miembros that share the same familyId
       return this.showMemberView(request, response);
@@ -125,7 +126,7 @@ module.exports = {
     //retrieve member id from request
     const memberId = request.params.id;
     //*** delete function did not work, fuck you camo
-    Miembro.findOneAndDelete({_id: memberId})
+    return Miembro.findOneAndDelete({_id: memberId})
     .then((m) => {
       return response.sendStatus(200);
     })
@@ -147,7 +148,7 @@ module.exports = {
     const familyId = request.session.familyId;
     response.locals.estudioActive = 'members';
     let allMembers;
-    Miembro.find({ familyId: familyId })
+    return Miembro.find({ familyId: familyId })
     .then((m) => {
       allMembers = m;
       return Escuela.find();
@@ -161,5 +162,55 @@ module.exports = {
     .catch((error) => {
       console.log(error);
     })      
-  },  
+  },
+  //assuming i have data.offline_id
+  addAPIId: function(data, familyId) {
+    let myMembers = [];
+    data.map((d) => {
+      let m;
+      if (d.alumno_integrante == null) {
+        m = new Promise((resolve, reject) => {
+          resolve(Miembro.findOneAndUpdate(
+            { _id: data.offline_id }, 
+            {
+              apiId: data.id,
+              nombres: data.nombres,
+              apellidos: data.apellidos,
+              telefono: data.telefono,
+              correo: data.correo,
+              nivelEstudios: data.nivel_estudios,
+              fechaNacimiento: data.fechaNacimiento,
+              relacionId: d.tutor_integrante.id,
+              relacion: d.tutor_integrante.relacion,
+            })
+          );
+        }); 
+      }
+      else {
+        let school = schoolController.getSchool(d.alumno_integrante.escuela.id);
+        school.then((s) => {
+          m = new Promise((resolve, reject) => {
+            resolve(Miembro.findOneAndUpdate(
+              { _id: data.offline_id }, 
+              {
+                apiId: data.id,
+                nombres: data.nombres,
+                apellidos: data.apellidos,
+                telefono: data.telefono,
+                correo: data.correo,
+                nivelEstudios: data.nivel_estudios,
+                fechaNacimiento: data.fechaNacimiento,
+                relacionId: d.alumno_integrante.id,
+                // relacion: d.alumno_integrante.relacion,
+                escuela: s._id,
+                // sae: d.sae
+              })
+            )
+          });
+        });
+      }
+      myMembers.push(m);
+    });
+    return Promise.all(myMembers);
+  },
 }

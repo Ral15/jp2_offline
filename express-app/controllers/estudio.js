@@ -21,7 +21,7 @@ module.exports = {
     //retrieve estudio id from url
     let estudioId = request.query.estudioId;
     response.locals.estudioActive = 'family';
-    console.log(estudioId);
+    // console.log(estudioId);
     if (estudioId) {
       request.session.estudioId = estudioId;
       response.locals.estudioId = request.session.estudioId;
@@ -29,22 +29,17 @@ module.exports = {
         _id: estudioId
       })
       .then((myEstudio) => {
+        console.log(myEstudio)
         //set session variables
         request.session.estudioAPIId = myEstudio.apiId;
         request.session.familyId = myEstudio.familia._id;
         request.session.max_step = myEstudio.maxStep;
         response.locals.max_step = request.session.max_step;
-        this.isEstudioValid(request.session.familyId).then((value) => {
-          console.log('soy el value => ' + value);
-          console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
-          // request.session.isValid = value;
-          response.locals.isValid = value;
-          // console.log(myEstudio.familia);
-          return response.render('family',  {
-            family: myEstudio.familia
-          });
-        })
-        // return 1;
+        // this.isEstudioValid(request.session.familyId).then((value) => {
+        console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
+        return response.render('family',  {
+          family: myEstudio.familia
+        });
       })
       .catch((error) => {
         //no estudio found
@@ -67,15 +62,14 @@ module.exports = {
   */    
   createEstudio: function(request, response) {
     //retrieve token from params
+    console.log('es el create');
     const token = request.session.user.apiToken;
     //get data from request
     const data = request.body;
     //create familia
     let newFamily = familyController.createFamily(data);
-    let estudioId = '';
-    let familyId = '';
     //save familia
-    newFamily.save()
+    return newFamily.save()
     .then((newFamily) => {
       //create estudio
       let estudio = Estudio.create({
@@ -109,6 +103,7 @@ module.exports = {
   */      
   editEstudio: function(request, response) {
     //store estudioId in session
+    // console.log('esl e edit');
     request.session.estudioId = request.query.estudioId;
     const estudioId = request.session.estudioId;
     //get user token from session
@@ -116,7 +111,7 @@ module.exports = {
     const data = request.body;
     let familyId;
     //get object with the new values for a family
-    Estudio.findOne({_id: estudioId})
+    return Estudio.findOne({_id: estudioId})
     .then((currEstudio) => {
       //save familyId at session
       familyId = currEstudio.familia._id;
@@ -202,13 +197,14 @@ module.exports = {
   * @param {number} apiId - apiId to add  
   * @param {string} estudioId - estudioId to update
   */    
-  addAPIId: function(apiId, estudioId) {
+  addAPIId: function(apiId, estudioId, family) {
     return Estudio.findOneAndUpdate({
       _id: estudioId
     },
     {
       apiId: apiId,
       status: 'Revisión',
+      familia: family,
     });
   },
   /**
@@ -263,8 +259,26 @@ module.exports = {
       console.log(err);
     });
   },
+  /**
+  * This functions show the upload estudio view
+  *
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */  
   showUploadView: function(request, response) {
     response.locals.estudioActive = 'upload';
-    return response.render('uploadEstudio');
+    // console.log(request.session);
+    let familyId;
+    if (request.query.familyId) familyId = request.query.familyId;
+    else familyId = request.session.familyId
+    this.isEstudioValid(familyId).then((value) => {
+      console.log('soy el value => ' + value);
+      response.locals.isValid = value;
+      return response.render('uploadEstudio');
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
  }

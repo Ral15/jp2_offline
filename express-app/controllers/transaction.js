@@ -23,7 +23,7 @@ module.exports = {
     let incomes;
     let outcomes;
 
-    myIncomes.then((i) => {
+    return myIncomes.then((i) => {
       incomes = i;
       return myOutcomes;
     })

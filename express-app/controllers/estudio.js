@@ -221,9 +221,11 @@ module.exports = {
   },
 
   saveImage: function (request, response) {
-    fs.writeFile(request.body.image, path.join(__dirname, '..', '../db/images/', request.body.name + '.jpg'), function (err) {
-      if (err) throw err;
-      console.log("saved");
+    var image = fs.readFile(request.body.image, function (err, data) {
+      fs.writeFile(/**path.join(__dirname, '..', '../db/images/', request.body.name + '.jpg')*/ request.body.image, data, 'binary', function (err) {
+        if (err) throw err;
+        console.log("saved");
+      });
     });
   }
  }

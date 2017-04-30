@@ -4,6 +4,7 @@ const Miembro = require('../models/miembro');
 const familyController = require('./family');
 const fs = require('fs');
 const path = require('path');
+const formidable = require('formidable');
 
 module.exports = {
   /**
@@ -221,11 +222,26 @@ module.exports = {
   },
 
   saveImage: function (request, response) {
-    var image = fs.readFile(request.body.image, function (err, data) {
-      fs.writeFile(/**path.join(__dirname, '..', '../db/images/', request.body.name + '.jpg')*/ request.body.image, data, 'binary', function (err) {
-        if (err) throw err;
-        console.log("saved");
-      });
+    var form = new formidable.IncomingForm();
+
+    form.multiples = true;
+
+    form.uploadDir = path.join(__dirname, '..', '../db');
+
+    console.log(form.uploadDir);
+    form.on('file', function (field, file) {
+      fs.rename(file.path, path.join(form.uploadDir, file.name));
     });
+
+    form.on('error', function (err) {
+      console.log('An error has ocurred: \n' + err);
+    });
+
+    form.on('end', function () {
+      console.log('success');
+      response.end('success');
+    });
+
+    form.parse(request);
   }
  }

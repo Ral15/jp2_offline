@@ -50,10 +50,20 @@ module.exports = {
   saveImage: function (request, response) {
 
     let estudioId = request.session.id_estudio;
-
+    var uploadImages = path.join(__dirname, '..', '../db/vivienda');
     var form = new formidable.IncomingForm();
+    var uploadLivingEstudio = path.join(__dirname, '..', '../db/vivienda/', estudioId);
+
+    if (!fs.existsSync(uploadImages)) {
+      fs.mkdirSync(uploadImages, 0744);
+    }
+
+    if (!fs.existsSync(uploadLivingEstudio)) {
+      fs.mkdirSync(uploadLivingEstudio, 0744);
+    }
+
     form.multiples = true;
-    form.uploadDir = path.join(__dirname, '..', '/public/img/estudioImgs');
+    form.uploadDir = path.join(__dirname, '..', '../db/vivienda/', estudioId);
 
     form.on('file', function (field, file) {
       fs.rename(file.path, path.join(form.uploadDir, file.name));

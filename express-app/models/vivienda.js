@@ -25,11 +25,11 @@ class Vivienda extends Document {
       required: true,
     };
     this.vivienda = [{
-      this.name = {
+      name: {
         type: String,
         default: '',
       },
-      this.url = {
+      url: {
         type: String,
         default: '',
       }
@@ -37,9 +37,9 @@ class Vivienda extends Document {
   }
 
   static collectionName() {
-    return 'respuesta';
+    return 'vivienda';
   }
 
 }
 
-module.exports = Respuesta;
+module.exports = Vivienda;

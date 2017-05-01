@@ -74,9 +74,15 @@
     </div>
   </div>                
 </div> 
+{{> loadingModal }}              
 {{/inline}}
 
 {{#*inline "scripts-block"}}
+<script type="text/javascript">
+$('#update_estudios_btn').click(function() {
+  $('#loadingModal').modal('show');
+});
+</script>
 {{/inline}}
 
 {{/ layouts/base_dashboard}}

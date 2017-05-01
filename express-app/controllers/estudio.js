@@ -5,6 +5,14 @@ const Transaccion = require('../models/transaccion');
 const familyController = require('./family');
 const memberController = require('./member');
 const transactionsController = require('./transaction');
+const urls = require('../routes/urls');
+const req = require('request');
+const isOnline = require('is-online');
+
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 
 module.exports = {
@@ -30,15 +38,12 @@ module.exports = {
         //set session variables
         request.session.estudioAPIId = myEstudio.apiId;
         request.session.familyId = myEstudio.familia._id;
-        request.session.max_step = myEstudio.maxStep;
-        response.locals.max_step = request.session.max_step;
         this.isEstudioValid(request.session.familyId).then((value) => {
           console.log('soy el value => ' + value);
           console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
           request.session.isValid = value;
           response.locals.isValid = value;
           response.render('family',  {
-            estudioId: myEstudio._id, 
             family: myEstudio.familia
           });
         })
@@ -87,9 +92,7 @@ module.exports = {
       request.session.estudioAPIId = -1;
       request.session.estudioId = newEstudio._id;
       request.session.familyId = newEstudio.familia._id;
-      request.session.max_step = newEstudio.maxStep;
       response.locals.estudioId = request.session.estudioId;
-      response.locals.max_step = request.session.max_step
       return memberController.showMemberView(request, response);
     })
     .catch((error) => {
@@ -261,4 +264,70 @@ module.exports = {
       console.log(err);
     });
   },
- }
+  updateEstudios: function(request, response){
+    let user = request.session.user;
+    isOnline().then((online) => {
+      if(online){
+        req.get(
+          // url to get
+          urls.apiUrl + urls.api.estudios,
+          {
+            headers: {
+              'Authorization': 'Token ' + user.apiToken,
+            },
+          },
+          function (error, httpResponse, body) {
+            if (httpResponse.statusCode > 201) {
+              response.locals.error_message = 'No se pudo obtener la informacion';
+              return response.redirect(urls.dashboard);
+            } else {
+              const data = JSON.parse(body);
+              var i = 0; 
+              let proms = [];
+              data.forEach(async function(estudio){
+                console.log(estudio.id)
+                await sleep(1000);
+                // let estudioUpdate = {};
+                // let familyUpdate = {};
+                // let e = {};
+                // familyUpdate.bastardos = 3;
+                // estudioUpdate.tokenCapturista = request.session.user.apiToken;
+                // await Familia.findOneAndUpdate({
+                //   idApi: estudio.familia.id
+                // }, familyUpdate, {
+                //   upsert:true
+                // }).then((family) => {
+                //   console.log(family)
+                //   console.log()
+                //   estudioUpdate.familia = family;
+                //   return Estudio.findOneAndUpdate({
+                //     apiId: estudio.id,
+                //   }, estudioUpdate, {
+                //     upsert:true
+                //   });              
+                // }).then((estudio) => {
+                //   // console.log()
+                //   e = estudio;
+                // }).catch((err) => {
+                //   console.log('err');
+
+                //   console.log(err);
+                // });
+                // proms.push(prom);
+                // console.log(prom);
+                // console.log(e);
+              });
+              // Promise.all(proms).then((v) => {
+                // console.log(v.status
+                  // )
+                return response.redirect(urls.dashboard);
+              // });
+            }
+            // return response.redirect(urls.dashboard);
+          });
+      } else {
+
+      }
+    });
+  }
+}

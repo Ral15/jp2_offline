@@ -32,5 +32,10 @@ router.get(urls.getEstudios, function(req, res) {
   estudioController.getEstudios(req, res);
 });
 
+//GET to update estudios from server
+router.get(urls.updateEstudios, function(req, res) {
+  estudioController.updateEstudios(req, res);
+});
+
 
 module.exports = router;

@@ -7,5 +7,5 @@ module.exports = {
   //test credentials
   username: 'eugenio',
   password: 'erikiado123',
-  apiToken: '082be9526329ebea51d69e11a50217d93f21545d',
+  apiToken: '4cbc8cb63b1dd6f0093eddbb0518866821e6f1b0',
 };

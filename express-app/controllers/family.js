@@ -3,6 +3,7 @@ const Miembro = require('../models/miembro');
 const Tutor = require('../models/tutor');
 const Estudio = require('../models/estudio');
 const Estudiante = require('../models/estudiante');
+const memberController = require('./member');
 
 module.exports = {
   /**
@@ -83,6 +84,20 @@ module.exports = {
     });
   },
   /**
+  * This functions parses the family
+  *
+  * @event
+  * @param {array} tutors - array with all tutors from a family
+  * @param {array} students - all students from a family
+  * @param {array} incomes - all incomes from a family
+  */     
+  formatFamily: function(tutors, students, incomes, schools) {
+    let formatedTutors = memberController.formatTutores(tutors, incomes);
+    //TODO:: formatStudents
+    let formatedStudents = memberController.formatStudents(students, schools);
+    return formatedTutors.concat(formatedStudents);
+  },    
+  /**
   * TODO: edit address values aswell
   *
   * This function adds the family apiID
@@ -92,8 +107,6 @@ module.exports = {
   * @param {object} response - response object.
   */  
   addAPIId: function(data, familyId) {
-    // console.log(data);
-    // return 1;
     return Familia.findOneAndUpdate(
       {
         _id: familyId
@@ -106,7 +119,7 @@ module.exports = {
         // colonia: data.street2,
         // codigoPostal: Number(data.zipCode),
         localidad: data.localidad,
-        // nombreFamilia: data.familyName,
+        nombreFamilia: data.nombre_familiar,
       });
   },
 }

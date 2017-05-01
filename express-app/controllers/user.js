@@ -121,7 +121,7 @@ module.exports = {
               newUser.save()
               .then((user) => {
                 let schools = schoolController.getSchools(user.apiToken);
-                SectionController.getQuestions(user, request, response);
+                return SectionController.getQuestions(user, request, response);
                 // return schools;
               })
               // TODO: need jobs to be in server
@@ -154,7 +154,7 @@ module.exports = {
    */
   showDashboard: function(request, response, active) {
     let user = request.session.user;
-    // console.log(user);
+    console.log(user);
     request.session.estudioId = null;
     request.session.familyId = null;
     request.session.estudioAPIId = null;

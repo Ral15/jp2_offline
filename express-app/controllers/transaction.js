@@ -1,6 +1,6 @@
 const Transaccion = require('../models/transaccion');
 const Miembro = require('../models/miembro');
-
+const periodController = require('./period');
 module.exports = {
 /**
   * This function returns the transaction view with the members
@@ -41,7 +41,7 @@ module.exports = {
     })
     .then((allMembers) => {
       return response.render('transactions', {
-        members: allMembers.filter((m) =>  m.relacion != 'estudiante' ),
+        members: allMembers.filter((m) =>  m.relacion == 'tutor' || m.relacion == 'madre' || m.relacion == 'padre'),
         incomes: incomes,
         outcomes: outcomes,
         incomeAmount: totalIncome,
@@ -165,5 +165,70 @@ module.exports = {
       console.log(err);
       return response.sendStatus(500);
     });
-  }
+  },
+  //remove familuyID??
+  addAPIId: function(transactions, familyId) {
+    let transactionsSaved = [];
+    transactions.map((i) => {
+      let p = periodController.addAPIId(i.periodicidad);
+      let t = new Promise((resolve, reject) => {
+        resolve(Transaccion.findOneAndUpdate({_id: i.offline_id}, 
+          {
+            apiId: i.id,
+            // fecha: i.fecha,
+            // tipoId: i.tipoId,
+            // tipo: i.tipo,
+            isActivo: i.activo,
+            monto: i.monto,
+            periocidad: p,
+            observacion: i.observacion,
+            isIncome: i.es_ingreso,
+            valorMensual: this.monthlyValue(i.es_ingreso, i.monto, p.multiplica, p.factor)
+          }));
+      });
+      transactionsSaved.push(t);
+    });
+    return Promise.all(transactionsSaved); 
+  },
+
+  /**
+  * This functions parses all incomes and outcomes from a family
+  *
+  * @event
+  * @param {string} familyId - id of the 
+  * @param {array} incomes - array with all incomes
+  * @param {array} outcomes - array with all outcomes
+  */  
+  formatTransactions: function(familyId, incomes, outcomes) {
+    let allIncomes = incomes.map((i) => {
+      return {
+        activo: true,
+        monto: i.monto,
+        periodicidad: {
+          periodicidad: i.periocidad.periodicidad,
+          factor: i.periocidad.factor,
+          multiplica: i.periocidad.multiplica,
+        },
+        observacion: i.observacion,
+        es_ingreso: true,
+        offline_id: i._id
+      }
+    });
+    let allOutcomes = outcomes.map((e) => {
+      return {
+        activo: true,
+        monto: e.monto,
+        periodicidad: {
+          periodicidad: e.periocidad.periodicidad,
+          factor: e.periocidad.factor,
+          multiplica: e.periocidad.multiplica,
+        },
+        observacion: e.observacion,
+        es_ingreso: false,
+        offline_id: e._id
+      }
+    });
+    let all = allIncomes.concat(allOutcomes);
+    return all;
+  },  
 };

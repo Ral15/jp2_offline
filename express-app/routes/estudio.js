@@ -32,13 +32,5 @@ router.get(urls.getEstudios, function(req, res) {
   estudioController.getEstudios(req, res);
 });
 
-// GET living page
-router.get(urls.living, function (req, res) {
-  estudioController.showLivingPage(req, res);
-});
 
-// POST save image
-router.post(urls.image, function (req, res) {
-  estudioController.saveImage(req, res);
-});
 module.exports = router;

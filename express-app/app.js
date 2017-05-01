@@ -12,6 +12,7 @@ const incomeRoutes = require('./routes/income.js');
 const outcomeRoutes = require('./routes/outcome.js');
 const memberRoutes = require('./routes/member.js');
 const transactionsRoutes = require('./routes/transactions.js');
+const livingRoutes = require('./routes/living.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
@@ -76,6 +77,7 @@ app.use(incomeRoutes);
 app.use(memberRoutes);
 app.use(outcomeRoutes);
 app.use(transactionsRoutes);
+app.use(livingRoutes);
 
 
 app.listen(3000, function () {

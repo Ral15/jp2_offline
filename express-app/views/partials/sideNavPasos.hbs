@@ -17,7 +17,7 @@
         </a>
     </li>
     <li class="{{#ifEq this 'Rechazado' }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-        <a href="{{# if estudioId }}/living/{{else}}javascript:void(0){{/if}}">
+        <a href="{{# if estudioId }}/living/?estudioId={{estudioId}}{{else}}javascript:void(0){{/if}}">
             <i class="glyphicon glyphicon-thumbs-down"></i> 4.- Vivienda
         </a>
     </li>

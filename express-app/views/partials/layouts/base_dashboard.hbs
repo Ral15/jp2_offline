@@ -34,7 +34,7 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                {{> (lookup . 'which_side') this.active}}
+                {{> (lookup . 'which_side') }}
               </div>
 
             </div>
@@ -51,7 +51,6 @@
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="page-content container">
-
             {{#> panel-block}}
               {{!-- panel content goes here. --}}
             {{/panel-block}}

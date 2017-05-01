@@ -1,7 +1,5 @@
-// // const Familia  = require('../models/familia');
-// // const Miembro = require('../models/miembro');
-// // const Tutor = require('../models/tutor');
-// // const Estudio = require('../models/estudio');
+// const rp = require('request-promise');
+// const urls = require('../routes/urls');
 // const Oficio = require('../models/oficio');
 
 // module.exports = {
@@ -17,6 +15,12 @@
 //       nombre: data.nombre,
 //     });
 //   },
+//   /**
+//   * This function saves a created Job
+//   * 
+//   * @event
+//   * @param {object} data - data from the form
+//   */   
 //   saveJob: function(data) {
 //     let createdJobs = [];
 //     data.map((j) => {
@@ -31,4 +35,30 @@
 //     });
 //     return Promise.all(mySavedJobs);
 //   },
+//   /**
+//   * This functions makes a GET to obtain all the Jobs
+//   *
+//   * @event
+//   * @param {string} userApiToken - user api token 
+//   */   
+//   getJobs: function(userApiToken) {
+//     let options = {
+//       uri: urls.apiUrl + urls.api.jobs,
+//       headers: {
+//           'Authorization': 'Token ' + userApiToken,
+//       },
+//       json: true
+//     };
+//     return rp(options)
+//       .then((data) => {
+//         let jobs = jobsController.saveJobs(data);
+//         return jobs;
+//       })
+//       .then((j) => {
+//         return j;
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });    
+//   },  
 // }

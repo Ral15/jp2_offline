@@ -5,7 +5,7 @@ const urls = require('../routes/urls');
 const bcrypt = require('bcryptjs');
 const Estudio = require('../models/estudio');
 const SectionController = require('./section');
-const testApiController = require('./testApi');
+const schoolController = require('./school');
 
 
 module.exports = {
@@ -24,6 +24,7 @@ module.exports = {
   loginUser: function (request, response) {
     // Get data from request
     const data = request.body;
+    const self = this;
     // Call promise that validates internet connection
     isOnline().then((online) => {
       // If there is internet connection, check with API
@@ -35,15 +36,8 @@ module.exports = {
             bcrypt.compare(data.password, doc.password, function (err, res) {
               if (err) console.log(err);
               else if (res) {
-                Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
-                .then((e) => {
-                  request.session.user = doc;
-                  response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-                // return this.showDashboard(request, response, 'Borrador');
+                request.session.user = doc;
+                return self.showDashboard(request, response, 'Borrador');
               } else response.render('login', { error_message: 'Contraseña invalida' });
             });
           } else response.render('login', { error_message: 'Usuario invalido' });
@@ -80,6 +74,8 @@ module.exports = {
       },
       // Callback
       function (error, httpResponse, body) {
+        console.log(error)
+        console.log(httpResponse)
         // If response FAILS show error message
         if (httpResponse.statusCode > 201) {
           response.render('login', { error_message: 'Usuario o contraseña invalidos' });
@@ -126,8 +122,8 @@ module.exports = {
               // Try to save user at db
               newUser.save()
               .then((user) => {
-                let schools = testApiController.getSchools(user.apiToken);
-                SectionController.getQuestions(user, request, response);
+                let schools = schoolController.getSchools(user.apiToken);
+                return SectionController.getQuestions(user, request, response);
                 // return schools;
               })
               // TODO: need jobs to be in server
@@ -160,10 +156,13 @@ module.exports = {
    */
   showDashboard: function(request, response, active) {
     let user = request.session.user;
-    // console.log(user);
-    Estudio.find({ tokenCapturista: user.apiToken, status: active })
+    console.log(user);
+    request.session.estudioId = null;
+    request.session.familyId = null;
+    request.session.estudioAPIId = null;
+    return Estudio.find({ tokenCapturista: user.apiToken, status: active })
     .then((e) => {
-      console.log(e);
+      // console.log(e);
       return response.render('dashboard', { estudios: e , active: active });
     })
     .catch((error) => {

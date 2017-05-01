@@ -46,6 +46,7 @@ class Familia extends Document {
 
     this.apiId = {
       type: Number,
+      default: -1,
     };
 
     this.bastardos = { 

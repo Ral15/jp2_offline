@@ -12,7 +12,7 @@ const incomeRoutes = require('./routes/income.js');
 const outcomeRoutes = require('./routes/outcome.js');
 const memberRoutes = require('./routes/member.js');
 const transactionsRoutes = require('./routes/transactions.js');
-const apiRoutes = require('./routes/testApi.js');
+// const apiRoutes = require('./routes/testApi.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
@@ -57,9 +57,6 @@ app.use(function(request, response, next) {
   if (request.session.user){
     response.locals.user = request.session.user;
   }
-  if (request.session.isValid) {
-    response.locals.isValid = request.session.isValid;
-  }
   if (request.session.estudioId){
     response.locals.estudioId = request.session.estudioId;
   } else {
@@ -79,7 +76,7 @@ app.use(incomeRoutes);
 app.use(memberRoutes);
 app.use(outcomeRoutes);
 app.use(transactionsRoutes);
-app.use(apiRoutes);
+// app.use(apiRoutes);
 
 app.listen(3000, function () {
   console.log('Juan Pablo II app listening on port 3000!')

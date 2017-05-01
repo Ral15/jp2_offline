@@ -1,0 +1,54 @@
+{{#>  layouts/base_dashboard page_title="Captura de Estudios" which_side="sideNavPasos" }}
+{{#*inline "panel-block"}}
+{{#if error_message}}
+  <div class="alert alert-danger">
+    <span id="error_message"><strong>{{error_message}}</strong></span>
+  </div>
+{{/if}}
+<div class="row">
+<br>
+<br>
+<br>
+<div class="col-xs-12">
+  <h1>6.- Subir estudio</h1>
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+      <h3>En esta sección podrás agregar una observación general sobre la familia y subir el estudio una vez que sea válido. Una vez subido el estudio, no podrás hacer modificaciones.</h3>
+    </div>
+  </div>
+  <div class="col-xs-12 well">
+  {{#if isValid}}
+    <div class="form-group col-xs-12 text-center">
+      <form action="/captura/estudio/" method="post">
+        <button type="submit" id="create-family"  class="btn btn-primary"><i class="glyphicon glyphicon-check"></i> Subir a revisión</button>
+      </form>
+    </div>
+  {{else}}
+    <div>
+      <h3>Todavía no puedes subir el estudio, asegurate de haber creado <strong>al menos</strong></h3>
+      <ul>
+        <li><h4>1 tutor/madre/padre</h4></li>
+        <li><h4>1 estudiante</h4></li>
+        <li><h4>1 ingreso</h4></li>
+        <li><h4>1 egreso</h4></li>
+        <li><h4>1 imagen</h4></li>
+      </ul>
+    </div>
+  {{/if}}
+  </div>
+    <div class="col-xs-12 text-center">
+      <a href="/seccion/paso/" >
+        <button class="btn btn-danger" id="start-sections"><i class="glyphicon glyphicon-arrow-left"></i> Secciones
+        </button>
+      </a>
+    </div>
+</div>
+</div>
+{{/inline}}
+{{#*inline "scripts-block"}}
+<script src="/js/dateTime.min.js"></script>
+<script src="/js/validator.min.js"> </script>
+<script src="/js/uploadEstudio.js"></script>
+{{/inline}}
+
+{{/ layouts/base_dashboard}}

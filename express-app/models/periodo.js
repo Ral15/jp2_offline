@@ -33,6 +33,10 @@ class Periodo extends EmbeddedDocument {
   constructor() {
     super();
 
+    this.apiId = {
+      type: Number,
+    };
+    
     this.periodicidad = {
       type: String,
       choices: periocidadChoices 

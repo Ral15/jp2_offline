@@ -50,5 +50,37 @@ module.exports = {
     .catch((err) => {
       console.log(err);
     })
+  },
+  /**
+  * This functions parses all incomes associated to a tutor
+  *
+  * @event
+  * @param {array} incomes - array with all incomes from a family
+  * @param {string} id - id of tutor
+  */    
+  formatIncomesTutors: function(incomes, miembroId) {
+    //filter incomes of the member
+    let formatIncome = incomes.filter((i) => {
+      return i.miembroId == miembroId;
+    }).map((i) => { //map through all filtered incomes
+      return {
+          fecha: '2003-03-10',
+          tipo: i.tipo,
+          transaccion: {
+            activo: i.isActivo,
+            monto: i.monto,
+            periodicidad: {
+              periodicidad: i.periocidad.periodicidad,
+              factor: i.periocidad.factor,
+              multiplica: i.periocidad.multiplica,
+            },
+            observacion: i.observacion,
+            es_ingreso: true,
+            offline_id: i._id
+          },
+          offline_id: miembroId,
+        }
+    });
+    return formatIncome;
   },  
 };

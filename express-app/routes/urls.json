@@ -7,7 +7,7 @@
 		"estudios": "/captura/estudio/",
 		"uploadImages": "captura/imagenes/"
 	},
-	"apiUrl" : "http://junipero.erikiado.com",
+	"apiUrl" : "http://junipero.erikiado.com/",
 	"createUser": "/user/create",
 	"dashboard" : "/user/dashboard",
 	"estudio": "/estudio/",
@@ -31,6 +31,7 @@
 	"removeAnswer": "/estudio/answer/remove/",
 	"sections" : "/seccion/paso/:step",
 	"sectionStart" : "/seccion/paso/",
+	"showUploadView": "/upload/",
 	"transactionDelete": "/transaction/delete/:id",
 	"transactionsView": "/transactions/",
 	"uploadEstudio": "/estudio/upload/:id",

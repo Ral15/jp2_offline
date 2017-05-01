@@ -1,13 +1,17 @@
 const Estudio = require('../models/estudio');
 const Familia = require('../models/familia');
+const Escuela = require('../models/escuela');
 const Miembro = require('../models/miembro');
 const Transaccion = require('../models/transaccion');
 const familyController = require('./family');
 const memberController = require('./member');
 const transactionsController = require('./transaction');
-const urls = require('../routes/urls');
 const req = require('request');
 const isOnline = require('is-online');
+const answerController = require('./answers');
+const userController = require('./user');
+const urls = require('../routes/urls');
+const rp = require('request-promise');
 
 
 function sleep(ms) {
@@ -28,6 +32,8 @@ module.exports = {
   showFamilyForm: function(request, response) {
     //retrieve estudio id from url
     let estudioId = request.query.estudioId;
+    response.locals.estudioActive = 'family';
+    // console.log(estudioId);
     if (estudioId) {
       request.session.estudioId = estudioId;
       response.locals.estudioId = request.session.estudioId;
@@ -35,19 +41,14 @@ module.exports = {
         _id: estudioId
       })
       .then((myEstudio) => {
+        console.log(myEstudio)
         //set session variables
         request.session.estudioAPIId = myEstudio.apiId;
         request.session.familyId = myEstudio.familia._id;
-        this.isEstudioValid(request.session.familyId).then((value) => {
-          console.log('soy el value => ' + value);
-          console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
-          request.session.isValid = value;
-          response.locals.isValid = value;
-          response.render('family',  {
-            family: myEstudio.familia
-          });
-        })
-        // return 1;
+        console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
+        return response.render('family',  {
+          family: myEstudio.familia
+        });
       })
       .catch((error) => {
         //no estudio found
@@ -70,15 +71,14 @@ module.exports = {
   */    
   createEstudio: function(request, response) {
     //retrieve token from params
+    console.log('es el create');
     const token = request.session.user.apiToken;
     //get data from request
     const data = request.body;
     //create familia
     let newFamily = familyController.createFamily(data);
-    let estudioId = '';
-    let familyId = '';
     //save familia
-    newFamily.save()
+    return newFamily.save()
     .then((newFamily) => {
       //create estudio
       let estudio = Estudio.create({
@@ -91,8 +91,8 @@ module.exports = {
     .then((newEstudio) => {
       request.session.estudioAPIId = -1;
       request.session.estudioId = newEstudio._id;
-      request.session.familyId = newEstudio.familia._id;
       response.locals.estudioId = request.session.estudioId;
+      request.session.familyId = newEstudio.familia._id;
       return memberController.showMemberView(request, response);
     })
     .catch((error) => {
@@ -110,6 +110,7 @@ module.exports = {
   */      
   editEstudio: function(request, response) {
     //store estudioId in session
+    // console.log('esl e edit');
     request.session.estudioId = request.query.estudioId;
     const estudioId = request.session.estudioId;
     //get user token from session
@@ -117,7 +118,7 @@ module.exports = {
     const data = request.body;
     let familyId;
     //get object with the new values for a family
-    Estudio.findOne({_id: estudioId})
+    return Estudio.findOne({_id: estudioId})
     .then((currEstudio) => {
       //save familyId at session
       familyId = currEstudio.familia._id;
@@ -203,13 +204,14 @@ module.exports = {
   * @param {number} apiId - apiId to add  
   * @param {string} estudioId - estudioId to update
   */    
-  addAPIId: function(apiId, estudioId) {
+  addAPIIdEstudio: function(apiId, estudioId, family) {
     return Estudio.findOneAndUpdate({
       _id: estudioId
     },
     {
       apiId: apiId,
       status: 'Revisión',
+      familia: family,
     });
   },
   /**
@@ -228,7 +230,7 @@ module.exports = {
   isEstudioValid: function(familyId) {
     //set variables that will hold count value
     let tutorsCount = 0;
-    let membersCount = 0;
+    let studentsCount = 0;
     let incomeCount = 0;
     let outcomeCount = 0;
     //find all members
@@ -240,7 +242,7 @@ module.exports = {
           tutorsCount ++;
         }
         else if (m.relacion == 'estudiante') {
-          membersCount ++;
+          studentsCount ++;
         }
       });
       //get incomes
@@ -254,7 +256,7 @@ module.exports = {
     .then((o) => {
       outcomeCount += o;
       //check the restriction
-      if (membersCount >= 1 && tutorsCount >= 1 && 
+      if (studentsCount >= 1 && tutorsCount >= 1 && 
           incomeCount >= 1 && outcomeCount >= 1) {
         return true;
       }
@@ -279,55 +281,257 @@ module.exports = {
           function (error, httpResponse, body) {
             if (httpResponse.statusCode > 201) {
               response.locals.error_message = 'No se pudo obtener la informacion';
-              return response.redirect(urls.dashboard);
+              return userController.showDashboard(request,response, 'Borrador');
             } else {
               const data = JSON.parse(body);
               var i = 0; 
               let proms = [];
               data.forEach(async function(estudio){
-                console.log(estudio.id)
-                await sleep(1000);
-                // let estudioUpdate = {};
-                // let familyUpdate = {};
-                // let e = {};
-                // familyUpdate.bastardos = 3;
-                // estudioUpdate.tokenCapturista = request.session.user.apiToken;
-                // await Familia.findOneAndUpdate({
-                //   idApi: estudio.familia.id
-                // }, familyUpdate, {
-                //   upsert:true
-                // }).then((family) => {
-                //   console.log(family)
-                //   console.log()
-                //   estudioUpdate.familia = family;
-                //   return Estudio.findOneAndUpdate({
-                //     apiId: estudio.id,
-                //   }, estudioUpdate, {
-                //     upsert:true
-                //   });              
-                // }).then((estudio) => {
-                //   // console.log()
-                //   e = estudio;
-                // }).catch((err) => {
-                //   console.log('err');
-
-                //   console.log(err);
-                // });
-                // proms.push(prom);
-                // console.log(prom);
-                // console.log(e);
+                await this.updateFromAPI(estudio);
               });
-              // Promise.all(proms).then((v) => {
-                // console.log(v.status
-                  // )
-                return response.redirect(urls.dashboard);
-              // });
+              return response.redirect(urls.dashboard);
             }
-            // return response.redirect(urls.dashboard);
           });
       } else {
-
+        response.locals.error_message = 'No hay conexion a internet';
+        return userController.showDashboard(request,response, 'Borrador');
       }
     });
-  }
+  },
+  /**
+  * This functions show the upload estudio view
+  *
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */  
+  showUploadView: function(request, response) {
+    response.locals.estudioActive = 'upload';
+    // console.log(request.session);
+    let familyId;
+    if (request.query.familyId) familyId = request.query.familyId;
+    else familyId = request.session.familyId
+    this.isEstudioValid(familyId).then((value) => {
+      console.log('soy el value => ' + value);
+      response.locals.isValid = true;
+      return response.render('uploadEstudio');
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  },
+/**
+  * This functions makes a PUT or POST dependeing if the estudio has apiID
+  *
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */  
+  uploadEstudio: function(request, response) {
+    //set id variables
+    let estudioId = request.session.estudioId;
+    let familyId = request.session.familyId;
+    //declare variables that will contain all my data
+    let estudio;
+    let familia;
+    let tutores;
+    let estudiantes;
+    let ingresos;
+    let egresos;
+    let escuelas;
+    let data;
+    return Estudio.findOne({_id: estudioId})
+    .then((e) => {
+      estudio = e;
+      return Familia.findOne({_id: familyId});
+    })
+    .then((f) => {
+      familia = f;
+      return Miembro.find({familyId: familyId});
+    })
+    .then((m) => {
+      miembros = m;
+      estudiantes = m.filter((m) => m.relacion == 'estudiante');
+      tutores = m.filter((m) => m.relacion == 'tutor' || m.relacion == 'madre' || m.relacion == 'padre');
+      return Transaccion.find({familyId: familyId, isIngreso: true});
+    })
+    .then((tI) => {
+      ingresos = tI;
+      return Escuela.find();
+    })
+    .then((sC) => {
+      escuelas = sC;
+      return Transaccion.find({familyId: familyId, isIngreso: false});
+    })
+    .then((tE) => {
+      egresos = tE;
+      return answerController.serialize(estudioId);
+    })
+    .then((respuestas) => {
+      data = this.formatData(estudio, familia, tutores, estudiantes, ingresos, egresos, respuestas, escuelas);
+      let userApiToken = request.session.user.apiToken;
+      let estudioAPIId = request.session.estudioAPIId;
+      //POST to create estudio
+      if ( estudioAPIId == -1) {
+        return this.createEstudioAPI(data, userApiToken);
+      }
+      //TODO: retrieve info from models and change req to rp.
+      else {
+        data.status = "borrador"; // this is only for testing rn
+        data.id = estudioAPIId;
+        return req.put(
+          urls.apiUrl + urls.api.estudios + request.session.estudioAPIId + '/',
+          {
+            headers: {
+                  'Authorization': 'Token ' + request.session.user.apiToken,
+                },
+            json: data
+          },
+          function(error, httpResponse, body) {
+            // console.log(httpResponse.body);
+            if (httpResponse.statusCode > 201) {
+              console.log(error)
+              console.log('quien soy')
+            }
+            else {
+              console.log(body);
+            }
+          }
+        );      
+      }
+    })
+    .then((body) => {
+      console.log(JSON.stringify(body));
+      return this.addAPIID(body, estudioId, familyId, escuelas);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  },
+  /**
+  * This functions makes a POST to the API in order to create the Estudio
+  *
+  * @event
+  * @param {object} data - data to be send in the body of the POST
+  * @param {string} userApiToken - token that will auth 
+  */        
+  createEstudioAPI: function(data, userApiToken) {
+    // console.log(JSON.stringify(data));
+    let options = {
+      method: 'POST',
+      uri: urls.apiUrl + urls.api.estudios,
+      headers: {
+          'Authorization': 'Token ' + userApiToken,
+      },
+      body: data,
+      json: true,
+    };    
+    return rp(options);
+  },
+  /**
+  * This functions makes a POST to the API in order to create the Estudio
+  * 
+  *
+  * @event
+  * @param {object} data - data to be send in the body of the POST
+  * @param {string} userApiToken - token that will auth 
+  */ 
+  editEstudioAPI: function(data, userApiToken) {
+    let options = {
+      method: 'PUT',
+      uri: urls.apiUrl + urls.api.estudios + data.id + '/',
+      headers: {
+          'Authorization': 'Token ' + userApiToken,
+      },
+      body: data,
+      json: true,      
+    };
+  },      
+/**
+  * This functions parses all data necessary for POST body
+  *
+  * @event
+  * @param {object} estudio - estudio object
+  * @param {object} family - family object associated to an estudio
+  * @param {array} tutors - all tutors from a family
+  * @param {array} students - all students from a family
+  * @param {array} incomes - array with all incomes from a family & members
+  * @param {array} outcomes - array with all outcomes from a family & members
+  * @param {array} answers - array with all answers from a estudio
+  */     
+  formatData: function(estudio, family, tutors, students, incomes, outcomes, answers, schools) {
+    return {
+      familia: {
+        numero_hijos_diferentes_papas: family.bastardos,
+        direccion: family.calle + ' ' + family.colonia + ' ' + family.codigoPostal,
+        explicacion_solvencia: family.explicacionSolvencia,
+        nombre_familiar: family.nombreFamilia,
+        estado_civil: family.estadoCivil,
+        localidad: family.localidad,
+        comentario_familia: [],
+        integrante_familia: familyController.formatFamily(tutors, students, incomes, schools),
+        transacciones: transactionsController.formatTransactions(family._id, incomes, outcomes),
+      },
+      respuesta_estudio: answers,
+      status: 'borrador'
+    }
+  },
+
+  /**
+  * This functions adds the apiID once an estudio is uploaded the first time
+  *
+  *
+  * @event
+  * @param {string} familyId - id of the 
+  * @param {array} incomes - array with all incomes
+  * @param {array} outcomes - array with all outcomes
+  */    
+  addAPIID: function(data, estudioId, familyId, schools) {
+    return familyController.addAPIId(data.familia, familyId)
+      .then((nF) => {
+        return this.addAPIIdEstudio(data.id, familyId, nF); //replace familyId
+      })
+      .then((nE) => {
+        let editedMembers = memberController.addAPIId(data.familia.integrante_familia, familyId, schools);
+        return editedMembers;
+      })
+      .then((nM) => {
+        console.log(nM);
+        return transactionsController.addAPIId(data.familia.transacciones, familyId, null);
+      })
+      .then((tS) => {
+        console.log(tS);
+        //TODO: add respuestas ID
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+/**
+  * This functions makes a GET to obtain all the Estudios associated to a 
+  * capturista
+  *
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */
+  getEstudiosAPI: function(request, response) {
+    //retrieve estudio id from url
+    req.get(
+      urls.apiUrl + urls.api.estudios,
+      {
+        headers: {
+              'Authorization': 'Token ' + request.session.user.apiToken,
+            },
+      },
+      function(error, httpResponse, body) {
+        if (httpResponse.statusCode > 201) {
+          console.log(error)
+        }
+        else {
+          console.log(JSON.parse(body)); 
+        }
+      }
+    );
+  },      
 }

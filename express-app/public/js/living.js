@@ -4,7 +4,8 @@
  *
  * @event
  */
-$('#addImageBtn').on('click', function () {
+$('#addImageBtn').on('click', function (event) {
+  event.preventDefault();
   var files = $('#image').get(0).files;
 
   if (files.length > 0) {
@@ -24,6 +25,7 @@ $('#addImageBtn').on('click', function () {
       contentType: false,
       success: function (data) {
         console.log('save image success');
+        location.reload();
       },
     });
   }

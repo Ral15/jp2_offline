@@ -27,7 +27,12 @@ module.exports = {
       .then((myEstudio) => {
         request.session.max_step = myEstudio.maxStep;
         response.locals.max_step = request.session.max_step;
-        response.render('living');
+        Vivienda.find({
+          idEstudio: estudioId
+        })
+        .then((viviendas) => {
+          response.render('living', { viviendas: viviendas });
+        })
       })
       .catch((error) => {
         //no estudio found
@@ -49,19 +54,19 @@ module.exports = {
   */
   saveImage: function (request, response) {
 
-    var self = this;
     let estudioId = request.session.id_estudio;
+    var self = this;
     var fileName = '';
     var uploadImages = path.join(__dirname, '..', '../db/vivienda');
     var form = new formidable.IncomingForm();
     var uploadLivingEstudio = path.join(__dirname, '..', '../db/vivienda/', estudioId);
 
     if (!fs.existsSync(uploadImages)) {
-      fs.mkdirSync(uploadImages, 0744);
+      fs.mkdirSync(uploadImages);
     }
 
     if (!fs.existsSync(uploadLivingEstudio)) {
-      fs.mkdirSync(uploadLivingEstudio, 0744);
+      fs.mkdirSync(uploadLivingEstudio);
     }
 
     form.multiples = true;
@@ -93,7 +98,7 @@ module.exports = {
   */
   saveInDatabase: function (request, response, file) {
     let estudioId = request.session.id_estudio;
-    var dir = path.join(__dirname, '..', '../db/vivienda/', estudioId, file);
+    var dir = path.join(estudioId, file);
     let living = Vivienda.create({
       idEstudio: estudioId,
       name: request.body.name,

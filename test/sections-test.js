@@ -80,11 +80,11 @@ describe('Sections test', function () {
       //create family
       let f = Familia.create({
           bastardos: 10,
-          estadoCivil: 'Soltero',
+          estadoCivil: 'soltero',
           calle: 'Erizo',
           colonia: 'Fs',
           codigoPostal: 76150,
-          localidad: 'Otro',
+          localidad: 'otro',
           nombreFamilia: 'Los Picapiedras',        
       });
       return f.save();

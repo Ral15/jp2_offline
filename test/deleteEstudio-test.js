@@ -198,7 +198,7 @@ describe('Delete Estudio test', function () {
       })
       .then(async () => {
         await sleep(1000);
-        return client.isVisible('#delete-estudio-' + estudioId);
+        return client.isVisible('#restore-estudio-' + estudioId);
       })
       .then((isVisible) => {
         assert.isTrue(isVisible);

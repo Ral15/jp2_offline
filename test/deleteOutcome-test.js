@@ -142,7 +142,7 @@ describe('Delete Outcome test', function () {
         periocidad: myPeriod,
         observacion: 'puro macizo',
         isIngreso: false,
-        tipo: 'Comprobable',
+        tipo: 'comprobable',
         fecha: '2010-10-10',
         miembroId: tutor._id,
         familyId: familyId,

@@ -4,6 +4,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const Estudio = require(path.join(__dirname , '../express-app/models/estudio.js'));
+const Familia = require(path.join(__dirname , '../express-app/models/familia.js'));
 const config = require('../config.js');
 
 
@@ -59,23 +60,31 @@ describe('Create Estudio test', function () {
     })
     .then((total) => {
       totalEstudios = total;
-      let e = Estudio.create({
-        //change later for config
-        tokenCapturista: config.apiToken,
-        familia: {
+       let f = Familia.create({
           bastardos: 10,
-          estadoCivil: 'Soltero',
+          estadoCivil: 'soltero',
           calle: 'Erizo',
           colonia: 'Fs',
           codigoPostal: 76150,
-          localidad: 'Otro'
-        },
+          localidad: 'otro',
+          nombreFamilia: 'Los Picapiedras',        
+      });
+      return f.save();
+    })
+    .then((f) => {
+      let e = Estudio.create({
+        //change later for config
+        tokenCapturista: config.apiToken,
+        familia: f,
         status: 'Eliminado',
       });
       return e.save();
     })
     .then((newEstudio) => {
       estudioId = newEstudio._id;
+    })
+    .catch((err) => {
+      console.log(err);
     })
     // end Database connection
   });
@@ -111,7 +120,7 @@ describe('Create Estudio test', function () {
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#show-deleted')
-      .waitForVisible('#home-btn')
+      .waitForVisible('#datatable')
       .then(() => {
         return client.$('#restore-estudio-' + estudioId);
       })
@@ -130,11 +139,11 @@ describe('Create Estudio test', function () {
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#show-deleted')
-      .waitForVisible('#home-btn')
+      .waitForVisible('#datatable')
       .click('#restore-estudio-' + estudioId)
       .then(async () => {
         await sleep(1000);
-        return client.getText('#modalContentId');
+        return client.getText('#swal2-content');
       })
       .then((modalText) => {
         assert.equal(modalText, 'Cambia el status del estudio para seguir editandolo.');
@@ -151,9 +160,9 @@ describe('Create Estudio test', function () {
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#show-deleted')
-      .waitForVisible('#home-btn')
+      .waitForVisible('#datatable')
       .click('#restore-estudio-' + estudioId)
-      .waitForVisible('#modalContentId')
+      .waitForVisible('#swal2-content')
       .click('.swal2-cancel')
       .then(async () => {
         await sleep(1000);
@@ -174,13 +183,13 @@ describe('Create Estudio test', function () {
       .setValue('#password', config.password)
       .click('#submit-login')
       .click('#show-deleted')
-      .waitForVisible('#home-btn')
+      .waitForVisible('#datatable')
       .click('#restore-estudio-' + estudioId)
-      .waitForVisible('#modalContentId')
+      .waitForVisible('#swal2-content')
       .click('.swal2-confirm')
       .then(async () => {
         await sleep(1000);
-        return client.getText('#modalTitleId');
+        return client.getText('#swal2-title');
       })
       .then(async (modalValue) => {
         assert.equal(modalValue, '¡Éxito!');

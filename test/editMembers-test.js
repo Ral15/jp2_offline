@@ -107,6 +107,9 @@ describe('Edit member test', function () {
     .then((newTutor) => {
       //save tutor object
       tutor = newTutor;
+      return Escuela.find();
+    })
+    .then((e) => {
       //create student object
       let estudiante = Miembro.create({
         familyId: familyId,
@@ -119,7 +122,7 @@ describe('Edit member test', function () {
         observacionOficio: '',
         sae: '15090',
         relacion: 'estudiante',
-        escuela: 1,
+        escuela: e[0]._id,
         observacionEscuela: 'va mucho',
       });
       //save student

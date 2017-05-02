@@ -5,7 +5,9 @@ const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const Estudio = require(path.join(__dirname , '../express-app/models/estudio.js'));
 const Familia = require(path.join(__dirname , '../express-app/models/familia.js'));
-const Miembro = require(path.join(__dirname , '../express-app/models/miembro.js'));
+const Escuela = require(path.join(__dirname , '../express-app/models/escuela.js'));
+const Miembro = require(path.join(__dirname , '../express-app/models/oficio.js'));
+const Oficio = require(path.join(__dirname , '../express-app/models/miembro.js'));
 const config = require('../config.js');
 
 
@@ -53,6 +55,8 @@ describe('Create Members test', function () {
   let totalMembers;
   let estudioId;
   let familyId;
+  let schools;
+  let jobs;
 
   before(() => {
     //connect to db
@@ -87,6 +91,14 @@ describe('Create Members test', function () {
     })
     .then((count) => {
       totalMembers = count;
+      return Escuela.find();
+    })
+    .then((e) => {
+      schools = e;
+      return Oficio.find();
+    })
+    .then((o) => {
+      jobs = o;
     })
     .catch((err) => {
       console.log(err);
@@ -154,7 +166,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '4422727084')
@@ -169,7 +181,7 @@ describe('Create Members test', function () {
         return client.$('#job').getValue();
       })
       .then((jobValue) => {
-        assert.equal(jobValue, 'albañil');
+        assert.equal(jobValue, jobs[0]._id);
         return client.getValue('#firstName');
       })
       .then((firstNameValue) => {
@@ -214,7 +226,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', '')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '4422727084')
@@ -245,7 +257,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', '')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '4422727084')
@@ -276,7 +288,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', '')
       .setValue('#phone', '4422727084')
@@ -307,7 +319,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '')
@@ -338,7 +350,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '4422727083')
@@ -369,7 +381,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '442727272')
@@ -400,7 +412,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '442727272')
@@ -431,7 +443,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#addMemberSection')
       .$('#role').selectByAttribute('value', 'tutor')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Papa')
       .setValue('#lastName', 'PicaPiedra')
       .setValue('#phone', '442727272')
@@ -505,7 +517,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#memberModal #myModalLabel')
       .$('#memberModal #role').selectByAttribute('value', 'estudiante')
-      .$('#memberModal #school').selectByAttribute('value', 'Plantel Jurica')
+      .$('#memberModal #school').selectByAttribute('value', schools[0]._id)
       .setValue('#memberModal #sae', '1598')
       .$('#memberModal #job').selectByAttribute('value', '')
       .setValue('#memberModal #firstName', 'Morro')

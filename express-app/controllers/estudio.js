@@ -280,8 +280,8 @@ module.exports = {
     // console.log(request.session);
     let familyId;
     let allComments;
-    // if (request.query.familyId) familyId = request.query.familyId;
-    // else familyId = request.session.familyId;
+    if (request.query.familyId) familyId = request.query.familyId;
+    else familyId = request.session.familyId;
     return commentController.getComments(request.session.estudioId)
     .then((c) => {
       allComments = c;

@@ -49,7 +49,9 @@ module.exports = {
   */
   saveImage: function (request, response) {
 
+    var self = this;
     let estudioId = request.session.id_estudio;
+    var fileName = '';
     var uploadImages = path.join(__dirname, '..', '../db/vivienda');
     var form = new formidable.IncomingForm();
     var uploadLivingEstudio = path.join(__dirname, '..', '../db/vivienda/', estudioId);
@@ -67,6 +69,7 @@ module.exports = {
 
     form.on('file', function (field, file) {
       fs.rename(file.path, path.join(form.uploadDir, file.name));
+      fileName = file.name;
     });
 
     form.on('error', function (err) {
@@ -74,9 +77,32 @@ module.exports = {
     });
 
     form.on('end', function () {
+      self.saveInDatabase(request, response, fileName);
       response.end('success');
     });
 
     form.parse(request);
+  },
+  /**
+  * This function save an image in the Estudio
+  *
+  *
+  * @function
+  * @param {object} request - request object
+  * @param {object} response - response object.
+  */
+  saveInDatabase: function (request, response, file) {
+    let estudioId = request.session.id_estudio;
+    var dir = path.join(__dirname, '..', '../db/vivienda/', estudioId, file);
+    let living = Vivienda.create({
+      idEstudio: estudioId,
+      name: request.body.name,
+      url: dir,
+    });
+    living.save().then(() => {
+      console.log('vivienda guardada');
+    }).catch((err) => {
+      console.log(err);
+    });
   },
 }

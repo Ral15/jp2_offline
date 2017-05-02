@@ -3,11 +3,9 @@
  * the user wants to upload the selected estudio.
  *
  * @event
- * @param {string} id - id of the estudio
  */
-
-$('#image').on('change', function () {
-  var files = $(this).get(0).files;
+$('#addImageBtn').on('click', function () {
+  var files = $('#image').get(0).files;
 
   if (files.length > 0) {
     var formData = new FormData();

@@ -24,16 +24,14 @@ class Vivienda extends Document {
       type: String,
       required: true,
     };
-    this.vivienda = [{
-      name: {
-        type: String,
-        default: '',
-      },
-      url: {
-        type: String,
-        default: '',
-      }
-    }];
+    this.name = {
+      type: String,
+      default: '',
+    };
+    this.url = {
+      type: String,
+      default: '',
+    };
   }
 
   static collectionName() {

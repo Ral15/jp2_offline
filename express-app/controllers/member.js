@@ -3,6 +3,7 @@ const Miembro = require('../models/miembro');
 const Tutor = require('../models/tutor');
 const Estudio = require('../models/estudio');
 const Escuela = require('../models/escuela');
+const Oficio = require('../models/oficio');
 const Estudiante = require('../models/estudiante');
 const schoolController = require('./school');
 const incomeController = require('./income');
@@ -148,15 +149,24 @@ module.exports = {
     const familyId = request.session.familyId;
     response.locals.estudioActive = 'members';
     let allMembers;
+    let allSchools;
+    let allJobs;
     return Miembro.find({ familyId: familyId })
     .then((m) => {
       allMembers = m;
       return Escuela.find();
     })
-    .then((allSchools) => {
+    .then((s) => {
+      allSchools = s;
+      return Oficio.find();
+    })
+    .then((o) => {
+      allJobs = o;
+      // console.log(allJobs);
       return response.render('members', {
         members: allMembers,
         schools: allSchools,
+        jobs: allJobs,
       });
     })
     .catch((error) => {
@@ -164,10 +174,12 @@ module.exports = {
     })      
   },
   //assuming i have data.offline_id
-  addAPIId: function(data, familyId, schools) {
+  addAPIId: function(data, familyId, schools, jobs) {
     let myMembers = [];
     data.map((d) => {
+      console.log(d.fecha_de_nacimento);
       var m;
+      let myJob = jobs.find((j) => j.apiId = d.oficio.id);
       if (d.alumno_integrante == null) {
         m = new Promise((resolve, reject) => {
           resolve(Miembro.findOneAndUpdate(
@@ -186,7 +198,7 @@ module.exports = {
               sacramentos: d.sacramentos_faltantes,
               observacionOficio: d.especificacion_oficio,
               observacionEscuela: d.especificacion_estudio,
-              oficio: d.oficio,
+              oficio: myJob._id,
             })
           );
         }); 
@@ -211,7 +223,7 @@ module.exports = {
               sacramentos: d.sacramentos_faltantes,
               observacionOficio: d.especificacion_oficio,
               observacionEscuela: d.especificacion_estudio,
-              oficio: d.oficio,
+              oficio: myJob._id,
               escuela: schoolId._id,
               sae: d.alumno_integrante.numero_sae
             }).catch((err) => {
@@ -231,11 +243,13 @@ module.exports = {
   * @param {array} tutors - array with all tutors from a family
   * @param {array} incomes - all incomes from a family
   */      
-  formatTutores: function (tutors, incomes) {
+  formatTutores: function (tutors, incomes, jobs) {
     let myTutors;
     let myIncomes;
     myTutors = tutors.map((t) => {
       myIncomes = incomeController.formatIncomesTutors(incomes, t._id);
+      console.log(myIncomes);
+      let myJob = jobs.find((j) => j._id == t.oficio);
       return {
         nombres: t.nombres,
         apellidos: t.apellidos,
@@ -249,7 +263,10 @@ module.exports = {
         sacramentos_faltantes: t.sacramentos,
         nivel_estudios: t.nivelEstudios,
         fecha_de_nacimiento: t.fechaNacimiento,
-        oficio: t.oficio,
+        oficio: {
+          id: myJob.apiId,
+          nombre: myJob.nombre
+        },
         alumno_integrante: null,
         tutor_integrante: {
           relacion: t.relacion,
@@ -266,10 +283,11 @@ module.exports = {
   * @param {array} students - array with all students from a family
   * @param {array} schools - all schools from a family
   */   
-  formatStudents: function(students, schools) {
+  formatStudents: function(students, schools, jobs) {
     let myStudents;
     myStudents = students.map((s) => {
       let mySchool = schools.find((sc) => sc._id == s.escuela);
+      let myJob = jobs.find((j) => j._id == s.oficio);
       return {
         nombres: s.nombres,
         apellidos: s.apellidos,
@@ -282,6 +300,10 @@ module.exports = {
         especificacion_oficio: s.observacionOficio,
         especificacion_estudio: s.observacionEscuela,
         nivel_estudios: s.nivelEstudios,
+        oficio: {
+          id: myJob.apiId,
+          nombre: myJob.nombre
+        },
         fecha_de_nacimiento: s.fechaNacimiento,
         alumno_integrante: {
           numero_sae: s.sae,

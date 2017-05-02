@@ -41,7 +41,7 @@
             <button onclick="showDeleteMember('{{this._id}}')" id="delete-member-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
             </th>
           </tr>
-          {{>  editMemberModal schools=../schools}}
+          {{>  editMemberModal schools=../schools jobs=../jobs}}
           {{/each}}
         </tbody>
       </table>

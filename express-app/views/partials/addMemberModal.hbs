@@ -43,26 +43,10 @@
           <div class="form-group col-xs-6">
             <label for="job">Oficio</label>
             <select class="form-control" id="job" name="job">
-              {{!-- {{#select this.relacion}} --}}
               <option value=""/>Ninguno</option>
-              <option value='empleado/a'/>Empleado/a</option>
-              <option value='obrero/a'/>Obrero/a</option>
-              <option value='jefe_linea'/>Jefe de línea</option>
-              <option value='area_limpieza'/>Area de limpieza</option>
-              <option value='administrativo/a'/>Administrativo/a</option>
-              <option value='empleado/a_domestico'/>Empleado domestico/a</option>
-              <option value='jardinero/a'/>Jardinero/a</option>
-              <option value='plomero/a'/>Plomero/a</option>
-              <option value='herrero/a'/>Herrero/a</option>
-              <option value='carpintero/a'/>Carpientero/a</option>
-              <option value='albañil'/>Albañil</option>
-              <option value='pintor/a'/>Pintor/a</option>
-              <option value='mesero/a'/>Mesero/a</option>
-              <option value='negocio_propio'/>Negocio propio</option>
-              <option value='comerciante'/>Comerciante</option>
-              <option value='venta_productos'/>Venta de productos</option>
-              <option value='otro'/>Otro</option>
-              {{!-- {{/select}} --}}
+              {{#each jobs}}
+              <option value="{{this._id}}">{{this.nombre}}</option>
+              {{/each}}
             </select>                        
           </div>
           <div class="form-group col-xs-6">

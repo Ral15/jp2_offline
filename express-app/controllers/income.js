@@ -64,7 +64,7 @@ module.exports = {
       return i.miembroId == miembroId;
     }).map((i) => { //map through all filtered incomes
       return {
-          fecha: '2003-03-10',
+          fecha: i.fecha,
           tipo: i.tipo,
           transaccion: {
             activo: i.isActivo,

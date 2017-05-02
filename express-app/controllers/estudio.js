@@ -2,6 +2,7 @@ const Estudio = require('../models/estudio');
 const Familia = require('../models/familia');
 const Escuela = require('../models/escuela');
 const Miembro = require('../models/miembro');
+const Oficio = require('../models/oficio');
 const Transaccion = require('../models/transaccion');
 const familyController = require('./family');
 const memberController = require('./member');
@@ -304,6 +305,7 @@ module.exports = {
     let estudiantes;
     let ingresos;
     let egresos;
+    let oficios;
     let escuelas;
     let data;
     return Estudio.findOne({_id: estudioId})
@@ -327,6 +329,9 @@ module.exports = {
     })
     .then((sC) => {
       escuelas = sC;
+      return Oficio.find();
+    }).then((o) => {
+      oficios = o;
       return Transaccion.find({familyId: familyId, isIngreso: false});
     })
     .then((tE) => {
@@ -334,10 +339,11 @@ module.exports = {
       return answerController.serialize(estudioId);
     })
     .then((respuestas) => {
-      data = this.formatData(estudio, familia, tutores, estudiantes, ingresos, egresos, respuestas, escuelas);
+      data = this.formatData(estudio, familia, tutores, estudiantes, ingresos, egresos, respuestas, escuelas, oficios);
       let userApiToken = request.session.user.apiToken;
       let estudioAPIId = request.session.estudioAPIId;
       //POST to create estudio
+      console.log(data);
       if ( estudioAPIId == -1) {
         return this.createEstudioAPI(data, userApiToken);
       }
@@ -368,7 +374,7 @@ module.exports = {
     })
     .then((body) => {
       console.log(JSON.stringify(body));
-      return this.addAPIID(body, estudioId, familyId, escuelas);
+      return this.addAPIID(body, estudioId, familyId, escuelas, oficios);
     })
     .catch((err) => {
       console.log(err);
@@ -425,7 +431,7 @@ module.exports = {
   * @param {array} outcomes - array with all outcomes from a family & members
   * @param {array} answers - array with all answers from a estudio
   */     
-  formatData: function(estudio, family, tutors, students, incomes, outcomes, answers, schools) {
+  formatData: function(estudio, family, tutors, students, incomes, outcomes, answers, schools, jobs) {
     return {
       familia: {
         numero_hijos_diferentes_papas: family.bastardos,
@@ -435,7 +441,7 @@ module.exports = {
         estado_civil: family.estadoCivil,
         localidad: family.localidad,
         comentario_familia: [],
-        integrante_familia: familyController.formatFamily(tutors, students, incomes, schools),
+        integrante_familia: familyController.formatFamily(tutors, students, incomes, schools, jobs),
         transacciones: transactionsController.formatTransactions(family._id, incomes, outcomes),
       },
       respuesta_estudio: answers,
@@ -452,13 +458,13 @@ module.exports = {
   * @param {array} incomes - array with all incomes
   * @param {array} outcomes - array with all outcomes
   */    
-  addAPIID: function(data, estudioId, familyId, schools) {
+  addAPIID: function(data, estudioId, familyId, schools, jobs) {
     return familyController.addAPIId(data.familia, familyId)
       .then((nF) => {
         return this.addAPIIdEstudio(data.id, familyId, nF); //replace familyId
       })
       .then((nE) => {
-        let editedMembers = memberController.addAPIId(data.familia.integrante_familia, familyId, schools);
+        let editedMembers = memberController.addAPIId(data.familia.integrante_familia, familyId, schools, jobs);
         return editedMembers;
       })
       .then((nM) => {
@@ -467,7 +473,6 @@ module.exports = {
       })
       .then((tS) => {
         console.log(tS);
-        //TODO: add respuestas ID
       })
       .catch((err) => {
         console.log(err);

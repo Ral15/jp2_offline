@@ -34,27 +34,6 @@ const relationOptions = [
   'tio/a',
 ];
 
-const jobOptions = [
-  '',
-  'empleado/a',
-  'obrero/a',
-  'jefe_linea',
-  'area_limpieza',
-  'administrativo/a',
-  'empleado/a_domestico',
-  'jardinero/a',
-  'plomero/a',
-  'herrero/a',
-  'carpintero/a',
-  'albañil',
-  'pintor/a',
-  'mesero/a',
-  'negocio_propio',
-  'comerciante',
-  'venta_productos',
-  'otro',
-];
-
 /*
  * Member of a Family Model
  * 
@@ -121,7 +100,6 @@ class Miembro extends Document {
     };
     this.oficio = {
       type: String,
-      choices: jobOptions,
     };
     this.observacionOficio = {
       type: String,

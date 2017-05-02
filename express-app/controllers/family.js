@@ -91,10 +91,10 @@ module.exports = {
   * @param {array} students - all students from a family
   * @param {array} incomes - all incomes from a family
   */     
-  formatFamily: function(tutors, students, incomes, schools) {
-    let formatedTutors = memberController.formatTutores(tutors, incomes);
+  formatFamily: function(tutors, students, incomes, schools, jobs) {
+    let formatedTutors = memberController.formatTutores(tutors, incomes, jobs);
     //TODO:: formatStudents
-    let formatedStudents = memberController.formatStudents(students, schools);
+    let formatedStudents = memberController.formatStudents(students, schools, jobs);
     return formatedTutors.concat(formatedStudents);
   },    
   /**
@@ -115,9 +115,6 @@ module.exports = {
         apiId: data.id,
         bastardos: data.numero_hijos_diferentes_papas,
         estadoCivil: data.estado_civil,
-        // calle: data.street,
-        // colonia: data.street2,
-        // codigoPostal: Number(data.zipCode),
         localidad: data.localidad,
         nombreFamilia: data.nombre_familiar,
       });

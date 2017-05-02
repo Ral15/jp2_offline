@@ -57,9 +57,9 @@ module.exports = {
     let estudioId = request.session.id_estudio;
     var self = this;
     var fileName = '';
-    var uploadImages = path.join(__dirname, '..', '../db/vivienda');
+    var uploadImages = path.join(__dirname, '..', '/public/img/vivienda');
     var form = new formidable.IncomingForm();
-    var uploadLivingEstudio = path.join(__dirname, '..', '../db/vivienda/', estudioId);
+    var uploadLivingEstudio = path.join(__dirname, '..', '/public/img/vivienda/', estudioId);
 
     if (!fs.existsSync(uploadImages)) {
       fs.mkdirSync(uploadImages);
@@ -70,7 +70,7 @@ module.exports = {
     }
 
     form.multiples = true;
-    form.uploadDir = path.join(__dirname, '..', '../db/vivienda/', estudioId);
+    form.uploadDir = path.join(__dirname, '..', '/public/img/vivienda/', estudioId);
 
     form.on('file', function (field, file) {
       fs.rename(file.path, path.join(form.uploadDir, file.name));
@@ -98,10 +98,10 @@ module.exports = {
   */
   saveInDatabase: function (request, response, file) {
     let estudioId = request.session.id_estudio;
-    var dir = path.join(estudioId, file);
+    var dir = path.join(__dirname, '..', '/public/img/vivienda/', estudioId, file);
     let living = Vivienda.create({
       idEstudio: estudioId,
-      name: request.body.name,
+      name: file,
       url: dir,
     });
     living.save().then(() => {

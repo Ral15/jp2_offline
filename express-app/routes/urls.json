@@ -35,5 +35,8 @@
 	"transactionDelete": "/transaction/delete/:id",
 	"transactionsView": "/transactions/",
 	"uploadEstudio": "/estudio/upload/:id",
-	"updateEstudios": "/estudio/update"
+	"updateEstudios": "/estudio/update",
+	"showUploadView": "/upload/",
+	"estudioRestore": "/estudio/restore/:id",
+	"saveComment": "/comment/"
 }

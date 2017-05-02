@@ -2,9 +2,12 @@ const Estudio = require('../models/estudio');
 const Familia = require('../models/familia');
 const Escuela = require('../models/escuela');
 const Miembro = require('../models/miembro');
+const Oficio = require('../models/oficio');
+const Comentario = require('../models/comentario');
 const Transaccion = require('../models/transaccion');
 const familyController = require('./family');
 const memberController = require('./member');
+const commentController = require('./comment');
 const transactionsController = require('./transaction');
 const req = require('request');
 const isOnline = require('is-online');
@@ -347,12 +350,20 @@ module.exports = {
     response.locals.estudioActive = 'upload';
     // console.log(request.session);
     let familyId;
+    let allComments;
     if (request.query.familyId) familyId = request.query.familyId;
-    else familyId = request.session.familyId
-    this.isEstudioValid(familyId).then((value) => {
+    else familyId = request.session.familyId;
+    return commentController.getComments(request.session.estudioId)
+    .then((c) => {
+      allComments = c;
+      return this.isEstudioValid(familyId);
+    })
+    .then((value) => {
       console.log('soy el value => ' + value);
-      response.locals.isValid = true;
-      return response.render('uploadEstudio');
+      response.locals.isValid = value;
+      return response.render('uploadEstudio', {
+        comments: allComments
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -374,8 +385,10 @@ module.exports = {
     let familia;
     let tutores;
     let estudiantes;
+    let comentarios;
     let ingresos;
     let egresos;
+    let oficios;
     let escuelas;
     let data;
     return Estudio.findOne({_id: estudioId})
@@ -395,10 +408,17 @@ module.exports = {
     })
     .then((tI) => {
       ingresos = tI;
+      return Comentario.find({estudioId: estudioId});
+    })
+    .then((c) => {
+      comentarios = c;
       return Escuela.find();
     })
     .then((sC) => {
       escuelas = sC;
+      return Oficio.find();
+    }).then((o) => {
+      oficios = o;
       return Transaccion.find({familyId: familyId, isIngreso: false});
     })
     .then((tE) => {
@@ -406,10 +426,12 @@ module.exports = {
       return answerController.serialize(estudioId);
     })
     .then((respuestas) => {
-      data = this.formatData(estudio, familia, tutores, estudiantes, ingresos, egresos, respuestas, escuelas);
+      data = this.formatData(estudio, familia, tutores, estudiantes, ingresos, egresos, respuestas, escuelas, oficios, comentarios);
       let userApiToken = request.session.user.apiToken;
       let estudioAPIId = request.session.estudioAPIId;
       //POST to create estudio
+      //TODO: REMOVE
+      console.log(JSON.stringify(data));//data that is send to API
       if ( estudioAPIId == -1) {
         return this.createEstudioAPI(data, userApiToken);
       }
@@ -439,8 +461,12 @@ module.exports = {
       }
     })
     .then((body) => {
-      console.log(JSON.stringify(body));
-      return this.addAPIID(body, estudioId, familyId, escuelas);
+      //TODO: remoove
+      console.log(JSON.stringify(body)); //response from API
+      return this.addAPIID(body, estudioId, familyId, escuelas, oficios);
+    })
+    .then(() => {
+      return userController.showDashboard(request, response, 'Revisión');
     })
     .catch((err) => {
       console.log(err);
@@ -497,7 +523,7 @@ module.exports = {
   * @param {array} outcomes - array with all outcomes from a family & members
   * @param {array} answers - array with all answers from a estudio
   */     
-  formatData: function(estudio, family, tutors, students, incomes, outcomes, answers, schools) {
+  formatData: function(estudio, family, tutors, students, incomes, outcomes, answers, schools, jobs, comments) {
     return {
       familia: {
         numero_hijos_diferentes_papas: family.bastardos,
@@ -506,8 +532,8 @@ module.exports = {
         nombre_familiar: family.nombreFamilia,
         estado_civil: family.estadoCivil,
         localidad: family.localidad,
-        comentario_familia: [],
-        integrante_familia: familyController.formatFamily(tutors, students, incomes, schools),
+        comentario_familia: commentController.formatComments(comments),
+        integrante_familia: familyController.formatFamily(tutors, students, incomes, schools, jobs),
         transacciones: transactionsController.formatTransactions(family._id, incomes, outcomes),
       },
       respuesta_estudio: answers,
@@ -524,22 +550,26 @@ module.exports = {
   * @param {array} incomes - array with all incomes
   * @param {array} outcomes - array with all outcomes
   */    
-  addAPIID: function(data, estudioId, familyId, schools) {
+  addAPIID: function(data, estudioId, familyId, schools, jobs) {
     return familyController.addAPIId(data.familia, familyId)
       .then((nF) => {
-        return this.addAPIIdEstudio(data.id, familyId, nF); //replace familyId
+        return this.addAPIIdEstudio(data.id, estudioId, nF); //replace familyId
       })
       .then((nE) => {
-        let editedMembers = memberController.addAPIId(data.familia.integrante_familia, familyId, schools);
+        let editedMembers = memberController.addAPIId(data.familia.integrante_familia, familyId, schools, jobs);
         return editedMembers;
       })
       .then((nM) => {
-        console.log(nM);
+        // console.log(nM);
         return transactionsController.addAPIId(data.familia.transacciones, familyId, null);
       })
       .then((tS) => {
-        console.log(tS);
-        //TODO: add respuestas ID
+        // console.log(tS);
+        return commentController.addAPIId(data.familia.comentario_familia);
+      })
+      .then((c) => {
+        // console.log(c);
+        // return userController.showDashboard()
       })
       .catch((err) => {
         console.log(err);
@@ -571,5 +601,31 @@ module.exports = {
         }
       }
     );
+  },
+/**
+  * This function changes the status of a Estudio to 'Borrador'
+  * using the id of the estudio
+  * 
+  * 
+  * @event
+  * @param {object} request - request object 
+  * @param {object} response - response object.
+  */ 
+  restoreEstudio: function(request, response) {
+    let estudioId = request.params.id;
+    //find estudio
+    Estudio.findOneAndUpdate({
+      _id: estudioId
+    },
+    {
+      status: 'Borrador'
+    })
+    .then((myEstudio) => {
+        return response.sendStatus(200);
+    })
+    .catch((e) => {
+      console.log(e);
+      return response.sendStatus(500);
+    });    
   },      
 }

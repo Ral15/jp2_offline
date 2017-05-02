@@ -34,7 +34,7 @@ global.before(function () {
 });
 
 
-describe('Delete Estudio test', function () {
+describe('Restore Estudio test', function () {
   /**
   * Integration test suite for testing the Login.
   *
@@ -60,7 +60,7 @@ describe('Delete Estudio test', function () {
     })
     .then((total) => {
       totalEstudios = total;
-      let f = Familia.create({
+       let f = Familia.create({
           bastardos: 10,
           estadoCivil: 'soltero',
           calle: 'Erizo',
@@ -71,22 +71,20 @@ describe('Delete Estudio test', function () {
       });
       return f.save();
     })
-    .then((newFamily) => {
-      //save familyId
-      // familyId = newFamily._id;
-      //create estudio 
+    .then((f) => {
       let e = Estudio.create({
         //change later for config
         tokenCapturista: config.apiToken,
-        familia: newFamily,
-      });   
-      return e.save();   
+        familia: f,
+        status: 'Eliminado',
+      });
+      return e.save();
     })
     .then((newEstudio) => {
       estudioId = newEstudio._id;
     })
-    .catch((e) => {
-      console.log(e);
+    .catch((err) => {
+      console.log(err);
     })
     // end Database connection
   });
@@ -111,76 +109,82 @@ describe('Delete Estudio test', function () {
     return database.dropDatabase();
   });
   /**
-  * Test Delete estudio button with estudio._id
+  * Test Restore estudio button with estudio._id
   *
-  * Test if the crear-estudio button exists in the
+  * Test if the restore-estudio button exists in the
   * application.
   */
-  it('should see delete estudio button', async function () {
+  it('should see restore estudio button', function () {
     const client = this.app.client;
-    // await sleep(500);
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
+      .click('#show-deleted')
+      .waitForVisible('#datatable')
       .then(() => {
-        return client.$('#delete-estudio-' + estudioId);
+        return client.$('#restore-estudio-' + estudioId);
       })
-      .then((createBtn) => {
-        assert.isNotNull(createBtn.value);
+      .then(async (restoreBtn) => {
+        assert.isNotNull(restoreBtn.value);
       });
   });
-
   /**
-  * Test delete estudio
+  * Test restore estudio
   *
-  * This test will check if a modal shows before deleting an estudio
+  * This test will check if a modal shows before restoring an estudio
   */
-  it('should see modal before deleting an estudio', async function () {
+  it('should see modal before restoring an estudio', async function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
-      .click('#delete-estudio-' + estudioId)
+      .click('#show-deleted')
+      .waitForVisible('#datatable')
+      .click('#restore-estudio-' + estudioId)
       .then(async () => {
         await sleep(1000);
         return client.getText('#swal2-content');
       })
       .then((modalText) => {
-        assert.equal(modalText, 'No podras recuperar el estudio después de esta acción.');
+        assert.equal(modalText, 'Cambia el status del estudio para seguir editandolo.');
       });
   });
   /**
-  * Test delete estudio
+  * Test restore estudio
   *
   * This test will cancel the modal
   */
-  it('should cancel delete estudio sweetalert2', async function () {
+  it('should cancel restore estudio sweetalert2', async function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
-      .click('#delete-estudio-' + estudioId)
+      .click('#show-deleted')
+      .waitForVisible('#datatable')
+      .click('#restore-estudio-' + estudioId)
       .waitForVisible('#swal2-content')
       .click('.swal2-cancel')
       .then(async () => {
         await sleep(1000);
-        return client.$('#delete-estudio-' + estudioId);
+        return client.$('#restore-estudio-' + estudioId);
       })
       .then((estudioButton) => {
         assert.isNotNull(estudioButton.value);
       });
   });
   /**
-  * Test delete estudio
+  * Test restore estudio
   *
-  * This test will delete an estudio
+  * This test will restore an estudio
   */
-  it('should delete an estudio change its status', async function () {
+  it('should restore an estudio change its status', async function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
       .click('#submit-login')
-      .click('#delete-estudio-' + estudioId)
+      .click('#show-deleted')
+      .waitForVisible('#datatable')
+      .click('#restore-estudio-' + estudioId)
       .waitForVisible('#swal2-content')
       .click('.swal2-confirm')
       .then(async () => {
@@ -194,11 +198,11 @@ describe('Delete Estudio test', function () {
       })
       .then(async () => {
         await sleep(1000);
-        return client.click('#show-deleted');
+        return client.click('#show-borrador');
       })
       .then(async () => {
         await sleep(1000);
-        return client.isVisible('#restore-estudio-' + estudioId);
+        return client.isVisible('#delete-estudio-' + estudioId);
       })
       .then((isVisible) => {
         assert.isTrue(isVisible);

@@ -5,8 +5,12 @@ const urls = require('../routes/urls');
 const bcrypt = require('bcryptjs');
 const Estudio = require('../models/estudio');
 const SectionController = require('./section');
+<<<<<<< HEAD
+=======
+// const testApiController = require('./testApi');
+>>>>>>> task/uploadEstudio
 const schoolController = require('./school');
-
+const jobController = require('./job');
 
 module.exports = {
   /**
@@ -96,21 +100,11 @@ module.exports = {
                 } else {
                   editedUser = self.resetPassword(doc, data);
                   console.log(editedUser.apiToken);
-                  // let schools = testApiController.getSchools(editedUser.apiToken);
-                  // let jobs = testApiController.getJobs(editedUser.apiToken);
-                  // schools.then((s) => {
-                  //   console.log(s);
-                  //   return jobs;
-                  // })
-                  // .then((j) => {
-                  //   console.log(j);
-                  //   return 1;
-                  // })
-                  // return 1;
                   SectionController.getQuestions(editedUser, request, response);
                 }
               });
             } else {
+              let myUser;
               // Create new user with data from the form
               const newUser = User.create({
                 username: data.username,
@@ -120,20 +114,15 @@ module.exports = {
               // Try to save user at db
               newUser.save()
               .then((user) => {
-                let schools = schoolController.getSchools(user.apiToken);
-                return SectionController.getQuestions(user, request, response);
-                // return schools;
+                myUser = user;
+                return schoolController.getSchools(myUser.apiToken);
               })
-              // TODO: need jobs to be in server
-              // .then((s) => {
-              //   console.log(s);
-              //   let jobs = testApiController.getJobs(user.apiToken);
-              //   return jobs;
-              // })
-              // .then((j) => {
-              //   console.log(j);
-              //   // return jobs;
-              // })
+              .then((s) => {
+                return jobController.getJobs(myUser.apiToken);
+              })
+              .then((j) => {
+                return SectionController.getQuestions(myUser, request, response);
+              })
               .catch((err) => {
                 console.log(err);
               });

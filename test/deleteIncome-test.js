@@ -142,7 +142,7 @@ describe('Delete Income test', function () {
         periocidad: myPeriod,
         observacion: 'puro macizo',
         isIngreso: true,
-        tipo: 'Comprobable',
+        tipo: 'comprobable',
         fecha: '2010-10-10',
         miembroId: tutor._id,
         familyId: familyId,

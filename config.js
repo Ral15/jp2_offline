@@ -1,11 +1,11 @@
 module.exports = {
   DEBUG: false,
   //production - testing 
-  ENV: 'production',
+  ENV: 'testing',
   SECRET_SESSION: 'erikiano',
   DBKey: 'juanpabloii',
   //test credentials
   username: 'eugenio',
   password: 'erikiado123',
-  apiToken: '4cbc8cb63b1dd6f0093eddbb0518866821e6f1b0',
+  apiToken: 'e58d2c9631eb830ea84c0f4103fec0da36f6d66d',
 };

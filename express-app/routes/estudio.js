@@ -44,7 +44,9 @@ router.get(urls.showUploadView, function(req, res) {
 
 // router.post(urls.)
 
-
+router.post(urls.estudioRestore, function(req, res){
+  estudioController.restoreEstudio(req,res);
+});
 
 //API ROUTES
 // GET to show family form

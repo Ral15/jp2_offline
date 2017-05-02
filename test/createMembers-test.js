@@ -99,7 +99,7 @@ describe('Create Members test', function () {
   });
 
   // Before everything we launch the app.
-  beforeEach(async function () {
+  beforeEach( function () {
     // Launch the application
     this.app = new Application({ path: electronPath, args:['.'] });
     return this.app.start();
@@ -107,7 +107,7 @@ describe('Create Members test', function () {
 
 
   // After test is complete we stop the app.
-  afterEach(async function () {
+  afterEach( function () {
     if (this.app && this.app.isRunning()) {
       return this.app.stop();
     }
@@ -122,7 +122,7 @@ describe('Create Members test', function () {
   *
   * Test if you can setup this trash ass app
   */
-  it('should setup jobs & schools', async function () {
+  it('should setup jobs & schools',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -152,7 +152,7 @@ describe('Create Members test', function () {
   * Test if the add-member button exists in the
   * members view.
   */
-  it('should see addMember button', async function () {
+  it('should see addMember button',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -174,7 +174,7 @@ describe('Create Members test', function () {
   *
   * Test if you can fill the addMember modal
   */
-  it('should fill addMember modal', async function () {
+  it('should fill addMember modal',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -234,7 +234,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO role', async function () {
+  it('should fill form with NO role',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -266,7 +266,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO firstName', async function () {
+  it('should fill form with NO firstName',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -297,7 +297,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO lastName', async function () {
+  it('should fill form with NO lastName',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -328,7 +328,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO phone', async function () {
+  it('should fill form with NO phone',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -359,7 +359,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO email', async function () {
+  it('should fill form with NO email',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -390,7 +390,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO academicDegree', async function () {
+  it('should fill form with NO academicDegree',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -421,7 +421,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO bitrhValue', async function () {
+  it('should fill form with NO bitrhValue',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -452,7 +452,7 @@ describe('Create Members test', function () {
   *
   * Test if you can create a member
   */
-  it('should submit & create a member with role Tutor', async function () {
+  it('should submit & create a member with role Tutor',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -489,7 +489,7 @@ describe('Create Members test', function () {
   *
   * Test if you can create a member
   */
-  it('should submit & create a member with role Madre', async function () {
+  it('should submit & create a member with role Madre',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -526,7 +526,7 @@ describe('Create Members test', function () {
   *
   * Test if you can create a member
   */
-  it('should submit & create a member with role Estudiante', async function () {
+  it('should submit & create a member with role Estudiante',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)

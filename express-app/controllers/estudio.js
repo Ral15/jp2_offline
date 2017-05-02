@@ -268,6 +268,7 @@ module.exports = {
   },
   updateEstudios: function(request, response){
     let user = request.session.user;
+    let self = this;
     isOnline().then((online) => {
       if(online){
         req.get(
@@ -279,15 +280,17 @@ module.exports = {
             },
           },
           function (error, httpResponse, body) {
-            if (httpResponse.statusCode > 201) {
+            if(httpResponse.statusCode == 404){
+              response.locals.error_message = 'No hay estudios de este usuario';
+              return userController.showDashboard(request,response, 'Borrador');
+            } else if (httpResponse.statusCode > 201) {
               response.locals.error_message = 'No se pudo obtener la informacion';
               return userController.showDashboard(request,response, 'Borrador');
             } else {
               const data = JSON.parse(body);
-              var i = 0; 
-              let proms = [];
+              let token = request.session.user.apiToken;
               data.forEach(async function(estudio){
-                await this.updateFromAPI(estudio);
+                await self.updateFullEstudioFromAPI(estudio, token);
               });
               return response.redirect(urls.dashboard);
             }
@@ -296,6 +299,41 @@ module.exports = {
         response.locals.error_message = 'No hay conexion a internet';
         return userController.showDashboard(request,response, 'Borrador');
       }
+    });
+  },
+  updateFullEstudioFromAPI: function(estudio, token){
+    familyController.updateFamilyFromAPI(estudio.familia)
+    .then((family) => {
+      return this.updateEstudioFromAPI(estudio, family, token);
+    })
+    .then((study) => {
+      // console.log("ESTUDIO");
+      console.log("Estudio ID API #"+study.apiId+" recibido bien");
+    })
+    .catch((err) => {
+      console.log("estudioApi "+estudio.id+":"+err);
+    })
+  },
+  updateEstudioFromAPI: function(data, family, token){
+    let OPCIONES_STATUS = {
+      'aprobado': 'Aprobado',
+      'rechazado': 'Rechazado',
+      'borrador': 'Borrador',
+      'revision': 'Revisión',
+      'eliminado_capturista': 'Eliminado',
+      'eliminado_administrador': 'Eliminado'
+    };
+    return Estudio.findOneAndUpdate({
+      apiId: data.id
+    },
+    {
+      apiId: data.id,
+      status: OPCIONES_STATUS[data.status],
+      familia: family,
+      tokenCapturista: token
+    },
+    {
+      upsert: true
     });
   },
   /**

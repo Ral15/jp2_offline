@@ -74,8 +74,6 @@ module.exports = {
       },
       // Callback
       function (error, httpResponse, body) {
-        console.log(error)
-        console.log(httpResponse)
         // If response FAILS show error message
         if (httpResponse.statusCode > 201) {
           response.render('login', { error_message: 'Usuario o contraseña invalidos' });

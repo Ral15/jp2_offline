@@ -7,7 +7,7 @@
 		"estudios": "/captura/estudio/",
 		"uploadImages": "captura/imagenes/"
 	},
-	"apiUrl" : "http://junipero.erikiado.com/",
+	"apiUrl" : "http://junipero.erikiado.com",
 	"createUser": "/user/create",
 	"dashboard" : "/user/dashboard",
 	"estudio": "/estudio/",

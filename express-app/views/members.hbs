@@ -35,7 +35,7 @@
             <td>{{this.nombres}} {{this.apellidos}}</td>
             <td>{{this.telefono}}</td>
             <td>{{this.nivelEstudios}}</td>
-            <td>{{date this.fechaNacimiento}}</td>
+            <td>{{this.fechaNacimiento}}</td>
             <th>
             <button class="btn btn-primary btn-sm editMember"  id="edit-member-button-{{this._id}}" data-memberid="{{this._id}}" data-toggle="modal" href="#editMemberModal-{{this._id}}"><span class="glyphicon glyphicon-pencil"></span> Editar</button>
             <button onclick="showDeleteMember('{{this._id}}')" id="delete-member-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>

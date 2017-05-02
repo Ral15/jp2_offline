@@ -59,10 +59,7 @@
                     </td>
                   {{/ifEq}}  
                   {{#ifEq this.status "Eliminado"}}
-                    <td>
-                      <a href="/estudio/?estudioId={{this._id}}" id="edit-estudio-{{this._id}}"><button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</button></a>
-                      <button onclick="showDeleteMsg('{{this._id}}')" id="delete-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
-                    </td>
+                     <td><button onclick="showRestoreMsg('{{this._id}}')" id="restore-estudio-{{this._id}}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-repeat"></span> Restaurar</button></td>
                   {{/ifEq}}                                  
                 </tr>
               {{/each}}  

@@ -23,7 +23,11 @@ class Comentario extends Document {
   constructor() {
     super();  
 
-    this.familyId = {
+
+    this.apiId = {
+      type: Number,
+    }
+    this.estudioId = {
       type: String,
       required: true,
     }
@@ -35,10 +39,6 @@ class Comentario extends Document {
     this.texto = {
       type: String,
       default: ''
-    };
-    this.tipo = {
-      type: String,
-      choices: commentType,
     };
   }
 

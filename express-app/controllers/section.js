@@ -19,7 +19,6 @@ module.exports = {
    */
   getQuestions: function (user, request, response) {
     request.session.user = user;
-    console.log('ebtre al questions')
     Seccion.count().then((total) => {
       if (total === 0) {
         req.get(

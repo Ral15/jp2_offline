@@ -177,7 +177,6 @@ module.exports = {
   addAPIId: function(data, familyId, schools, jobs) {
     let myMembers = [];
     data.map((d) => {
-      console.log(d.fecha_de_nacimento);
       var m;
       let myJob = jobs.find((j) => j.apiId = d.oficio.id);
       if (d.alumno_integrante == null) {
@@ -191,7 +190,7 @@ module.exports = {
               telefono: d.telefono,
               correo: d.correo,
               nivelEstudios: d.nivel_estudios,
-              fechaNacimiento: d.fecha_de_nacimento,
+              fechaNacimiento: d.fecha_de_nacimiento,
               relacionId: d.tutor_integrante.id,
               relacion: d.tutor_integrante.relacion,
               terapia: d.historial_terapia,
@@ -216,7 +215,7 @@ module.exports = {
               telefono: d.telefono,
               correo: d.correo,
               nivelEstudios: d.nivel_estudios,
-              fechaNacimiento: d.fecha_de_nacimento,
+              fechaNacimiento: d.fecha_de_nacimiento,
               relacionId: d.alumno_integrante.id,
               relacion: d.alumno_integrante.relacion,
               terapia: d.historial_terapia,

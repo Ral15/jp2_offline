@@ -3,6 +3,10 @@
 //require document class from camo
 var Document = require('camo').Document;
 
+const commentType = [
+  'family',
+  'admim'
+];
 
 /*
  * Comment of a Family regarding its economic status
@@ -19,7 +23,11 @@ class Comentario extends Document {
   constructor() {
     super();  
 
-    this.familyId = {
+
+    this.apiId = {
+      type: Number,
+    }
+    this.estudioId = {
       type: String,
       required: true,
     }
@@ -31,7 +39,7 @@ class Comentario extends Document {
     this.texto = {
       type: String,
       default: ''
-    };   
+    };
   }
 
   static collectionName() {

@@ -39,6 +39,11 @@ hbs.registerHelper('sum', function(value1, value2) {
   return value1 + value2;
 });
 
+
+hbs.registerHelper('date', function(d, options) {
+    return new Date(d);
+});
+
 hbs.registerHelper('lookQuestions', function(idQuestion, questionList, opt){
   let answers = [];
   for (var i = questionList.length - 1; i >= 0; i--) {

@@ -5,7 +5,9 @@ const urls = require('../routes/urls');
 const bcrypt = require('bcryptjs');
 const Estudio = require('../models/estudio');
 const SectionController = require('./section');
-
+// const testApiController = require('./testApi');
+const schoolController = require('./school');
+const jobController = require('./job');
 
 module.exports = {
   /**
@@ -34,13 +36,15 @@ module.exports = {
             bcrypt.compare(data.password, doc.password, function (err, res) {
               if (err) console.log(err);
               else if (res) {
-                Estudio.find({ tokenCapturista: doc.apiToken, status: 'Borrador' })
+                request.session.user = doc;
+                // return this.showDashboard(request, response, 'Borrador');
+                let user = request.session.user;
+                request.session.estudioId = null;
+                request.session.familyId = null;
+                request.session.estudioAPIId = null;
+                return Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
                 .then((e) => {
-                  request.session.user = doc;
-                  response.render('dashboard', { user: doc, estudios: e, active: 'Borrador' });
-                })
-                .catch((error) => {
-                  console.log(error);
+                  return response.render('dashboard', { estudios: e , active: 'Borrador' });
                 });
               } else response.render('login', { error_message: 'Contraseña invalida' });
             });
@@ -99,10 +103,12 @@ module.exports = {
                   });
                 } else {
                   editedUser = self.resetPassword(doc, data);
+                  console.log(editedUser.apiToken);
                   SectionController.getQuestions(editedUser, request, response);
                 }
               });
             } else {
+              let myUser;
               // Create new user with data from the form
               const newUser = User.create({
                 username: data.username,
@@ -112,7 +118,14 @@ module.exports = {
               // Try to save user at db
               newUser.save()
               .then((user) => {
-                SectionController.getQuestions(user, request, response);
+                myUser = user;
+                return schoolController.getSchools(myUser.apiToken);
+              })
+              .then((s) => {
+                return jobController.getJobs(myUser.apiToken);
+              })
+              .then((j) => {
+                return SectionController.getQuestions(myUser, request, response);
               })
               .catch((err) => {
                 console.log(err);
@@ -132,11 +145,16 @@ module.exports = {
    * @param {object} request - request object
    * @param {object} response - response object.
    */
-  showDashboard: function(request, response) {
+  showDashboard: function(request, response, active) {
     let user = request.session.user;
-    Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
+    console.log(user);
+    request.session.estudioId = null;
+    request.session.familyId = null;
+    request.session.estudioAPIId = null;
+    return Estudio.find({ tokenCapturista: user.apiToken, status: active })
     .then((e) => {
-      response.render('dashboard', { estudios: e , active: 'Borrador' });
+      // console.log(e);
+      return response.render('dashboard', { estudios: e , active: active });
     })
     .catch((error) => {
       console.log(error);

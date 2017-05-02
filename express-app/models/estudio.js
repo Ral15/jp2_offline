@@ -38,6 +38,11 @@ class Estudio extends Document {
   constructor() {
     super();
 
+    this.apiId = {
+      type: Number,
+      default: -1,
+    }
+
     this.tokenCapturista = {
       type: String,
       default: '',
@@ -70,7 +75,12 @@ class Estudio extends Document {
 
   preSave() {
     this.editedDate = Date();
-  }
+  };
+
+  editDate() {
+    return this.editedDate = Date();
+  };
+
   /**
    * This function deletes the familia, seccion and respuesta
    * associated to this estudio.

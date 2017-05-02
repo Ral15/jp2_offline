@@ -5,7 +5,9 @@ const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const Estudio = require(path.join(__dirname , '../express-app/models/estudio.js'));
 const Familia = require(path.join(__dirname , '../express-app/models/familia.js'));
+const Escuela = require(path.join(__dirname , '../express-app/models/escuela.js'));
 const Miembro = require(path.join(__dirname , '../express-app/models/miembro.js'));
+const Oficio = require(path.join(__dirname , '../express-app/models/oficio.js'));
 const config = require('../config.js');
 
 
@@ -19,6 +21,8 @@ const dbUri = 'nedb://testDB';
 let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
 // If the platform is win32, we use de .cmd to launch
 // the app.
+let jobs;
+let schools;
 
 if (process.platform === 'win32') {
   electronPath += '.cmd';
@@ -61,11 +65,11 @@ describe('Create Members test', function () {
       //create family
       let f = Familia.create({
           bastardos: 10,
-          estadoCivil: 'Soltero',
+          estadoCivil: 'soltero',
           calle: 'Erizo',
           colonia: 'Fs',
           codigoPostal: 76150,
-          localidad: 'Otro',
+          localidad: 'otro',
           nombreFamilia: 'Los Picapiedras',        
       });
       return f.save();
@@ -95,7 +99,7 @@ describe('Create Members test', function () {
   });
 
   // Before everything we launch the app.
-  beforeEach(async function () {
+  beforeEach( function () {
     // Launch the application
     this.app = new Application({ path: electronPath, args:['.'] });
     return this.app.start();
@@ -103,7 +107,7 @@ describe('Create Members test', function () {
 
 
   // After test is complete we stop the app.
-  afterEach(async function () {
+  afterEach( function () {
     if (this.app && this.app.isRunning()) {
       return this.app.stop();
     }
@@ -114,12 +118,41 @@ describe('Create Members test', function () {
     return database.dropDatabase();
   });
   /**
+  * Test setup things
+  *
+  * Test if you can setup this trash ass app
+  */
+  it('should setup jobs & schools',  function () {
+    const client = this.app.client;
+    // await sleep(500);
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .then(() => {
+        return connect(dbUri);
+      })
+      .then((db) => {
+        return Oficio.find();
+      })
+      .then((o) => {
+        jobs = o;
+        return Escuela.find();
+      })
+      .then((e) => {
+        schools = e;
+        return Oficio.find();
+      })
+      .then((o) => {
+        jobs = o;
+      });
+  });
+  /**
   * Test AddMember
   *
   * Test if the add-member button exists in the
   * members view.
   */
-  it('should see addMember button', async function () {
+  it('should see addMember button',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -141,7 +174,7 @@ describe('Create Members test', function () {
   *
   * Test if you can fill the addMember modal
   */
-  it('should fill addMember modal', async function () {
+  it('should fill addMember modal',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -154,7 +187,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '4422727084')
@@ -169,7 +202,7 @@ describe('Create Members test', function () {
         return client.$('#job').getValue();
       })
       .then((jobValue) => {
-        assert.equal(jobValue, 'albañil');
+        assert.equal(jobValue, jobs[0]._id);
         return client.getValue('#firstName');
       })
       .then((firstNameValue) => {
@@ -196,12 +229,12 @@ describe('Create Members test', function () {
         assert.equal(bitrhValue, '2006-12-01')
       })
   });  
-/**
+  /**
   * Test error at filling addMember modal
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO role', async function () {
+  it('should fill form with NO role',  function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)
@@ -214,7 +247,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', '')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '4422727084')
@@ -233,7 +266,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO firstName', async function () {
+  it('should fill form with NO firstName',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -245,7 +278,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', '')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '4422727084')
@@ -264,7 +297,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO lastName', async function () {
+  it('should fill form with NO lastName',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -276,7 +309,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', '')
       .setValue('#phone', '4422727084')
@@ -295,7 +328,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO phone', async function () {
+  it('should fill form with NO phone',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -307,7 +340,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '')
@@ -326,7 +359,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO email', async function () {
+  it('should fill form with NO email',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -338,7 +371,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '4422727083')
@@ -357,7 +390,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO academicDegree', async function () {
+  it('should fill form with NO academicDegree',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -369,7 +402,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '442727272')
@@ -388,7 +421,7 @@ describe('Create Members test', function () {
   *
   * Test if you can't submit the add member form
   */
-  it('should fill form with NO bitrhValue', async function () {
+  it('should fill form with NO bitrhValue',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -400,7 +433,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#myModalLabel')
       .$('#role').selectByAttribute('value', 'madre')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Pepe')
       .setValue('#lastName', 'PicaPiedras')
       .setValue('#phone', '442727272')
@@ -419,7 +452,7 @@ describe('Create Members test', function () {
   *
   * Test if you can create a member
   */
-  it('should submit & create a member with role Tutor', async function () {
+  it('should submit & create a member with role Tutor',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -431,7 +464,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#addMemberSection')
       .$('#role').selectByAttribute('value', 'tutor')
-      .$('#job').selectByAttribute('value', 'albañil')
+      .$('#job').selectByAttribute('value', jobs[0]._id)
       .setValue('#firstName', 'Papa')
       .setValue('#lastName', 'PicaPiedra')
       .setValue('#phone', '442727272')
@@ -456,7 +489,7 @@ describe('Create Members test', function () {
   *
   * Test if you can create a member
   */
-  it('should submit & create a member with role Madre', async function () {
+  it('should submit & create a member with role Madre',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -493,7 +526,7 @@ describe('Create Members test', function () {
   *
   * Test if you can create a member
   */
-  it('should submit & create a member with role Estudiante', async function () {
+  it('should submit & create a member with role Estudiante',  function () {
     const client = this.app.client;
     return client.setValue('#username',config.username)
       .setValue('#password', config.password)
@@ -505,7 +538,7 @@ describe('Create Members test', function () {
       .click('#add-member-button')
       .waitForVisible('#memberModal #myModalLabel')
       .$('#memberModal #role').selectByAttribute('value', 'estudiante')
-      .$('#memberModal #school').selectByAttribute('value', 'Plantel Jurica')
+      .$('#memberModal #school').selectByAttribute('value', schools[0]._id)
       .setValue('#memberModal #sae', '1598')
       .$('#memberModal #job').selectByAttribute('value', '')
       .setValue('#memberModal #firstName', 'Morro')

@@ -15,7 +15,7 @@ const options = {
 
 module.exports = {
   /**
-  * This function returns a a created family
+  * This function returns an edited period
   * 
   * @event
   * @param {object} data - data from the form
@@ -27,11 +27,31 @@ module.exports = {
       multiplica: options[period].multiply,
     });
   },
+  /**
+  * This function returns a an edited period
+  * 
+  * @event
+  * @param {object} data - data from the form
+  */     
   editPeriod: function(period) {
     return {
       periodicidad: period,
       factor: options[period].factor,
       multiplica: options[period].multiply,
     }
-  }
+  },
+  /**
+  * This function returns an edited period with API data.
+  * 
+  * @event
+  * @param {object} data - data from the form
+  */     
+  addAPIId: function(data) {
+    return {
+      apiId: data.id,
+      periodicidad: data.periodicidad,
+      factor: options[data.periodicidad].factor,
+      multiplica: options[data.periodicidad].multiply,
+    }
+  },
 };

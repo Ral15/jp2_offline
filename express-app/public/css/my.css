@@ -17,6 +17,11 @@ body {
   margin-bottom: 15px;
 }
 
+#comment-form,
+#comments-section {
+  margin-top: 35px;
+}
+
 #input-family {
   margin-top: 30px;
   /*margin-bottom: 10px;*/

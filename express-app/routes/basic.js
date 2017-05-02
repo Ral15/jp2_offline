@@ -8,6 +8,8 @@ router.get(urls.home, function(req, res) {
   if(req.session.user != null){
     req.session.estudioId = null;
     req.session.max_step = null;
+    req.session.familyId = null;
+    req.session.estudioAPIId = null;
     res.redirect(urls.dashboard);
   } else {
     res.render('login');

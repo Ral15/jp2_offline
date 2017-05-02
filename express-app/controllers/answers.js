@@ -146,9 +146,8 @@ module.exports = {
   * @param {object} request - request object 
   * @param {object} response - response object.
   */
-  serialize: function(request, response){
-    let idEstudio = request.session.estudioId;
-    Respuesta.find({
+  serialize: function(idEstudio){
+    return Respuesta.find({
       idEstudio: idEstudio
     }).then((respuestas) => {
       let series = [];
@@ -160,7 +159,7 @@ module.exports = {
           res.eleccion = null;
           series.push(res);
         } else if (respuestas[i].eleccion) {
-          res.respuesta = null;
+          res.respuesta = '';
           res.eleccion = respuestas[i].eleccion;
           series.push(res);
         }

@@ -34,7 +34,7 @@ global.before(function () {
 });
 
 
-describe('Create Estudio test', function () {
+describe('Restore Estudio test', function () {
   /**
   * Integration test suite for testing the Login.
   *

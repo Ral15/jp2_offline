@@ -37,7 +37,15 @@ module.exports = {
               if (err) console.log(err);
               else if (res) {
                 request.session.user = doc;
-                return this.showDashboard(request, response, 'Borrador');
+                // return this.showDashboard(request, response, 'Borrador');
+                let user = request.session.user;
+                request.session.estudioId = null;
+                request.session.familyId = null;
+                request.session.estudioAPIId = null;
+                return Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
+                .then((e) => {
+                  return response.render('dashboard', { estudios: e , active: 'Borrador' });
+                });
               } else response.render('login', { error_message: 'Contraseña invalida' });
             });
           } else response.render('login', { error_message: 'Usuario invalido' });

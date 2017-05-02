@@ -6,8 +6,8 @@ const assert = chai.assert;
 const Estudio = require(path.join(__dirname , '../express-app/models/estudio.js'));
 const Familia = require(path.join(__dirname , '../express-app/models/familia.js'));
 const Escuela = require(path.join(__dirname , '../express-app/models/escuela.js'));
-const Miembro = require(path.join(__dirname , '../express-app/models/oficio.js'));
-const Oficio = require(path.join(__dirname , '../express-app/models/miembro.js'));
+const Miembro = require(path.join(__dirname , '../express-app/models/miembro.js'));
+const Oficio = require(path.join(__dirname , '../express-app/models/oficio.js'));
 const config = require('../config.js');
 
 
@@ -21,6 +21,8 @@ const dbUri = 'nedb://testDB';
 let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
 // If the platform is win32, we use de .cmd to launch
 // the app.
+let jobs;
+let schools;
 
 if (process.platform === 'win32') {
   electronPath += '.cmd';
@@ -55,8 +57,6 @@ describe('Create Members test', function () {
   let totalMembers;
   let estudioId;
   let familyId;
-  let schools;
-  let jobs;
 
   before(() => {
     //connect to db
@@ -91,14 +91,6 @@ describe('Create Members test', function () {
     })
     .then((count) => {
       totalMembers = count;
-      return Escuela.find();
-    })
-    .then((e) => {
-      schools = e;
-      return Oficio.find();
-    })
-    .then((o) => {
-      jobs = o;
     })
     .catch((err) => {
       console.log(err);
@@ -124,6 +116,35 @@ describe('Create Members test', function () {
   after(() => {
     //delete database
     return database.dropDatabase();
+  });
+  /**
+  * Test setup things
+  *
+  * Test if you can setup this trash ass app
+  */
+  it('should setup jobs & schools', async function () {
+    const client = this.app.client;
+    // await sleep(500);
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .then(() => {
+        return connect(dbUri);
+      })
+      .then((db) => {
+        return Oficio.find();
+      })
+      .then((o) => {
+        jobs = o;
+        return Escuela.find();
+      })
+      .then((e) => {
+        schools = e;
+        return Oficio.find();
+      })
+      .then((o) => {
+        jobs = o;
+      });
   });
   /**
   * Test AddMember
@@ -208,7 +229,7 @@ describe('Create Members test', function () {
         assert.equal(bitrhValue, '2006-12-01')
       })
   });  
-/**
+  /**
   * Test error at filling addMember modal
   *
   * Test if you can't submit the add member form

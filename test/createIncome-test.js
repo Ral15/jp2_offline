@@ -362,7 +362,7 @@ describe('Create incomes test', function () {
   *
   * Test if you can enter data with errors
   */
-  it('should fill & create income',  function () {
+  it('should fill & create income',function () {
     const client = this.app.client;
     // await sleep(500);
     return client.setValue('#username',config.username)

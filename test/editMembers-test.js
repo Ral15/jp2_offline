@@ -4,6 +4,8 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const assert = chai.assert;
 const Estudio = require(path.join(__dirname , '../express-app/models/estudio.js'));
+const Oficio = require(path.join(__dirname , '../express-app/models/oficio.js'));
+const Escuela = require(path.join(__dirname , '../express-app/models/escuela.js'));
 const Familia = require(path.join(__dirname , '../express-app/models/familia.js'));
 const Miembro = require(path.join(__dirname , '../express-app/models/miembro.js'));
 const config = require('../config.js');
@@ -24,6 +26,11 @@ if (process.platform === 'win32') {
   electronPath += '.cmd';
 }
 
+
+let schools;
+let jobs;
+let tutor;
+let student;
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -53,8 +60,7 @@ describe('Edit member test', function () {
   let totalMembers;
   let estudioId;
   let familyId;
-  let tutor;
-  let student;
+
   before(() => {
     //connect to db
     connect(dbUri).then((db) => {
@@ -86,51 +92,6 @@ describe('Edit member test', function () {
     .then((newEstudio) => {
       //save estudioId
       estudioId = newEstudio._id;
-      //create tutor object
-      let tutor = Miembro.create({
-        familyId: familyId,
-        nombres: 'Pepe',
-        apellidos: 'Picapiedras',
-        telefono: '44227270873',
-        correo: 'pepe@picapepe.com',
-        fechaNacimiento: '2010-09-10',
-        oficio: 'albañil',
-        observacionOficio: 'le da recio',
-        sae: '',
-        relacion: 'tutor',
-        escuela: '',
-        observacionEscuela: '',
-      });
-      //save tutor
-      return tutor.save();
-    })
-    .then((newTutor) => {
-      //save tutor object
-      tutor = newTutor;
-      return Escuela.find();
-    })
-    .then((e) => {
-      //create student object
-      let estudiante = Miembro.create({
-        familyId: familyId,
-        nombres: 'Morrito',
-        apellidos: 'Picapiedras',
-        telefono: '44227270873',
-        correo: 'pepe@morropepe.com',
-        fechaNacimiento: '2000-09-10',
-        oficio: '',
-        observacionOficio: '',
-        sae: '15090',
-        relacion: 'estudiante',
-        escuela: e[0]._id,
-        observacionEscuela: 'va mucho',
-      });
-      //save student
-      return estudiante.save();
-    })
-    .then((newStudent) => {
-      //save student object
-      student = newStudent;
       return Miembro.count({familyId: familyId});
     })
     .then((count) => {
@@ -145,6 +106,7 @@ describe('Edit member test', function () {
   // Before everything we launch the app.
   beforeEach(async function () {
     // Launch the application
+
     this.app = new Application({ path: electronPath, args:['.'] });
     return this.app.start();
   });
@@ -160,6 +122,75 @@ describe('Edit member test', function () {
   after(() => {
     //delete database
     return database.dropDatabase();
+  });
+  /**
+  * Test setup thing
+  *
+  * Save all things
+  */
+  it('should create fuckers', async function () {
+    const client = this.app.client;
+    // await sleep(500);
+    return client.setValue('#username',config.username)
+      .setValue('#password', config.password)
+      .click('#submit-login')
+      .then(() => {
+        return connect(dbUri);
+      })
+      .then((db) => {
+        return Oficio.find();
+      })
+      .then((o) => {
+        jobs = o;
+        return Escuela.find();
+      })
+      .then((e) => {
+        schools = e;
+        //create tutor object
+        let tutor = Miembro.create({
+          familyId: familyId,
+          nombres: 'Pepe',
+          apellidos: 'Picapiedras',
+          telefono: '44227270873',
+          correo: 'pepe@picapepe.com',
+          fechaNacimiento: '2010-09-10',
+          oficio: jobs[0]._id,
+          observacionOficio: 'le da recio',
+          sae: '',
+          relacion: 'tutor',
+          escuela: '',
+          observacionEscuela: '',
+        });
+        //save tutor
+        return tutor.save();
+      })
+      .then((newTutor) => {
+        // console.log(newTutor);
+        //save tutor object
+        tutor = newTutor;
+        //create student object
+        let estudiante = Miembro.create({
+          familyId: familyId,
+          nombres: 'Morrito',
+          apellidos: 'Picapiedras',
+          telefono: '44227270873',
+          correo: 'pepe@morropepe.com',
+          fechaNacimiento: '2000-09-10',
+          oficio: '',
+          observacionOficio: '',
+          sae: '15090',
+          relacion: 'estudiante',
+          escuela: schools[0]._id,
+          observacionEscuela: 'va mucho',
+        });
+        //save student
+        return estudiante.save();
+      })
+      .then((newStudent) => {
+        // console.log(newStudent);
+        //save student object
+        student = newStudent;
+        });
   });
   /**
   * Test editMember
@@ -313,7 +344,7 @@ describe('Edit member test', function () {
       .waitForVisible('#members-section')
       .click('#edit-member-button-' + tutor._id)
       .waitForVisible(editModal)
-      .$(editModal + ' #job').selectByAttribute('value', 'empleado/a')
+      .$(editModal + ' #job').selectByAttribute('value', jobs[2]._id)
       .setValue(editModal + ' #firstName', 'El nuevo vato')
       .setValue(editModal + ' #lastName', 'PicaranasAhora')
       .setValue(editModal + ' #phone', '5524181818')
@@ -356,8 +387,8 @@ describe('Edit member test', function () {
       .click('#edit-member-button-' + student._id)
       .waitForVisible(editModal)
       .setValue(editModal + ' #sae', '00000')
-      .$(editModal + ' #school').selectByAttribute('value', 2)
-      .$(editModal + ' #job').selectByAttribute('value', 'empleado/a')
+      .$(editModal + ' #school').selectByAttribute('value', schools[1]._id)
+      .$(editModal + ' #job').selectByAttribute('value', jobs[2]._id)
       .setValue(editModal + ' #firstName', 'NuevoMorro')
       .setValue(editModal + ' #lastName', 'PicaranasAhora')
       .setValue(editModal + ' #phone', '5524181818')

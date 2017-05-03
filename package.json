@@ -4,7 +4,10 @@
   "description": "Aplicacion offline para la institucion san juan pablo",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "start": "./node_modules/.bin/electron .",
+    "build": "./node_modules/.bin/electron-packager . jp2",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,18 @@
   },
   "homepage": "https://github.com/Ral15/jp2_offline#readme",
   "devDependencies": {
-    "electron": "^1.4.15"
+    "electron": "^1.4.15",
+    "electron-packager": "^8.6.0",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-import": "^2.2.0",
+    "mocha": "^3.2.0",
+    "spectron": "^3.6.0",
+    "zombie": "^5.0.5"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0"
   }
 }

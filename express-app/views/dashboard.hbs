@@ -1,0 +1,81 @@
+{{#>  layouts/base_dashboard page_title="Captura de Estudios" which_side="dashboardSidenav" }}
+{{#*inline "panel-block"}}
+<div class="row"> 
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        {{#if error_message}}
+          <div class="alert alert-danger">
+            <span id="error_message"><strong>{{error_message}}</strong></span>
+          </div>
+        {{/if}}
+        <h1>Mis estudios socioeconómicos</h1>
+        <div class="pull-right"><a href="/estudio/" class="btn btn-success" id="crear-estudio"> <span class="glyphicon glyphicon-plus"></span> Crear estudio</a></div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <table id="datatable" class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Dirección</th>
+              <th>Fecha de creación</th>
+              <th>Fecha de edición</th>
+              <th>Status</th>
+              {{#ifEq this.active "Borrador"}}
+                <th>Acciones</th>
+              {{/ifEq}}
+              {{#ifEq this.active "Rechazado"}}
+                <th>Acciones</th>
+              {{/ifEq}}                  
+              {{#ifEq this.active "Eliminado"}}
+                <th>Acciones</th>
+              {{/ifEq}}
+            </tr>
+          </thead>
+
+
+          <tbody>
+            {{# if estudios }}
+              {{# each estudios }}
+                <tr class="">
+                  <td>{{this.familia.nombreFamilia}}</td>
+                  <td>{{this.familia.calle}}, {{this.familia.colonia}}, {{this.familia.codigoPostal}}</td>
+                  <td>{{this.fechaCreacion}}</td>
+                  <td>{{this.editedDate}}</td>
+                  <td>{{this.status}}</td>
+                  {{#ifEq this.status "Borrador"}}
+                    <td>
+                      <a href="/estudio/?estudioId={{this._id}}" id="edit-estudio-{{this._id}}"><button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</button></a>
+                      <button onclick="showDeleteMsg('{{this._id}}')" id="delete-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
+                     {{!--  <button onclick="showUploadMsg('{{this._id}}')" id="upload-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-ok"></span></button> --}}
+                     {{!--  <a href="/upload/?familyId={{this.familia._id}}" id="upload-estudio-{{this._id}}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span></a> --}}
+                    </td>
+                  {{/ifEq}}
+                  {{#ifEq this.status "Rechazado"}}
+                    <td>
+                      <a href="/estudio/?estudioId={{this._id}}" id="edit-estudio-{{this._id}}"><button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</button></a>
+                      <button onclick="showDeleteMsg('{{this._id}}')" id="delete-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
+                    </td>
+                  {{/ifEq}}  
+                  {{#ifEq this.status "Eliminado"}}
+                     <td><button onclick="showRestoreMsg('{{this._id}}')" id="restore-estudio-{{this._id}}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-repeat"></span> Restaurar</button></td>
+                  {{/ifEq}}                                  
+                </tr>
+              {{/each}}  
+            {{ else }}
+              <h5>No hay registro de estudios socioeconómicos</h5>
+            {{/if }}
+            
+          </tbody>
+        </table>
+      </div>                        
+    </div>
+  </div>                
+</div> 
+{{/inline}}
+
+{{#*inline "scripts-block"}}
+{{/inline}}
+
+{{/ layouts/base_dashboard}}

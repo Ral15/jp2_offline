@@ -1,0 +1,78 @@
+<div class="modal fade" id="editIncomeModal-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Editar Ingreso</h4>
+      </div>
+      <div class="modal-body">
+        <form id="incomeSection" method="post" action="/income/edit/{{this._id}}" data-toggle="validator">
+          <div class="row">
+            <div class="form-group col-xs-6">
+              <label for="tutor">Tutor</label>
+              <select class="form-control" id="tutor" name="tutor" type="text" readonly>
+                <option selected="selected" value="{{this._id}}/{{this.nombreMiembro}}">{{this.nombreMiembro}}</option>
+              </select>
+            </div>
+            <div class="form-group col-xs-6">
+              <label for="amount">Monto*</label>
+              <input type="number" min="0" class="form-control" value={{this.monto}} name="amount" id="amount" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-6">
+              <label for="period">Peridicidad*</label>
+              <select class="form-control" id="period" name="period" required>
+                {{#select this.periocidad.periodicidad}}
+                  <option value=""></option>
+                  <option value="Diario">Diario</option>
+                  <option value="Semanal">Semanal</option>
+                  <option value="Quincenal">Quincenal</option>
+                  <option value="Mensual">Mensual</option>
+                  <option value="Bimestral">Bimestral</option>
+                  <option value="Trimestral">Trimestral</option>
+                  <option value="Cuatrimestral">Cuatrimestral</option>
+                  <option value="Semestral">Semestral</option>
+                  <option value="Anual">Anual</option>
+                {{/select}}
+              </select>
+            </div>
+            <div class="form-group col-xs-6">
+              <label for="observations">Observaciones</label>
+              <textarea id="observations" name="observations" class="form-control" rows="5">{{this.observacion}}</textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-6">
+              <div id="datetimepicker-edit-income" class="input-group">
+                <label for="dateReceived">¿Desde cuándo recibe el ingreso?</label>
+                <div class="input-group">
+                  <span class="input-group-addon add-on" id="basic-addon1">
+                    <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
+                  </span>
+                  <input type="text" id="dateReceived" value={{this.fecha}}class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" name="dateReceived" required>
+                </div>
+              </div>                                        
+            </div>
+            <div class="form-group col-xs-6">
+              <label for="type">Tipo Ingreso*</label>
+              <select class="form-control" id="type" name="type" required>
+                {{#select this.tipo}}
+                  <option value=""></option>
+                  <option value="no comprobable">No comprobable</option>
+                  <option value="comprobable">Comrpobable</option>
+                {{/select}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="submit-editIncome-{{this._id}}" class="btn btn-primary btn-block">Guardar</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

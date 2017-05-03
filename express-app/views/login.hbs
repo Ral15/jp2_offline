@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="/js/hammer.js" onload="window.Hammer = module.exports;"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+    </title>
+
+    <!-- Bootstrap -->
+    <link href="/template/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/template/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/template/vendors/nprogress/nprogress.css" rel="stylesheet">
+
+    <!-- style for dates -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- style for tables -->
+    <link href="/template/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="/template/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="/template/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="/template/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="/template/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
+    <link href="/css/my.css" rel="stylesheet"></link>
+
+    <!-- sweet alert -->
+    <link rel="stylesheet" href="/sweetalert2/dist/sweetalert2.min.css">
+
+    <!-- Custom Theme Style -->
+    <link href="/template/build/css/custom.min.css" rel="stylesheet">
+    {{!-- {{> head page_title='Juan Pablo II Login' }} --}}
+{{!-- >>>>>>> develop --}}
+  </head>
+
+  <body class="login">
+    <div>
+      <a class="hiddenanchor" id="signin">
+        <h2>
+          Instituto Juan Pablo Segundo
+        </h2>
+      </a>
+      
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <div class="row text-center">
+              <h1>Iniciar Sesion</h1>
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <img src="/img/logo.png" class="brand-logo img-responsive center-block" style="max-height: 200px" id="main-logo">
+              </div>
+            </div>
+            <form id="login-form" method="post" action="/user/login" class="form-group">
+                
+                {{#if error_message}}
+                  <div class="alert alert-danger">
+                    <span id="error_message"><strong>{{error_message}}</strong></span>
+                  </div>
+                {{/if}}
+
+                <div class="form-group">
+                  <label for="formUser">Usuario</label>
+                  <input class="form-control" type="text" placeholder="Nombre de Usuario" required name="username" id="username">
+                </div>
+
+                <div class="form-group">
+                  <label for="formPassword">Contraseña</label>
+                  <input class="form-control" type="password" placeholder="Contraseña" required name="password" id="password">
+
+                </div>
+
+
+                <div class="form-group row">
+                  <div class="col-sm-8 col-sm-offset-2">
+                    <div class="action">
+                        <button class="btn btn-primary signup" id="submit-login" type="submit">Iniciar sesión</button>
+                    </div>
+                  </div>
+                </div>
+            </form>
+          </section>
+        </div>
+
+      </div>
+    </div>
+    <!-- jQuery -->
+<script src="/template/vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="/template/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="/template/vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="/template/vendors/nprogress/nprogress.js"></script>
+
+<!-- Tables -->
+<script src="/template/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/template/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="/template/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/template/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="/template/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="/template/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="/template/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="/template/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="/template/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="/template/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/template/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="/template/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+
+<!-- sweet alert -->
+<script src="/sweetalert2/dist/sweetalert2.min.js"></script>
+
+<!-- Custom Theme Scripts -->
+<script src="/template/build/js/custom.min.js"></script>
+
+<script>
+  $(document).ready( function () {
+    $('#datatable').DataTable();
+  });
+</script>
+  </body>
+</html>
+

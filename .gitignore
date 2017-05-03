@@ -5,6 +5,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+.DS_Store
 # Runtime data
 pids
 *.pid
@@ -57,3 +58,7 @@ typings/
 # dotenv environment variables file
 .env
 
+express-app/node_modules
+express-app/db
+db
+testDB/

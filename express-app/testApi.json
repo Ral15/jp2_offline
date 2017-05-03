@@ -1,0 +1,102 @@
+ {
+	'familia': {
+		'numero_hijos_diferentes_papas': 10,
+		'explicacion_solvencia': 'Trabajando Duro',
+		'estado_civil': 'soltero',
+		'localidad': 'poblado_jurica',
+		'comentario_familia': [
+			{
+				'fecha': '2017-03-19T19:18:48.158466Z',
+				'texto': 'Trabajan bien'
+			},
+			{
+				'fecha': '2017-03-19T19:18:48.160690Z',
+				'texto': 'Necesitan la beca'
+			}
+		],
+		'integrante_familia': [
+			{
+				'nombres': 'Lao',
+				'apellidos': 'Tse',
+				'telefono': '',
+				'correo': '',
+				'nivel_estudios': '5_grado',
+				'fecha_de_nacimiento': '2003-03-19',
+				'alumno_integrante': {
+					'activo': True,
+					'escuela': {
+						'id': 1,
+						'nombre': 'rolando calles'
+					}
+				},
+				'tutor_integrante': None
+			},
+			{
+				'nombres': 'Telma',
+				'apellidos': 'Ibarra',
+				'telefono': '',
+				'correo': '',
+				'nivel_estudios': 'universidad',
+				'fecha_de_nacimiento': '2017-03-19',
+				'alumno_integrante': None,
+				'tutor_integrante': {
+					'relacion': 'madre',
+					'tutor_ingresos': None
+				}
+			},
+			{
+				'nombres': 'Herman',
+				'apellidos': 'Hesse',
+				'telefono': '',
+				'correo': '',
+				'nivel_estudios': 'doctorado',
+				'fecha_de_nacimiento': '2017-03-19',
+				'alumno_integrante': None,
+				'tutor_integrante': {
+					'relacion': 'tutor',
+					'tutor_ingresos': [
+						{
+							'fecha': '2017-12-12',
+							'tipo': 'Ingreso.OPCION_NO_COMPROBABLE',
+							'transaccion': {
+								'activo': True,
+								'monto': 12500,
+								'periodicidad': {
+									'periodicidad': 'Mensual',
+									'factor': 2.1,
+									'multiplica': True,
+								},
+								'observacion': 'sastres',
+								'es_ingreso': True
+							}
+						}
+					]
+				}
+			}
+			],//end integrantes
+		'transacciones': [
+			{
+				'activo': True,
+				'monto': 500,
+				'periodicidad': {
+					'periodicidad': 'Mensual',
+					'factor': 2.1,
+					'multiplica': True,
+				},
+				'observacion': 'sastres',
+				'es_ingreso': False
+			}
+		]
+		}, 'respuesta_estudio': [
+			{
+				'pregunta': 2,
+				'eleccion': None,
+				'respuesta': ''
+			},
+			{
+				'pregunta': 1,
+				'eleccion': None,
+				'respuesta': ''
+			}
+		], 'status': Estudio.BORRADOR
+	} 

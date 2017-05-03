@@ -82,16 +82,17 @@ module.exports = {
     let newFamily = familyController.createFamily(data);
     //save familia
     return newFamily.save()
-    .then((newFamily) => {
+    .then((newFam) => {
       //create estudio
       let estudio = Estudio.create({
         tokenCapturista: token,
-        familia: newFamily
+        familia: newFam
       });
       //save estudio
       return estudio.save();
     })
     .then((newEstudio) => {
+      // console.log(newEstudio)
       request.session.estudioAPIId = -1;
       request.session.estudioId = newEstudio._id;
       response.locals.estudioId = request.session.estudioId;
@@ -290,12 +291,24 @@ module.exports = {
               response.locals.error_message = 'No se pudo obtener la informacion';
               return userController.showDashboard(request,response, 'Borrador');
             } else {
-              const data = JSON.parse(body);
-              let token = request.session.user.apiToken;
-              data.forEach(async function(estudio){
-                await self.updateFullEstudioFromAPI(estudio, token);
+              let escuelas;
+              let oficios;
+              Escuela.find()
+              .then((sC) => {
+                escuelas = sC;
+                return Oficio.find();
+              }).then((o) => {
+                oficios = o;
+                const data = JSON.parse(body);
+                let token = request.session.user.apiToken;
+                let proms = [];
+                data.forEach(async function(estudio){
+                  proms.push(self.updateFullEstudioFromAPI(estudio, token, escuelas, oficios));
+                });
+                Promise.all(proms).then((estudioz) => {
+                  return response.redirect(urls.dashboard);
+                })
               });
-              return response.redirect(urls.dashboard);
             }
           });
       } else {
@@ -304,17 +317,35 @@ module.exports = {
       }
     });
   },
-  updateFullEstudioFromAPI: function(estudio, token){
-    familyController.updateFamilyFromAPI(estudio.familia)
+  updateFullEstudioFromAPI: function(estudio, token, escuelas, oficios){
+    let familia;
+    let stud;
+    return familyController.updateFamilyFromAPI(estudio.familia)
     .then((family) => {
+      familia = family;
       return this.updateEstudioFromAPI(estudio, family, token);
     })
     .then((study) => {
+      stud = study;
       // console.log("ESTUDIO");
       console.log("Estudio ID API #"+study.apiId+" recibido bien");
+      return memberController
+        .updateFullMembersAPI(estudio.familia.integrante_familia, familia._id, escuelas, oficios);
+    })
+    .then((integrantes) => {
+      // console.log(integrantes)
+      return transactionsController.updateTransactionFromAPI(estudio.familia.transacciones, familia._id);
+    })
+    .then((transas) => {
+      return answerController.updateAnswersFromAPI(estudio.respuesta_estudio, stud._id);
+    })
+    .then((respuestas) => {
+      // console.log(respuestas)
+      return true;
     })
     .catch((err) => {
       console.log("estudioApi "+estudio.id+":"+err);
+      return false;
     })
   },
   updateEstudioFromAPI: function(data, family, token){

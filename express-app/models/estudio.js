@@ -57,11 +57,11 @@ class Estudio extends Document {
     };
     this.fechaCreacion = {
       type: Date,
-      default: Date.now
+      default: Date
     };
      this.editedDate = {
       type: Date,
-      default: Date.now
+      default: Date
     };
   }
 

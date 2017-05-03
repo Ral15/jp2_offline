@@ -33,8 +33,7 @@ class Respuesta extends Document {
       required: true,
     };
     this.idSeccion = {
-      type: Number,
-      required: true
+      type: Number
     };
     this.eleccion = {
       type: Number

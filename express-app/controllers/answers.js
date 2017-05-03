@@ -169,5 +169,28 @@ module.exports = {
       console.log(err);
       return [];
     });;
-  }
+  },
+  updateAnswersFromAPI: function(respuestas, idEstudio) {
+    let resProms = [];
+    respuestas.map((i) => {
+      let t = new Promise((resolve, reject) => {
+        resolve(Respuesta.findOneAndUpdate(
+          {
+            idEstudio: idEstudio,
+            idPregunta: i.pregunta,
+            orden: 0
+          }, 
+          {
+            idEstudio: idEstudio,
+            idPregunta: i.pregunta,
+            eleccion: i.eleccion,
+            respuesta: i.respuesta,
+            orden: 0
+          },
+          {upsert: true}));
+      });
+      resProms.push(t);
+    });
+    return Promise.all(resProms); 
+  },
  }

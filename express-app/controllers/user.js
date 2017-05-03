@@ -5,10 +5,6 @@ const urls = require('../routes/urls');
 const bcrypt = require('bcryptjs');
 const Estudio = require('../models/estudio');
 const SectionController = require('./section');
-<<<<<<< HEAD
-=======
-// const testApiController = require('./testApi');
->>>>>>> task/uploadEstudio
 const schoolController = require('./school');
 const jobController = require('./job');
 
@@ -143,7 +139,6 @@ module.exports = {
    */
   showDashboard: function(request, response, active) {
     let user = request.session.user;
-    console.log(user);
     request.session.estudioId = null;
     request.session.familyId = null;
     request.session.estudioAPIId = null;

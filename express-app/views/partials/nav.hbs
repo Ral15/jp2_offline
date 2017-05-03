@@ -5,7 +5,15 @@
     </div>
     
     <ul class="nav navbar-nav navbar-right">
-      
+      {{#unless estudioId}}
+      <li>
+<!-- href="#memberModal" -->
+        <a id="update_estudios_btn" href="/estudio/update" class="user-profile" data-toggle="modal" >
+        <i class="glyphicon glyphicon-refresh"></i>
+          Actualizar Estudios
+        </a>
+      </li>
+      {{/unless}}
       <li class="">
         <a id="my-account-btn" href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
           <span class="fa fa-user"></span> <span id="nav_bar_user_name">{{user.username}}</span>

@@ -48,11 +48,11 @@
                     Sección 4
                 </a>
             </li>
-            {{!-- <li class="{{#ifEq section.numero 5 }}current-page{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
+            <li class="{{#ifEq section.numero 5 }}current-page{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
                 <a id="seccion_link_5" href="{{# if estudioId }}/seccion/paso/5{{else}}javascript:void(0){{/if}}">
                     Sección 5
                 </a>
-            </li> --}}
+            </li>
             <li class="{{#ifEq section.numero 6 }}current-page{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
                 <a id="seccion_link_6" href="{{# if estudioId }}/seccion/paso/6{{else}}javascript:void(0){{/if}}">
                     Sección 6
@@ -63,12 +63,6 @@
                     Sección 7
                 </a>
             </li>
-            <li class="{{#ifEq section.numero 8 }}current-page{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-                <a id="seccion_link_8" href="{{# if estudioId }}/seccion/paso/8{{else}}javascript:void(0){{/if}}">
-                    Sección 8
-                </a>
-            </li>
-
         </ul>
     </li>
     <li class="{{#ifEq estudioActive 'upload' }}current-page{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">

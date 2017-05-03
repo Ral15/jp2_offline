@@ -60,10 +60,8 @@ app.use(function(request, response, next) {
   }
   if (request.session.estudioId){
     response.locals.estudioId = request.session.estudioId;
-    response.locals.max_step = request.session.max_step
   } else {
     response.locals.estudioId = null;
-    response.locals.max_step = null;
   }
   next();
 });

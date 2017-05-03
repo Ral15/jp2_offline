@@ -31,9 +31,11 @@
 	"removeAnswer": "/estudio/answer/remove/",
 	"sections" : "/seccion/paso/:step",
 	"sectionStart" : "/seccion/paso/",
+	"showUploadView": "/upload/",
 	"transactionDelete": "/transaction/delete/:id",
 	"transactionsView": "/transactions/",
 	"uploadEstudio": "/estudio/upload/:id",
+	"updateEstudios": "/estudio/update",
 	"showUploadView": "/upload/",
 	"estudioRestore": "/estudio/restore/:id",
 	"saveComment": "/comment/"

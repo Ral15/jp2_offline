@@ -5,7 +5,6 @@ const urls = require('../routes/urls');
 const bcrypt = require('bcryptjs');
 const Estudio = require('../models/estudio');
 const SectionController = require('./section');
-// const testApiController = require('./testApi');
 const schoolController = require('./school');
 const jobController = require('./job');
 
@@ -25,6 +24,7 @@ module.exports = {
   loginUser: function (request, response) {
     // Get data from request
     const data = request.body;
+    const self = this;
     // Call promise that validates internet connection
     isOnline().then((online) => {
       // If there is internet connection, check with API
@@ -37,15 +37,7 @@ module.exports = {
               if (err) console.log(err);
               else if (res) {
                 request.session.user = doc;
-                // return this.showDashboard(request, response, 'Borrador');
-                let user = request.session.user;
-                request.session.estudioId = null;
-                request.session.familyId = null;
-                request.session.estudioAPIId = null;
-                return Estudio.find({ tokenCapturista: user.apiToken, status: 'Borrador' })
-                .then((e) => {
-                  return response.render('dashboard', { estudios: e , active: 'Borrador' });
-                });
+                return self.showDashboard(request, response, 'Borrador');
               } else response.render('login', { error_message: 'Contraseña invalida' });
             });
           } else response.render('login', { error_message: 'Usuario invalido' });
@@ -147,7 +139,6 @@ module.exports = {
    */
   showDashboard: function(request, response, active) {
     let user = request.session.user;
-    console.log(user);
     request.session.estudioId = null;
     request.session.familyId = null;
     request.session.estudioAPIId = null;

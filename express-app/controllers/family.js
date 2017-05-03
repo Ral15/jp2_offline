@@ -119,4 +119,23 @@ module.exports = {
         nombreFamilia: data.nombre_familiar,
       });
   },
+  updateFamilyFromAPI: function(data) {
+    return Familia.findOneAndUpdate(
+      {
+        apiId: data.id
+      },
+      {
+        apiId: data.id,
+        bastardos: data.numero_hijos_diferentes_papas,
+        nombreFamilia: data.nombre_familiar,
+        estadoCivil: data.estado_civil,
+        calle: data.direccion,
+        colonia: data.direccion,
+        codigoPostal: 99999,
+        localidad: data.localidad,
+      },
+      {
+        upsert: true
+      });
+  }
 }

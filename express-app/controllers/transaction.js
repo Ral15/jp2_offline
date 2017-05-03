@@ -182,9 +182,37 @@ module.exports = {
             monto: i.monto,
             periocidad: p,
             observacion: i.observacion,
-            isIncome: i.es_ingreso,
+            isIngreso: i.es_ingreso,
             valorMensual: this.monthlyValue(i.es_ingreso, i.monto, p.multiplica, p.factor)
           }));
+      });
+      transactionsSaved.push(t);
+    });
+    return Promise.all(transactionsSaved); 
+  },
+  updateTransactionFromAPI: function(transactions, familyId) {
+    let transactionsSaved = [];
+    transactions.map((i) => {
+      let p = periodController.addAPIId(i.periodicidad);
+      let t = new Promise((resolve, reject) => {
+        resolve(Transaccion.findOneAndUpdate(
+          {
+            apiId: i.id,
+          }, 
+          {
+            familyId: familyId,
+            apiId: i.id,
+            // fecha: i.fecha,
+            // tipoId: i.tipoId,
+            // tipo: i.tipo,
+            isActivo: i.activo,
+            monto: i.monto,
+            periocidad: p,
+            observacion: i.observacion,
+            isIngreso: i.es_ingreso,
+            valorMensual: this.monthlyValue(i.es_ingreso, i.monto, p.multiplica, p.factor)
+          },
+          {upsert: true}));
       });
       transactionsSaved.push(t);
     });

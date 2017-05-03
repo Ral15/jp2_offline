@@ -48,12 +48,8 @@ class Estudio extends Document {
       default: '',
       required: true,
     };
-    this.maxStep = {
-      type: Number,
-      default: 0
-    };
     this.familia = Familia;
-    this.respuestas = [Respuesta];
+
     this.status = {
       type: String,
       choices: opcionesStatusChoices,
@@ -61,12 +57,15 @@ class Estudio extends Document {
     };
     this.fechaCreacion = {
       type: Date,
-      default: Date.now
+      default: Date
     };
      this.editedDate = {
       type: Date,
-      default: Date.now
+      default: Date
     };
+    this.retroalimentacion = {
+      type: String
+    }
   }
 
   static collectionName() {

@@ -217,7 +217,7 @@ module.exports = {
               nivelEstudios: d.nivel_estudios,
               fechaNacimiento: d.fecha_de_nacimiento,
               relacionId: d.alumno_integrante.id,
-              relacion: d.alumno_integrante.relacion,
+              relacion: 'estudiante',
               terapia: d.historial_terapia,
               sacramentos: d.sacramentos_faltantes,
               observacionOficio: d.especificacion_oficio,
@@ -316,5 +316,74 @@ module.exports = {
       }
     });
     return myStudents;
-  },    
+  },
+  updateFullMembersAPI: function(data, familyId, schools, jobs){
+    let myMembers = [];
+    data.map((d) => {
+      let m;
+      let myJob = jobs.find((j) => j.apiId = d.oficio.id);
+      if (d.alumno_integrante == null) {
+        m = new Promise((resolve, reject) => {
+          resolve(Miembro.findOneAndUpdate(
+            { apiId: d.id }, 
+            {
+              familyId: familyId,
+              apiId: d.id,
+              nombres: d.nombres,
+              apellidos: d.apellidos,
+              telefono: d.telefono,
+              correo: d.correo,
+              nivelEstudios: d.nivel_estudios,
+              fechaNacimiento: d.fecha_de_nacimiento,
+              relacionId: d.tutor_integrante.id,
+              relacion: d.tutor_integrante.relacion,
+              terapia: d.historial_terapia,
+              sacramentos: d.sacramentos_faltantes,
+              observacionOficio: d.especificacion_oficio,
+              observacionEscuela: d.especificacion_estudio,
+              oficio: myJob._id,
+            },
+            {upsert:true})
+            .catch((err) => {
+              console.log(err);
+            })
+          );
+        }); 
+      }
+      else {
+        let schoolId = schools.find((sc) => sc.apiId == d.alumno_integrante.escuela.id);
+        // console.log(schoolId._id);
+        m = new Promise((resolve, reject) => {
+          resolve(Miembro.findOneAndUpdate(
+            { apiId: d.id }, 
+            {
+              familyId: familyId,
+              apiId: d.id,
+              nombres: d.nombres,
+              apellidos: d.apellidos,
+              telefono: d.telefono,
+              correo: d.correo,
+              nivelEstudios: d.nivel_estudios,
+              fechaNacimiento: d.fecha_de_nacimiento,
+              relacionId: d.alumno_integrante.id,
+              relacion: 'estudiante',
+              terapia: d.historial_terapia,
+              sacramentos: d.sacramentos_faltantes,
+              observacionOficio: d.especificacion_oficio,
+              observacionEscuela: d.especificacion_estudio,
+              oficio: myJob._id,
+              escuela: schoolId._id,
+              sae: d.alumno_integrante.numero_sae
+            },
+            {upsert:true})
+            .catch((err) => {
+              console.log(err);
+            })
+          );
+        });
+      }
+      myMembers.push(m);
+    });
+    return Promise.all(myMembers);
+  }    
 }

@@ -9,11 +9,17 @@ const familyController = require('./family');
 const memberController = require('./member');
 const commentController = require('./comment');
 const transactionsController = require('./transaction');
-const userController = require('./user');
+const req = require('request');
+const isOnline = require('is-online');
 const answerController = require('./answers');
+const userController = require('./user');
 const urls = require('../routes/urls');
 const rp = require('request-promise');
-const req = require('request');
+
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 
 module.exports = {
@@ -42,9 +48,6 @@ module.exports = {
         //set session variables
         request.session.estudioAPIId = myEstudio.apiId;
         request.session.familyId = myEstudio.familia._id;
-        request.session.max_step = myEstudio.maxStep;
-        response.locals.max_step = request.session.max_step;
-        // this.isEstudioValid(request.session.familyId).then((value) => {
         console.log('soy el EstudioapiID: '+ request.session.estudioAPIId);
         return response.render('family',  {
           family: myEstudio.familia
@@ -79,22 +82,21 @@ module.exports = {
     let newFamily = familyController.createFamily(data);
     //save familia
     return newFamily.save()
-    .then((newFamily) => {
+    .then((newFam) => {
       //create estudio
       let estudio = Estudio.create({
         tokenCapturista: token,
-        familia: newFamily
+        familia: newFam
       });
       //save estudio
       return estudio.save();
     })
     .then((newEstudio) => {
+      // console.log(newEstudio)
       request.session.estudioAPIId = -1;
       request.session.estudioId = newEstudio._id;
       response.locals.estudioId = request.session.estudioId;
       request.session.familyId = newEstudio.familia._id;
-      request.session.max_step = newEstudio.maxStep;
-      response.locals.max_step = request.session.max_step
       return memberController.showMemberView(request, response);
     })
     .catch((error) => {
@@ -266,6 +268,111 @@ module.exports = {
     })
     .catch((err) => {
       console.log(err);
+    });
+  },
+  updateEstudios: function(request, response){
+    let user = request.session.user;
+    let self = this;
+    isOnline().then((online) => {
+      if(online){
+        req.get(
+          // url to get
+          urls.apiUrl + urls.api.estudios,
+          {
+            headers: {
+              'Authorization': 'Token ' + user.apiToken,
+            },
+          },
+          function (error, httpResponse, body) {
+            if(httpResponse.statusCode == 404){
+              response.locals.error_message = 'No hay estudios de este usuario';
+              return userController.showDashboard(request,response, 'Borrador');
+            } else if (httpResponse.statusCode > 201) {
+              response.locals.error_message = 'No se pudo obtener la informacion';
+              return userController.showDashboard(request,response, 'Borrador');
+            } else {
+              let escuelas;
+              let oficios;
+              Escuela.find()
+              .then((sC) => {
+                escuelas = sC;
+                return Oficio.find();
+              }).then((o) => {
+                oficios = o;
+                const data = JSON.parse(body);
+                let token = request.session.user.apiToken;
+                let proms = [];
+                data.forEach(async function(estudio){
+                  proms.push(self.updateFullEstudioFromAPI(estudio, token, escuelas, oficios));
+                });
+                Promise.all(proms).then((estudioz) => {
+                  return response.redirect(urls.dashboard);
+                })
+              });
+            }
+          });
+      } else {
+        response.locals.error_message = 'No hay conexion a internet';
+        return userController.showDashboard(request,response, 'Borrador');
+      }
+    });
+  },
+  updateFullEstudioFromAPI: function(estudio, token, escuelas, oficios){
+    let familia;
+    let stud;
+    return familyController.updateFamilyFromAPI(estudio.familia)
+    .then((family) => {
+      familia = family;
+      return this.updateEstudioFromAPI(estudio, family, token);
+    })
+    .then((study) => {
+      stud = study;
+      // console.log("ESTUDIO");
+      console.log("Estudio ID API #"+study.apiId+" recibido bien");
+      return memberController
+        .updateFullMembersAPI(estudio.familia.integrante_familia, familia._id, escuelas, oficios);
+    })
+    .then((integrantes) => {
+      // console.log(integrantes)
+      return transactionsController.updateTransactionFromAPI(estudio.familia.transacciones, familia._id);
+    })
+    .then((transas) => {
+      return answerController.updateAnswersFromAPI(estudio.respuesta_estudio, stud._id);
+    })
+    .then((respuestas) => {
+      // console.log(respuestas)
+      return true;
+    })
+    .catch((err) => {
+      console.log("estudioApi "+estudio.id+":"+err);
+      return false;
+    })
+  },
+  updateEstudioFromAPI: function(data, family, token){
+    let OPCIONES_STATUS = {
+      'aprobado': 'Aprobado',
+      'rechazado': 'Rechazado',
+      'borrador': 'Borrador',
+      'revision': 'Revisión',
+      'eliminado_capturista': 'Eliminado',
+      'eliminado_administrador': 'Eliminado'
+    };
+    let lastRetro = '';
+    if(data.retroalimentacion_estudio[0]){
+     lastRetro = data.retroalimentacion_estudio[0].descripcion;
+    }
+    return Estudio.findOneAndUpdate({
+      apiId: data.id
+    },
+    {
+      apiId: data.id,
+      status: OPCIONES_STATUS[data.status],
+      familia: family,
+      tokenCapturista: token,
+      retroalimentacion: lastRetro
+    },
+    {
+      upsert: true
     });
   },
   /**

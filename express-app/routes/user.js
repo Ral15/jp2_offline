@@ -8,7 +8,8 @@ const sectionController = require('../controllers/section');
 
 //GET user dashboard
 router.get(urls.dashboard, function(req, res) {
-	userController.showDashboard(req, res);
+	// console.log(req);
+	userController.showDashboard(req, res, 'Borrador');
 });
 
 // POST login user

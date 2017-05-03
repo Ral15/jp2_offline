@@ -34,27 +34,6 @@ const relationOptions = [
   'tio/a',
 ];
 
-const jobOptions = [
-  '',
-  'empleado/a',
-  'obrero/a',
-  'jefe_linea',
-  'area_limpieza',
-  'administrativo/a',
-  'empleado/a_domestico',
-  'jardinero/a',
-  'plomero/a',
-  'herrero/a',
-  'carpintero/a',
-  'albañil',
-  'pintor/a',
-  'mesero/a',
-  'negocio_propio',
-  'comerciante',
-  'venta_productos',
-  'otro',
-];
-
 /*
  * Member of a Family Model
  * 
@@ -83,6 +62,14 @@ class Miembro extends Document {
   constructor() {
     super();
 
+    this.apiId = {
+      type: Number,
+    };
+
+    this.relacionId = {
+      type: Number,
+    };
+
     this.familyId = {
       type: String,
       required: true,
@@ -109,11 +96,10 @@ class Miembro extends Document {
       choices: academicDegreeChoices
     };
     this.fechaNacimiento = {
-      type: Date,
+      type: String,
     };
     this.oficio = {
       type: String,
-      choices: jobOptions,
     };
     this.observacionOficio = {
       type: String,
@@ -133,11 +119,19 @@ class Miembro extends Document {
     };
     this.escuela = {
       type: String,
-      default: ''
+      default: '',
     };
     this.observacionEscuela = {
       type: String,
       default: '',  
+    };
+    this.sacramentos = {
+      type: String,
+      default: '',
+    };
+    this.terapia = {
+      type: String,
+      default: '',
     };
   }
 

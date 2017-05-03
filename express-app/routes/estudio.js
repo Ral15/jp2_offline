@@ -33,4 +33,25 @@ router.get(urls.getEstudios, function(req, res) {
 });
 
 
+router.get(urls.showUploadView, function(req, res) {
+  estudioController.showUploadView(req, res);
+});
+
+// router.post(urls.)
+
+router.post(urls.estudioRestore, function(req, res){
+  estudioController.restoreEstudio(req,res);
+});
+
+//API ROUTES
+// GET to show family form
+router.get(urls.api.estudios, function(req, res) {
+  estudioController.getEstudios(req, res);
+});
+
+router.post(urls.api.estudios, function(req, res) {
+  estudioController.uploadEstudio(req, res);
+});
+
+
 module.exports = router;

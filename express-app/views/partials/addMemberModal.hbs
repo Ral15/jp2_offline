@@ -28,15 +28,14 @@
           <div class="form-group col-xs-6" id="schoolInput">
             <label for="school">Escuela*</label>
             <select class="form-control" id="school" name="school">
-              {{!-- {{#select this.relacion}} --}}
               <option value=""></option>
-              <option value="Plantel Jurica">Plantel Jurica</option>
-              <option value="Plantel Buenavista">Plantel Buenavista</option>
-              {{!-- {{/select}} --}}
+              {{#each schools}}
+                <option value="{{this._id}}">{{this.nombre}}</option>
+              {{/each}}
             </select>            
           </div>
           <div class="form-group col-xs-6" id="saeInput">
-            <label for="sae">Numero Sae</label>
+            <label for="sae">Matrícula*</label>
             <input type="text" class="form-control" name="sae" id="sae">       
           </div>          
         </div>          
@@ -44,26 +43,10 @@
           <div class="form-group col-xs-6">
             <label for="job">Oficio</label>
             <select class="form-control" id="job" name="job">
-              {{!-- {{#select this.relacion}} --}}
               <option value=""/>Ninguno</option>
-              <option value='empleado/a'/>Empleado/a</option>
-              <option value='obrero/a'/>Obrero/a</option>
-              <option value='jefe_linea'/>Jefe de línea</option>
-              <option value='area_limpieza'/>Area de limpieza</option>
-              <option value='administrativo/a'/>Administrativo/a</option>
-              <option value='empleado/a_domestico'/>Empleado domestico/a</option>
-              <option value='jardinero/a'/>Jardinero/a</option>
-              <option value='plomero/a'/>Plomero/a</option>
-              <option value='herrero/a'/>Herrero/a</option>
-              <option value='carpintero/a'/>Carpientero/a</option>
-              <option value='albañil'/>Albañil</option>
-              <option value='pintor/a'/>Pintor/a</option>
-              <option value='mesero/a'/>Mesero/a</option>
-              <option value='negocio_propio'/>Negocio propio</option>
-              <option value='comerciante'/>Comerciante</option>
-              <option value='venta_productos'/>Venta de productos</option>
-              <option value='otro'/>Otro</option>
-              {{!-- {{/select}} --}}
+              {{#each jobs}}
+              <option value="{{this._id}}">{{this.nombre}}</option>
+              {{/each}}
             </select>                        
           </div>
           <div class="form-group col-xs-6">
@@ -87,13 +70,26 @@
             <input type="tel" id="phone" name="phone" class="form-control" required>
           </div>
           <div class="form-group col-xs-6">
-            <label for="email">Correo electrónico</label>
+            <label for="email">Correo electrónico*</label>
             <input type="email" class="form-control" name="email" id="email" placeholder="eugenio@420.mx" required>
           </div>
         </div>
         <div class="row">
+          <div class="form-group col-xs-12">
+            <div id="datetimepicker4">
+              <label for="birthDate">Fecha de nacimiento*</label>
+              <div class="input-group">
+                <span class="input-group-addon add-on" id="basic-addon1">
+                  <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
+                </span>
+                <input type="text" id="birthDate" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" name="birthDate" required>
+              </div>
+            </div>                                        
+          </div>
+        </div>
+        <div class="row">
           <div class="form-group col-xs-6">
-            <label for="academicDegree">Nivel estudios</label>
+            <label for="academicDegree">Nivel estudios*</label>
             <select class="form-control" id="academicDegree" name="academicDegree" required>
               {{!-- {{#select this.nivelEstudios}} --}}
               <option></option>
@@ -122,16 +118,13 @@
         </div>
         <div class="row">
           <div class="form-group col-xs-6">
-            <div id="datetimepicker4" class="input-group">
-              <label for="birthDate">Fecha de nacimiento</label>
-              <div class="input-group">
-                <span class="input-group-addon add-on" id="basic-addon1">
-                  <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
-                </span>
-                <input type="text" id="birthDate" class="form-control" placeholder="" aria-describedby="basic-addon1" data-format="yyyy-MM-dd" type="text" name="birthDate" required>
-              </div>
-            </div>                                        
+            <label for="sacramentos">Sacramentos que faltan</label>
+            <textarea id="sacramentos" name="sacramentos" class="form-control" rows="5"></textarea>
           </div>
+          <div class="form-group col-xs-6">
+            <label for="terapia">¿Asiste o asistío a terapia?</label>
+            <textarea id="terapia" name="terapia" class="form-control" rows="5"></textarea>
+          </div>          
         </div>
         <div class="form-group">
           <button type="submit" id="submit-addMember-form" class="btn btn-primary btn-block">Guardar</button>

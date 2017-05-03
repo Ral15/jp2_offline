@@ -11,7 +11,9 @@ const answerRoutes = require('./routes/answers.js');
 const incomeRoutes = require('./routes/income.js');
 const outcomeRoutes = require('./routes/outcome.js');
 const memberRoutes = require('./routes/member.js');
+const commentRoutes = require('./routes/comment.js');
 const transactionsRoutes = require('./routes/transactions.js');
+// const apiRoutes = require('./routes/testApi.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
@@ -28,7 +30,6 @@ console.log('current env: ' + ENV);
 connect(uri).then(function(db) {
   database = db;
 });
-
 
 
 // setup cors
@@ -78,7 +79,7 @@ app.use(incomeRoutes);
 app.use(memberRoutes);
 app.use(outcomeRoutes);
 app.use(transactionsRoutes);
-
+app.use(commentRoutes);
 
 app.listen(3000, function () {
   console.log('Juan Pablo II app listening on port 3000!')

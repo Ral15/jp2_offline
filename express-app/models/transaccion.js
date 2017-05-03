@@ -7,8 +7,8 @@ const Periodo = require('./periodo.js');
 
 const optionChoices = [
   '',
-  'No comprobable',
-  'Comprobable'
+  'no comprobable',
+  'comprobable'
 ];
 
 /*
@@ -31,6 +31,14 @@ class Transaccion extends Document {
   constructor() {
     super();
 
+    this.apiId = {
+      type: Number,
+    };
+
+    this.tipoId = {
+      type: Number,
+    };
+
     this.isActivo = {
       type: Boolean,
       default: true
@@ -50,7 +58,7 @@ class Transaccion extends Document {
     };
 
     this.fecha = {
-      type: Date,
+      type: String,
     };
 
     this.tipo = {

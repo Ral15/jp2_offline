@@ -66,11 +66,11 @@ describe('Delete Income test', function () {
       //create family object
       let f = Familia.create({
           bastardos: 10,
-          estadoCivil: 'Soltero',
+          estadoCivil: 'soltero',
           calle: 'Erizo',
           colonia: 'Fs',
           codigoPostal: 76150,
-          localidad: 'Otro',
+          localidad: 'otro',
           nombreFamilia: 'Los Picapiedras',        
       });
       //save family
@@ -142,7 +142,7 @@ describe('Delete Income test', function () {
         periocidad: myPeriod,
         observacion: 'puro macizo',
         isIngreso: true,
-        tipo: 'Comprobable',
+        tipo: 'comprobable',
         fecha: '2010-10-10',
         miembroId: tutor._id,
         familyId: familyId,

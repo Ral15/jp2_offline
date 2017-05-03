@@ -66,11 +66,11 @@ describe('Edit Income test', function () {
       //create family object
       let f = Familia.create({
           bastardos: 10,
-          estadoCivil: 'Soltero',
+          estadoCivil: 'soltero',
           calle: 'Erizo',
           colonia: 'Fs',
           codigoPostal: 76150,
-          localidad: 'Otro',
+          localidad: 'otro',
           nombreFamilia: 'Los Picapiedras',        
       });
       //save family
@@ -122,7 +122,7 @@ describe('Edit Income test', function () {
         periocidad: myPeriod,
         observacion: 'puro macizo',
         isIngreso: true,
-        tipo: 'Comprobable',
+        tipo: 'comprobable',
         fecha: '2000-09-10',
         miembroId: tutor._id,
         familyId: familyId,
@@ -253,7 +253,7 @@ describe('Edit Income test', function () {
       .waitForVisible(editModal)
       .setValue(editModal + ' #amount', 100)
       .$(editModal + ' #period').selectByAttribute('value', 'Anual')
-      .$(editModal + ' #type').selectByAttribute('value', 'No comprobable')
+      .$(editModal + ' #type').selectByAttribute('value', 'no comprobable')
       .click('#submit-editIncome-' + transaction._id)
       .waitForVisible('#transactions-section')
       .then(() => {

@@ -357,6 +357,10 @@ module.exports = {
       'eliminado_capturista': 'Eliminado',
       'eliminado_administrador': 'Eliminado'
     };
+    let lastRetro = '';
+    if(data.retroalimentacion_estudio[0]){
+     lastRetro = data.retroalimentacion_estudio[0].descripcion;
+    }
     return Estudio.findOneAndUpdate({
       apiId: data.id
     },
@@ -364,7 +368,8 @@ module.exports = {
       apiId: data.id,
       status: OPCIONES_STATUS[data.status],
       familia: family,
-      tokenCapturista: token
+      tokenCapturista: token,
+      retroalimentacion: lastRetro
     },
     {
       upsert: true

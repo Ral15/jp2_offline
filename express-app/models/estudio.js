@@ -63,6 +63,9 @@ class Estudio extends Document {
       type: Date,
       default: Date
     };
+    this.retroalimentacion = {
+      type: String
+    }
   }
 
   static collectionName() {

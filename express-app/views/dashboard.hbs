@@ -19,8 +19,12 @@
             <tr>
               <th>Nombre</th>
               <th>Dirección</th>
+              {{#ifEq this.active "Rechazado"}}
+              <th>Comentario</th>
+              {{else}}
               <th>Fecha de creación</th>
               <th>Fecha de edición</th>
+              {{/ifEq }}
               <th>Status</th>
               {{#ifEq this.active "Borrador"}}
                 <th>Acciones</th>
@@ -41,8 +45,12 @@
                 <tr class="">
                   <td>{{this.familia.nombreFamilia}}</td>
                   <td>{{this.familia.calle}}, {{this.familia.colonia}}, {{this.familia.codigoPostal}}</td>
+                  {{#ifEq this.status "Rechazado"}}
+                  <td>{{this.retroalimentacion}}</td>
+                  {{else}}
                   <td>{{this.fechaCreacion}}</td>
                   <td>{{this.editedDate}}</td>
+                  {{/ifEq}}
                   <td>{{this.status}}</td>
                   {{#ifEq this.status "Borrador"}}
                     <td>

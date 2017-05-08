@@ -5,9 +5,9 @@
 		"schools": "/captura/api-obtener-informacion-escuelas/",
 		"jobs": "/captura/api-obtener-informacion-oficios/",
 		"estudios": "/captura/estudio/",
-		"uploadImages": "captura/imagenes/"
+		"uploadImages": "/captura/imagenes/"
 	},
-	"apiUrl" : "http://junipero.erikiado.com",
+	"apiUrl" : "http://bloque-adal.c9users.io",
 	"createUser": "/user/create",
 	"dashboard" : "/user/dashboard",
 	"estudio": "/estudio/",

@@ -11,6 +11,7 @@ const commentController = require('./comment');
 const transactionsController = require('./transaction');
 const userController = require('./user');
 const answerController = require('./answers');
+const livingController = require('./living');
 const urls = require('../routes/urls');
 const rp = require('request-promise');
 const req = require('request');
@@ -361,6 +362,7 @@ module.exports = {
       //TODO: REMOVE
       console.log(JSON.stringify(data));//data that is send to API
       if ( estudioAPIId == -1) {
+        // livingController.uploadImagesApi(userApiToken);
         return this.createEstudioAPI(data, userApiToken);
       }
       //TODO: retrieve info from models and change req to rp.

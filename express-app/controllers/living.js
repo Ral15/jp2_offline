@@ -3,6 +3,8 @@ const Vivienda = require('../models/vivienda');
 const fs = require('fs');
 const path = require('path');
 const formidable = require('formidable');
+const urls = require('../routes/urls');
+const rp = require('request-promise');
 
 
 module.exports = {
@@ -110,4 +112,18 @@ module.exports = {
       console.log(err);
     });
   },
+
+/**  uploadImagesApi(userApiToken) {
+    Vivienda.find({ idEstudio: estudioId })
+    let options = {
+      method: 'POST',
+      uri: urls.apiUrl + urls.api.uploadImages,
+      headers: {
+        'Authorization': 'Token ' + userApiToken,
+      },
+      body: data,
+      json: true,
+    };
+    return rp(options);
+  }*/
 }

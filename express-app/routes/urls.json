@@ -36,5 +36,7 @@
 	"uploadEstudio": "/estudio/upload/:id",
 	"showUploadView": "/upload/",
 	"estudioRestore": "/estudio/restore/:id",
-	"saveComment": "/comment/"
+	"saveComment": "/comment/",
+	"houseView": "/house/",
+	"uploadHouse": "/house/upload/"
 }

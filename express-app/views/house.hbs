@@ -1,0 +1,51 @@
+{{#>  layouts/base_dashboard page_title="Captura de Estudios" which_side="sideNavPasos" }}
+{{#*inline "panel-block"}}
+{{#if error_message}}
+  <div class="alert alert-danger">
+    <span id="error_message"><strong>{{error_message}}</strong></span>
+  </div>
+{{/if}}
+<div class="row">
+<br>
+<br>
+<br>
+<div class="col-xs-12">
+  <h1>4.- Fotos de la vivienda</h1>
+  <div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+      <h3>En esta sección podras agregar las imagenes del hogar.</h3>
+    </div>
+  </div>
+  <div class="col-xs-12 well">
+    <form id="viviendaForm" method="post" enctype="multipart/form-data" action="/house/upload/" data-toggle="validator">
+      <div class="form-group col-xs-10 col-xs-offset-1">
+        <label for="imageName" class="control-label">Nombre imagen</label>
+        <input type="text" class="form-control" name="imageName" id="imageName" required> 
+      </div>
+     <div class="form-group col-xs-10 col-xs-offset-1">
+        <label for="image" class="control-label">Imagen</label>
+        <input type="file" class="form-control" name="image" id="image" required> 
+      </div>
+      <div class="form-group col-xs-8 col-xs-offset-2">
+        <button type="submit" id="upload-image" class="btn btn-primary btn-block">Subir imagen</button>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    {{#each images}}
+      <div class="col-xs-12 col-sm-6 col-lg-4 text-center">
+        <img class="img-responsive center-block" src="/img/vivienda/{{this.path}}">
+        <p>{{this.name}}</p>
+      </div>
+    {{/each}}
+    {{!-- <img src="/img/8ea25ba7eb96774b31541b9291131fa1.jpeg"> --}}
+  </div>
+</div>
+</div>
+{{/inline}}
+{{#*inline "scripts-block"}}
+<script src="/js/dateTime.min.js"></script>
+<script src="/js/validator.min.js"> </script>
+{{/inline}}
+
+{{/ layouts/base_dashboard}}

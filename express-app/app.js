@@ -12,12 +12,15 @@ const incomeRoutes = require('./routes/income.js');
 const outcomeRoutes = require('./routes/outcome.js');
 const memberRoutes = require('./routes/member.js');
 const commentRoutes = require('./routes/comment.js');
+const houseRoutes = require('./routes/house.js');
 const transactionsRoutes = require('./routes/transactions.js');
 // const apiRoutes = require('./routes/testApi.js');
 const User = require('./models/user.js');
 const app = express();
 const { SECRET_SESSION, ENV } = require('../config');
 const hbs = require('./hbs_conf');
+const multer = require('multer'); 
+
 
 //Database connection
 const connect = require('camo').connect;
@@ -33,7 +36,8 @@ connect(uri).then(function(db) {
 
 
 // setup cors
-app.use(cors())
+app.use(cors());
+
 //view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -48,11 +52,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(session({
   secret: SECRET_SESSION,
   resave: false,
   saveUninitialized: true
 }));
+
 
 app.use(function(request, response, next) {
   if (request.session.user){
@@ -80,7 +86,7 @@ app.use(memberRoutes);
 app.use(outcomeRoutes);
 app.use(transactionsRoutes);
 app.use(commentRoutes);
-
+app.use(houseRoutes);
 app.listen(3000, function () {
   console.log('Juan Pablo II app listening on port 3000!')
 })

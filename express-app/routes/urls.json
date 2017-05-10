@@ -7,7 +7,7 @@
 		"estudios": "/captura/estudio/",
 		"uploadImages": "/captura/imagenes/"
 	},
-	"apiUrl" : "http://bloque-adal.c9users.io",
+	"apiUrl" : "http://junipero.erikiado.com",
 	"createUser": "/user/create",
 	"dashboard" : "/user/dashboard",
 	"estudio": "/estudio/",

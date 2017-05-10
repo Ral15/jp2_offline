@@ -113,17 +113,19 @@ module.exports = {
     });
   },
 
-/**  uploadImagesApi(userApiToken) {
+  uploadImagesApi(estudioId, userApiToken) {
     Vivienda.find({ idEstudio: estudioId })
-    let options = {
-      method: 'POST',
-      uri: urls.apiUrl + urls.api.uploadImages,
-      headers: {
-        'Authorization': 'Token ' + userApiToken,
-      },
-      body: data,
-      json: true,
-    };
-    return rp(options);
-  }*/
+    .then((vivienda) => {
+      let options = {
+        method: 'POST',
+        uri: urls.apiUrl + urls.api.uploadImages,
+        headers: {
+          'Authorization': 'Token ' + userApiToken,
+        },
+        body: vivienda.url,
+        json: true,
+      };
+      return rp(options);
+    });
+  }
 }

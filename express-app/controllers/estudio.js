@@ -362,7 +362,7 @@ module.exports = {
       //TODO: REMOVE
       console.log(JSON.stringify(data));//data that is send to API
       if ( estudioAPIId == -1) {
-        // livingController.uploadImagesApi(userApiToken);
+        livingController.uploadImagesApi(estudioId, userApiToken);
         return this.createEstudioAPI(data, userApiToken);
       }
       //TODO: retrieve info from models and change req to rp.

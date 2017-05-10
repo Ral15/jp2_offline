@@ -122,7 +122,7 @@ module.exports = {
         headers: {
           'Authorization': 'Token ' + userApiToken,
         },
-        body: vivienda.url,
+        body: vivienda,
         json: true,
       };
       return rp(options);

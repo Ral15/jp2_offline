@@ -5,7 +5,7 @@
 		"schools": "/captura/api-obtener-informacion-escuelas/",
 		"jobs": "/captura/api-obtener-informacion-oficios/",
 		"estudios": "/captura/estudio/",
-		"uploadImages": "captura/imagenes/"
+		"uploadImages": "/captura/imagenes/"
 	},
 	"apiUrl" : "http://junipero.erikiado.com",
 	"createUser": "/user/create",
@@ -17,6 +17,7 @@
 	"getEstudios" : "/estudio/get/",
 	"getQuestions" : "/seccion/questions",
 	"home": "/",
+	"living": "/living/",
 	"incomeCreate": "/income/create/",
 	"incomeEdit": "/income/edit/:id",
 	"login": "/user/login",
@@ -31,6 +32,7 @@
 	"removeAnswer": "/estudio/answer/remove/",
 	"sections" : "/seccion/paso/:step",
 	"sectionStart" : "/seccion/paso/",
+	"image": "/image/save/",
 	"transactionDelete": "/transaction/delete/:id",
 	"transactionsView": "/transactions/",
 	"uploadEstudio": "/estudio/upload/:id",

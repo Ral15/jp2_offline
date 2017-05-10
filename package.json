@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "start": "./node_modules/.bin/electron .",
-    "build": "./node_modules/.bin/electron-packager . jp2",
+    "build": "./node_modules/.bin/electron-packager . 'San Juan Pablo II' --platform=win32 --arch=x64",
     "lint": "./node_modules/.bin/eslint ."
   },
   "repository": {

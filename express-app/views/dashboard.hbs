@@ -1,6 +1,6 @@
 {{#>  layouts/base_dashboard page_title="Captura de Estudios" which_side="dashboardSidenav" }}
 {{#*inline "panel-block"}}
-<div class="row"> 
+<div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
@@ -27,7 +27,7 @@
               {{/ifEq}}
               {{#ifEq this.active "Rechazado"}}
                 <th>Acciones</th>
-              {{/ifEq}}                  
+              {{/ifEq}}
               {{#ifEq this.active "Eliminado"}}
                 <th>Acciones</th>
               {{/ifEq}}
@@ -57,22 +57,22 @@
                       <a href="/estudio/?estudioId={{this._id}}" id="edit-estudio-{{this._id}}"><button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</button></a>
                       <button onclick="showDeleteMsg('{{this._id}}')" id="delete-estudio-{{this._id}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
                     </td>
-                  {{/ifEq}}  
+                  {{/ifEq}}
                   {{#ifEq this.status "Eliminado"}}
                      <td><button onclick="showRestoreMsg('{{this._id}}')" id="restore-estudio-{{this._id}}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-repeat"></span> Restaurar</button></td>
-                  {{/ifEq}}                                  
+                  {{/ifEq}}
                 </tr>
               {{/each}}  
             {{ else }}
               <h5>No hay registro de estudios socioeconómicos</h5>
             {{/if }}
-            
+
           </tbody>
         </table>
-      </div>                        
+      </div>
     </div>
-  </div>                
-</div> 
+  </div>
+</div>
 {{/inline}}
 
 {{#*inline "scripts-block"}}

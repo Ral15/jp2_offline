@@ -32,7 +32,6 @@ router.get(urls.getEstudios, function(req, res) {
   estudioController.getEstudios(req, res);
 });
 
-
 router.get(urls.showUploadView, function(req, res) {
   estudioController.showUploadView(req, res);
 });

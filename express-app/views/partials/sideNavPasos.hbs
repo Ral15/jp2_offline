@@ -16,14 +16,14 @@
             <i class="glyphicon glyphicon-usd"></i> 3.- Ingresos y Egresos
         </a>
     </li>
-    <li class="{{#ifEq estudioActive 'house' }}current-page{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
-        <a href="{{# if estudioId }}/house/{{else}}javascript:void(0){{/if}}">
-            <i class="glyphicon glyphicon-picture"></i> 4.- Vivienda
+    <li class="{{#ifEq this 'Rechazado' }}current{{/ifEq}} {{# unless estudioId }}noPointer{{/unless}}">
+        <a href="{{# if estudioId }}/living/?estudioId={{estudioId}}{{else}}javascript:void(0){{/if}}">
+            <i class="glyphicon glyphicon-thumbs-down"></i> 4.- Vivienda
         </a>
     </li>
     <li>
         <a id="nav_section_menu">
-          <i class="glyphicon glyphicon-th-list"></i> 5.- Secciones 
+          <i class="glyphicon glyphicon-th-list"></i> 5.- Secciones
           <span class="glyphicon glyphicon-chevron-down"></span>
         </a>
         <ul class="nav child_menu">

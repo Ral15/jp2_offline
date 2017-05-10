@@ -6,6 +6,6 @@ const familyController = require('../controllers/family');
 
 router.get(urls.familyView, function(req, res) {
 	familyController.showFamilyView(req, res);
-})
+});
 
 module.exports = router;

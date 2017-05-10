@@ -11,10 +11,10 @@ const commentController = require('./comment');
 const transactionsController = require('./transaction');
 const userController = require('./user');
 const answerController = require('./answers');
+const livingController = require('./living');
 const urls = require('../routes/urls');
 const rp = require('request-promise');
 const req = require('request');
-
 
 module.exports = {
   /**
@@ -23,7 +23,7 @@ module.exports = {
   * it means it is a estudio that is going to be updated.
   *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
   */
   showFamilyForm: function(request, response) {
@@ -58,17 +58,17 @@ module.exports = {
     else {
       response.render('family');
     }
-  },  
+  },
   /**
   * This function creates a Estudio with te apiToken of the capturista,
   * and with a family,
   * then it shows the form to fill the members information.
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */    
+  */
   createEstudio: function(request, response) {
     //retrieve token from params
     console.log('es el create');
@@ -104,12 +104,12 @@ module.exports = {
   },
   /**
   * This function edits the address of a Estudio previously created
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */      
+  */
   editEstudio: function(request, response) {
     //store estudioId in session
     // console.log('esl e edit');
@@ -131,7 +131,7 @@ module.exports = {
     })
     .then((editedFamily) => {
       //find and update estudio
-      return Estudio.findOneAndUpdate({_id: estudioId}, 
+      return Estudio.findOneAndUpdate({_id: estudioId},
       {
         familia: editedFamily
       });
@@ -148,12 +148,12 @@ module.exports = {
   /**
   * This function changes the status of a Estudio to 'Eliminado'
   * using the id of the estudio
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */  
+  */
   deleteEstudio: function(request, response) {
     //get id of estudio
     let estudioId = request.params.id;
@@ -174,12 +174,12 @@ module.exports = {
   },
   /**
   * This function returns the Estudios with the status desired
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */   
+  */
   getEstudios: function(request, response) {
     let myStatus = request.query.status;
     let user = request.session.user;
@@ -189,9 +189,9 @@ module.exports = {
     })
     .then((e) => {
       console.log(e)
-      response.render('dashboard', { 
-        estudios: e, 
-        active: myStatus 
+      response.render('dashboard', {
+        estudios: e,
+        active: myStatus
       });
     })
     .catch((err) => {
@@ -200,12 +200,12 @@ module.exports = {
   },
   /**
   * This function returns the update promise of the Estudio
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {number} apiId - apiId to add  
+  * @param {number} apiId - apiId to add
   * @param {string} estudioId - estudioId to update
-  */    
+  */
   addAPIIdEstudio: function(apiId, estudioId, family) {
     return Estudio.findOneAndUpdate({
       _id: estudioId
@@ -224,11 +224,11 @@ module.exports = {
   * 2 Transactions, 1 income 1 outcome
   * TODO: 1 img from Vivienda
   * It will return true if everything is OK
-  * 
+  *
   * @event
-  * @param {number} apiId - apiId to add  
+  * @param {number} apiId - apiId to add
   * @param {string} estudioId - estudioId to update
-  */      
+  */
   isEstudioValid: function(familyId) {
     //set variables that will hold count value
     let tutorsCount = 0;
@@ -258,7 +258,7 @@ module.exports = {
     .then((o) => {
       outcomeCount += o;
       //check the restriction
-      if (studentsCount >= 1 && tutorsCount >= 1 && 
+      if (studentsCount >= 1 && tutorsCount >= 1 &&
           incomeCount >= 1 && outcomeCount >= 1) {
         return true;
       }
@@ -272,9 +272,9 @@ module.exports = {
   * This functions show the upload estudio view
   *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */  
+  */
   showUploadView: function(request, response) {
     response.locals.estudioActive = 'upload';
     // console.log(request.session);
@@ -302,9 +302,9 @@ module.exports = {
   * This functions makes a PUT or POST dependeing if the estudio has apiID
   *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */  
+  */
   uploadEstudio: function(request, response) {
     //set id variables
     let estudioId = request.session.estudioId;
@@ -362,6 +362,7 @@ module.exports = {
       //TODO: REMOVE
       console.log(JSON.stringify(data));//data that is send to API
       if ( estudioAPIId == -1) {
+        livingController.uploadImagesApi(estudioId, userApiToken);
         return this.createEstudioAPI(data, userApiToken);
       }
       //TODO: retrieve info from models and change req to rp.
@@ -386,7 +387,7 @@ module.exports = {
               console.log(body);
             }
           }
-        );      
+        );
       }
     })
     .then((body) => {
@@ -406,8 +407,8 @@ module.exports = {
   *
   * @event
   * @param {object} data - data to be send in the body of the POST
-  * @param {string} userApiToken - token that will auth 
-  */        
+  * @param {string} userApiToken - token that will auth
+  */
   createEstudioAPI: function(data, userApiToken) {
     // console.log(JSON.stringify(data));
     let options = {
@@ -418,17 +419,17 @@ module.exports = {
       },
       body: data,
       json: true,
-    };    
+    };
     return rp(options);
   },
   /**
   * This functions makes a POST to the API in order to create the Estudio
-  * 
+  *
   *
   * @event
   * @param {object} data - data to be send in the body of the POST
-  * @param {string} userApiToken - token that will auth 
-  */ 
+  * @param {string} userApiToken - token that will auth
+  */
   editEstudioAPI: function(data, userApiToken) {
     let options = {
       method: 'PUT',
@@ -437,9 +438,9 @@ module.exports = {
           'Authorization': 'Token ' + userApiToken,
       },
       body: data,
-      json: true,      
+      json: true,
     };
-  },      
+  },
 /**
   * This functions parses all data necessary for POST body
   *
@@ -451,7 +452,7 @@ module.exports = {
   * @param {array} incomes - array with all incomes from a family & members
   * @param {array} outcomes - array with all outcomes from a family & members
   * @param {array} answers - array with all answers from a estudio
-  */     
+  */
   formatData: function(estudio, family, tutors, students, incomes, outcomes, answers, schools, jobs, comments) {
     return {
       familia: {
@@ -475,10 +476,10 @@ module.exports = {
   *
   *
   * @event
-  * @param {string} familyId - id of the 
+  * @param {string} familyId - id of the
   * @param {array} incomes - array with all incomes
   * @param {array} outcomes - array with all outcomes
-  */    
+  */
   addAPIID: function(data, estudioId, familyId, schools, jobs) {
     return familyController.addAPIId(data.familia, familyId)
       .then((nF) => {
@@ -505,11 +506,11 @@ module.exports = {
       });
   },
 /**
-  * This functions makes a GET to obtain all the Estudios associated to a 
+  * This functions makes a GET to obtain all the Estudios associated to a
   * capturista
   *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
   */
   getEstudiosAPI: function(request, response) {
@@ -526,7 +527,7 @@ module.exports = {
           console.log(error)
         }
         else {
-          console.log(JSON.parse(body)); 
+          console.log(JSON.parse(body));
         }
       }
     );
@@ -534,12 +535,12 @@ module.exports = {
 /**
   * This function changes the status of a Estudio to 'Borrador'
   * using the id of the estudio
-  * 
-  * 
+  *
+  *
   * @event
-  * @param {object} request - request object 
+  * @param {object} request - request object
   * @param {object} response - response object.
-  */ 
+  */
   restoreEstudio: function(request, response) {
     let estudioId = request.params.id;
     //find estudio
@@ -555,6 +556,6 @@ module.exports = {
     .catch((e) => {
       console.log(e);
       return response.sendStatus(500);
-    });    
-  },      
+    });
+  },
 }

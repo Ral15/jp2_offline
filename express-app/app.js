@@ -13,6 +13,7 @@ const outcomeRoutes = require('./routes/outcome.js');
 const memberRoutes = require('./routes/member.js');
 const commentRoutes = require('./routes/comment.js');
 const transactionsRoutes = require('./routes/transactions.js');
+const livingRoutes = require('./routes/living.js');
 // const apiRoutes = require('./routes/testApi.js');
 const User = require('./models/user.js');
 const app = express();
@@ -30,7 +31,6 @@ console.log('current env: ' + ENV);
 connect(uri).then(function(db) {
   database = db;
 });
-
 
 // setup cors
 app.use(cors())
@@ -79,6 +79,7 @@ app.use(incomeRoutes);
 app.use(memberRoutes);
 app.use(outcomeRoutes);
 app.use(transactionsRoutes);
+app.use(livingRoutes);
 app.use(commentRoutes);
 
 app.listen(3000, function () {

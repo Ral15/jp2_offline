@@ -362,7 +362,6 @@ module.exports = {
       //TODO: REMOVE
       console.log(JSON.stringify(data));//data that is send to API
       if ( estudioAPIId == -1) {
-        livingController.uploadImagesApi(estudioId, userApiToken);
         return this.createEstudioAPI(data, userApiToken);
       }
       //TODO: retrieve info from models and change req to rp.
@@ -380,6 +379,7 @@ module.exports = {
           function(error, httpResponse, body) {
             // console.log(httpResponse.body);
             if (httpResponse.statusCode > 201) {
+              livingController.uploadImagesApi(estudioAPIId, estudioId, userApiToken);
               console.log(error)
               console.log('quien soy')
             }

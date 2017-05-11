@@ -113,17 +113,23 @@ module.exports = {
     });
   },
 
-  uploadImagesApi(estudioId, userApiToken) {
+  uploadImagesApi(idAPI, estudioId, userApiToken) {
     Vivienda.find({ idEstudio: estudioId })
     .then((vivienda) => {
+      data = {
+        'estudio': idAPI,
+        'file_name': vivienda.name,
+        'upload': vivienda.url
+      };
       let options = {
+        url: urls.apiUrl + urls.api.uploadImages + data.estudio + '/',
         method: 'POST',
-        uri: urls.apiUrl + urls.api.uploadImages,
         headers: {
           'Authorization': 'Token ' + userApiToken,
         },
-        body: vivienda,
-        json: true,
+        data: data,
+        processData: false,
+        contentType: 'multipart/form-data',
       };
       return rp(options);
     });

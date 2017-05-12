@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const formidable = require('formidable');
 const urls = require('../routes/urls');
-const rp = require('request-promise');
+const req = require('request');
 
 
 module.exports = {
@@ -121,17 +121,15 @@ module.exports = {
         'file_name': vivienda.name,
         'upload': vivienda.url
       };
-      let options = {
-        url: urls.apiUrl + urls.api.uploadImages + data.estudio + '/',
-        method: 'POST',
+      req.post({
         headers: {
-          'Authorization': 'Token ' + userApiToken,
+          'Authorization': 'Token ' + userApiToken
         },
-        data: data,
-        processData: false,
-        contentType: 'multipart/form-data',
-      };
-      return rp(options);
+        uri: urls.apiUrl + urls.api.uploadImages + data.estudio + '/',
+        data: data
+      }, function (error) {
+        console.log('error');
+      });
     });
   }
 }
